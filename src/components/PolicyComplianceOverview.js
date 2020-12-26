@@ -77,9 +77,9 @@ const PolicyComplianceOverview = () => {
           <div
             style={{
               display: "flex",
+
               justifyContent: "space-evenly",
               alignItems: "center",
-              width: "80%",
             }}
           >
             <Typography
@@ -98,6 +98,7 @@ const PolicyComplianceOverview = () => {
                   ? classes.selectedFilter
                   : classes.filterText
               }
+              style={{ marginLeft: 10, marginRight: 10 }}
               onClick={() => setFilterOption("Tagging")}
             >
               Tagging
@@ -109,6 +110,7 @@ const PolicyComplianceOverview = () => {
                   : classes.filterText
               }
               onClick={() => setFilterOption("Governance")}
+              style={{ marginLeft: 10, marginRight: 10 }}
             >
               Governance
             </Typography>
@@ -119,6 +121,7 @@ const PolicyComplianceOverview = () => {
                   : classes.filterText
               }
               onClick={() => setFilterOption("Security")}
+              style={{ marginLeft: 10, marginRight: 10 }}
             >
               Security
             </Typography>
@@ -129,6 +132,7 @@ const PolicyComplianceOverview = () => {
                   : classes.filterText
               }
               onClick={() => setFilterOption("CostOpt")}
+              style={{ marginLeft: 10, marginRight: 10 }}
             >
               Cost Optimization
             </Typography>
