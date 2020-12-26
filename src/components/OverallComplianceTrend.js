@@ -8,6 +8,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     display: "flex",
     marginTop: 20,
+    borderRadius: 10,
+    boxShadow: "0px 3px 6px #2C28281C",
     // height: 180,
   },
 }));
@@ -26,7 +28,7 @@ const OverallComplianceTrend = (props) => {
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "45%",
+        columnWidth: "35%",
         endingShape: "rounded",
         dataLabels: {
           position: "top",
@@ -58,25 +60,25 @@ const OverallComplianceTrend = (props) => {
 
   const chartData = [
     {
-      data: [44, 55, 41, 64, 22, 43, 21],
+      data: [44, 55, 41, 64],
       name: "Security",
     },
     {
-      data: [53, 32, 33, 52, 13, 44, 32],
+      data: [53, 32, 33, 52],
       name: "Cost Optimization",
     },
     {
-      data: [44, 55, 41, 64, 22, 43, 21],
+      data: [44, 55, 41, 64],
       name: "Governance",
     },
     {
-      data: [53, 32, 33, 52, 13, 44, 32],
+      data: [53, 32, 33, 52],
       name: "Tagging",
     },
   ];
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={0}>
       <div style={{ width: "100%" }}>
         <Chart
           options={chartOptions}

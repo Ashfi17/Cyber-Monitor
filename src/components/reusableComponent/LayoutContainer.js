@@ -1,8 +1,9 @@
 import React from "react";
 import clsx from "clsx";
 
-import { makeStyles, Paper } from "@material-ui/core";
+import { makeStyles, Breadcrumbs, Typography } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
+
 import { useSelector } from "react-redux";
 import AppbarHeader from "../AppbarHeader";
 import DrawerMenu from "../DrawerMenu";
@@ -34,10 +35,11 @@ const LayoutContainer = (props) => {
   const { ui } = store;
 
   return (
-    <div style={{ backgroundColor: "#EAF0F5", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#F1F3F9", minHeight: "100vh" }}>
       <div className={classes.root}>
         <CssBaseline />
         <AppbarHeader />
+
         {/* DRAWER MENU */}
         <DrawerMenu />
         <main className={classes.content}>

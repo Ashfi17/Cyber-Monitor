@@ -1,10 +1,13 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
+
 import LayoutContainer from "../components/reusableComponent/LayoutContainer";
 import DashboardAlertSection from "../components/DashboardAlertSection";
 import DashboardCompliance from "../components/DashboardCompliance";
 import DashboardTagging from "../components/DashboardTagging";
 import OverallComplianceTrend from "../components/OverallComplianceTrend";
+import PolicyComplianceOverview from "../components/PolicyComplianceOverview";
+
 export default function Dashboard() {
   return (
     <div>
@@ -19,6 +22,11 @@ export default function Dashboard() {
           </Grid>
         </Grid>
         <OverallComplianceTrend />
+        <Grid container spacing={3} style={{ marginTop: 20 }}>
+          <Grid item xs={8}>
+            <PolicyComplianceOverview />
+          </Grid>
+        </Grid>
       </LayoutContainer>
     </div>
   );

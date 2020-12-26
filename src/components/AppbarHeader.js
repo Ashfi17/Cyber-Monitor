@@ -1,9 +1,13 @@
 import React from "react";
-import clsx from "clsx";
-import { makeStyles, AppBar, Toolbar, Typography } from "@material-ui/core";
+import {
+  makeStyles,
+  AppBar,
+  Toolbar,
+  Typography,
+  Breadcrumbs,
+} from "@material-ui/core";
 
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 const drawerWidth = 240;
 
@@ -11,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
+    backgroundColor: "#F1F3F9",
+    // display: "flex",
+    // justifyContent: "space-between",
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -23,17 +30,59 @@ const useStyles = makeStyles((theme) => ({
 
 const AppbarHeader = (props) => {
   const classes = useStyles();
+  var today = new Date();
+  var monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(monthNames[today.getMonth()]); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + " '" + dd + ", " + yyyy;
 
   return (
     <AppBar
       position="fixed"
-      variant="permanent"
+      // variant=""
       anchor="left"
       className={classes.appBar}
+      elevation={0}
     >
-      <Toolbar style={{ backgroundColor: "#fff" }}>
-        <Typography variant="h6" noWrap>
-          Persistent drawer
+      <Toolbar
+        style={{
+          backgroundColor: "#F1F3F9",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Breadcrumbs
+          separator={
+            <NavigateNextIcon fontSize="small" style={{ color: "black" }} />
+          }
+          aria-label="breadcrumb"
+        >
+          <Typography
+            style={{ color: "#262C49", opacity: 0.5, fontWeight: "bold" }}
+          >
+            Compliance
+          </Typography>
+          <Typography style={{ color: "#262C49", fontWeight: "bold" }}>
+            Overview
+          </Typography>
+        </Breadcrumbs>
+        <Typography style={{ color: "#262C49", fontWeight: "bold" }}>
+          {today}
         </Typography>
       </Toolbar>
     </AppBar>

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
   cardIcon: {
     float: "right",
-    borderRadius: "50%",
+    // borderRadius: "50%",
   },
 }));
 
