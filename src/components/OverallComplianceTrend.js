@@ -56,6 +56,25 @@ const OverallComplianceTrend = (props) => {
     xaxis: {
       categories: ["Sept", "Oct", "Nov", "Dec"],
     },
+    legend: {
+      horizontalAlign: "left",
+      markers: {
+        width: 30,
+        height: 12,
+        strokeWidth: 0,
+        strokeColor: "#fff",
+        fillColors: undefined,
+        radius: 10,
+        customHTML: undefined,
+        onClick: undefined,
+        offsetX: 0,
+        offsetY: 0,
+      },
+      itemMargin: {
+        horizontal: 25,
+        vertical: 0,
+      },
+    },
   };
 
   const chartData = [

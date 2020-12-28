@@ -60,7 +60,7 @@ const PolicyComplianceOverview = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h6" style={{ fontWeight: "bold" }}>
+          <Typography style={{ fontWeight: "bold" }}>
             Policy Compliance Overview
           </Typography>
           <Button className={classes.downloadButton}>Download Data</Button>

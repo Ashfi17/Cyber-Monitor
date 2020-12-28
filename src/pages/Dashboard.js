@@ -7,6 +7,7 @@ import DashboardCompliance from "../components/DashboardCompliance";
 import DashboardTagging from "../components/DashboardTagging";
 import OverallComplianceTrend from "../components/OverallComplianceTrend";
 import PolicyComplianceOverview from "../components/PolicyComplianceOverview";
+import Notifications from "../components/Notifications";
 
 export default function Dashboard() {
   return (
@@ -25,6 +26,9 @@ export default function Dashboard() {
         <Grid container spacing={3} style={{ marginTop: 20 }}>
           <Grid item xs={8}>
             <PolicyComplianceOverview />
+          </Grid>
+          <Grid item xs={4}>
+            <Notifications />
           </Grid>
         </Grid>
       </LayoutContainer>

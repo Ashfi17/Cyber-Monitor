@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     display: "flex",
     height: 180,
+    boxShadow: "0px 3px 6px #2C28281C",
   },
   alertCard: {
     border: "1px solid #262C4933",
@@ -49,7 +50,7 @@ const DashboardAlertSection = (props) => {
     ,
   ];
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={0}>
       <div style={{ width: "20%", position: "relative" }}>
         <div style={{ position: "absolute", bottom: 0 }}>
           <Typography
