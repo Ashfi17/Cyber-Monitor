@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid } from "@material-ui/core";
 
 import LayoutContainer from "../components/reusableComponent/LayoutContainer";
@@ -8,8 +8,15 @@ import DashboardTagging from "../components/DashboardTagging";
 import OverallComplianceTrend from "../components/OverallComplianceTrend";
 import PolicyComplianceOverview from "../components/PolicyComplianceOverview";
 import Notifications from "../components/Notifications";
+import { getCompliance } from '../actions/complianceActions';
 
 export default function Dashboard() {
+
+  useEffect(() => {
+    getCompliance()
+  }, [])
+  
+
   return (
     <div>
       <LayoutContainer>
