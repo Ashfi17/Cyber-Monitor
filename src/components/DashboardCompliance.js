@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   makeStyles,
   Paper,
@@ -7,6 +7,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import Chart from "react-apexcharts";
+import { getCompliance } from '../actions/complianceActions'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,6 +36,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DashboardCompliance = (props) => {
+  const [overallCompliance, setOverallCompliance] = useState({});
+
+  useEffect(() => {
+    getCompliance()
+    .then((resp) => {
+      setOverallCompliance(resp.distribution)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }, [])
+
   const classes = useStyles();
 
   const chartOptions = {
@@ -113,16 +125,20 @@ const DashboardCompliance = (props) => {
           />
           <div className={classes.chartLabels}>
             <Typography>Tagging</Typography>
-            <Typography style={{ fontWeight: "bold" }}>44%</Typography>
+            <Typography style={{ fontWeight: "bold" }}>{overallCompliance.tagging} %</Typography>
           </div>
           <div className={classes.chartLabels}>
             <Typography>Security</Typography>
-            <Typography style={{ fontWeight: "bold" }}>19%</Typography>
+            <Typography style={{ fontWeight: "bold" }}>{overallCompliance.security} %</Typography>
           </div>
           <div className={classes.chartLabels}>
             <Typography>Governance</Typography>
-            <Typography style={{ fontWeight: "bold" }}>37%</Typography>
+            <Typography style={{ fontWeight: "bold" }}>{overallCompliance.governance} %</Typography>
           </div>
+          {/* <div className={classes.chartLabels}>
+            <Typography>Cost Optimization</Typography>
+            <Typography style={{ fontWeight: "bold" }}>{overallCompliance.costOptimization} %</Typography>
+          </div> */}
         </Grid>
       </Grid>
     </Paper>

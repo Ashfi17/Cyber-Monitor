@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { makeStyles, Paper, Typography, Grid } from "@material-ui/core";
+import { makeStyles, Paper, Typography, Grid, responsiveFontSizes } from "@material-ui/core";
 import Chart from "react-apexcharts";
+import { getOverallCompliance } from '../actions/complianceActions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -15,6 +16,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const OverallComplianceTrend = (props) => {
+  const [compilanceDate, setCompilanceDate] = useState([])
+  const [compilanceTagging, setCompilanceTagging] = useState([])
+  const [compilanceSecurity, setCompilanceSecurity] = useState([])
+  const [compilanceCostOptimization, setCompilanceCostOptimization] = useState([])
+  const [compilanceGovernance, setCompilanceGovernance] = useState([])
+  useEffect(() => {
+    getOverallCompliance().then((resp) => {
+      const dateArray = [];
+      const taggingArray = [];
+      const securityArray = [];
+      const costArray = [];
+      const governanceArray = [];
+      if (resp) {
+        if (resp.compliance_info) {
+          resp.compliance_info.map((data) => {
+            if (Object.keys(data)[0] === "date") {
+              dateArray.push(Object.values(data)[0])
+            }
+            if (Object.keys(data)[1] === "tagging") {
+              taggingArray.push(Object.values(data)[1])
+            }
+            if (Object.keys(data)[2] === "security") {
+              securityArray.push(Object.values(data)[2])
+            }
+            if (Object.keys(data)[4] === "costOptimization") {
+              costArray.push(Object.values(data)[4])
+            }
+            if (Object.keys(data)[5] === "governance") {
+              governanceArray.push(Object.values(data)[5])
+            }
+          })
+        }
+        setCompilanceDate(dateArray)
+        setCompilanceTagging(taggingArray)
+        setCompilanceSecurity(securityArray)
+        setCompilanceCostOptimization(costArray)
+        setCompilanceGovernance(governanceArray)
+      }
+    }).catch((error) => {
+      console.log(error)
+    })
+  }, [])
   const classes = useStyles();
   var chartOptions = {
     chart: {
@@ -54,7 +97,7 @@ const OverallComplianceTrend = (props) => {
       colors: ["#fff"],
     },
     xaxis: {
-      categories: ["Sept", "Oct", "Nov", "Dec"],
+      categories: compilanceDate
     },
     legend: {
       horizontalAlign: "left",
@@ -79,19 +122,19 @@ const OverallComplianceTrend = (props) => {
 
   const chartData = [
     {
-      data: [44, 55, 41, 64],
+      data: compilanceSecurity,
       name: "Security",
     },
     {
-      data: [53, 32, 33, 52],
+      data: compilanceCostOptimization,
       name: "Cost Optimization",
     },
     {
-      data: [44, 55, 41, 64],
+      data: compilanceGovernance,
       name: "Governance",
     },
     {
-      data: [53, 32, 33, 52],
+      data: compilanceTagging,
       name: "Tagging",
     },
   ];
