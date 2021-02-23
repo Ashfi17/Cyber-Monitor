@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   makeStyles,
   Paper,
@@ -8,6 +8,7 @@ import {
   Button,
   LinearProgress,
 } from "@material-ui/core";
+import { cloudNotifications, notificationSummary } from '../actions/complianceActions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,22 +38,27 @@ const useStyles = makeStyles((theme) => ({
 const Notifications = () => {
   const classes = useStyles();
 
+  useEffect(() => {
+    cloudNotifications().then((response) => {
+      console.log(response, 'resp')
+    }).catch((error) => {
+      console.log(error)
+    })
+    notificationSummary().then((respo) => {
+      console.log(respo, 'resp0123')
+    }).catch((error) => {
+      console.log(error)
+    })
+  }, [])
+
   const notifs = [
-    { type: "g", text: "You have one new Notification" },
-    { type: "g", text: "You have one new Notification" },
-    { type: "b", text: "Task Completed" },
-    { type: "b", text: "Task Completed" },
-    { type: "r", text: "Warning Notification" },
-    { type: "b", text: "Task Completed" },
-    { type: "r", text: "Warning Notification" },
-    { type: "r", text: "Warning Notification" },
   ];
 
   return (
     <Paper className={classes.paper} elevation={0}>
       <Typography style={{ fontWeight: "bold" }}>Notifications</Typography>
 
-      {notifs.map((item, index) => (
+      {notifs && notifs.length > 0 ? notifs.map((item, index) => (
         <Grid container spacing={3} style={{ marginTop: 6 }}>
           <Grid item xs={1}>
             <img
@@ -99,7 +105,8 @@ const Notifications = () => {
             />
           </Grid>
         </Grid>
-      ))}
+      ))
+    : <span style={{ fontWeight: 'bold', 'margin-left': '118px' }}>No Notifications</span>}
     </Paper>
   );
 };

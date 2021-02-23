@@ -9,6 +9,7 @@ import {
   Button,
   LinearProgress,
 } from "@material-ui/core";
+import PolicyComplianc from "../PolicyCompilance";
 
 const PolicyOverviewRow = () => {
   //   const classes = useStyles();
@@ -45,11 +46,12 @@ const PolicyOverviewRow = () => {
           marginLeft: 10,
         }}
       >
-        <LinearProgress
+        <PolicyComplianc />
+        {/* <LinearProgress
           // className={classes.bar1Determinate}
           value={30}
           variant="determinate"
-        />
+        /> */}
       </div>
     </>
   );

@@ -1,13 +1,13 @@
-import React from "react";
-import "./App.css";
+import React, { createContext, useState, useEffect } from "react";
+import { ThemeProvider } from "@material-ui/styles";
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
-
-import { ThemeProvider } from "@material-ui/styles";
 import { Provider } from "react-redux";
 import store from "./store";
-
+import "./App.css";
 import Routers from "./Router";
+
+export const appContext = createContext();
 
 export let theme = createMuiTheme({
   palette: {
@@ -23,7 +23,8 @@ export let theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: "Poppins, sans-serif",
+    // fontFamily: "Poppins, sans-serif",
+    fontFamily: `"Poppins", sans-serif`,
     button: {
       textTransform: "none",
     },
@@ -32,12 +33,20 @@ export let theme = createMuiTheme({
 
 theme = responsiveFontSizes(theme);
 
-function App() {
+const App = () => {
+  const [authUser, setAuthUser] = useState(null);
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Routers />
+        <appContext.Provider
+           value={{
+            authUser,
+            setAuthUser
+           }}
+        >
+          <CssBaseline />
+          <Routers />
+        </appContext.Provider>
       </ThemeProvider>
     </Provider>
   );

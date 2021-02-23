@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   makeStyles,
   Paper,
   Typography,
-  Grid,
   Divider,
-  Button,
-  LinearProgress,
+  Button
 } from "@material-ui/core";
-
-import PolicyOverviewRow from "./reusableComponent/PolicyOverviewRow";
+import { nonCompliancePolicy } from "../actions/complianceActions";
+import PolicyCompilance from "./PolicyCompilance";
+import Workbook from 'react-excel-workbook'
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 0,
+    width: 733
+  },
   paper: {
-    padding: theme.spacing(2),
-    // display: "flex",
-
-    // height: 180,
+    padding: theme.spacing(2)
   },
   downloadButton: {
     border: "1px solid #7764E4",
@@ -36,19 +38,41 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     cursor: "pointer",
   },
-
-  // linearProgress: {
-  //   width: "50%",
-  //   // marginTop: '12px',
-  // },
-  // bar1Determinate: {
-  //   backgroundColor: "#F9575C",
-  // },
 }));
 
 const PolicyComplianceOverview = () => {
   const classes = useStyles();
   const [filterOption, setFilterOption] = useState("All");
+  const [policyData, setPolicyData] = useState([]);
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    nonCompliancePolicy()
+      .then((resp) => {
+        if (resp) {
+          console.log(resp)
+          setPolicyData(resp);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const filtertableData = (ruleCate) => {
+    let TabelData = []
+    policyData.map((data) => {
+    if (data.ruleCategory === ruleCate) {
+        TabelData.push(data)
+      }
+      return null;
+    })
+    setPolicyData(TabelData)
+  }
 
   return (
     <div>
@@ -63,7 +87,30 @@ const PolicyComplianceOverview = () => {
           <Typography style={{ fontWeight: "bold" }}>
             Policy Compliance Overview
           </Typography>
-          <Button className={classes.downloadButton}>Download Data</Button>
+          <Workbook
+            filename="Policy Compilance Overview.xlsx"
+            element={
+              <Button className={classes.downloadButton}>Download Data</Button>
+            }
+          >
+            <Workbook.Sheet data={() => policyData} name="Policy Compilance Overview">
+              <Workbook.Column label="Name" value="name" />
+              <Workbook.Column label="severity" value="severity" />
+              <Workbook.Column label="compliancepercent" value="compliance_percent" />
+              <Workbook.Column label="lastScan" value="lastScan" />
+              <Workbook.Column label="ruleCategory" value="ruleCategory" />
+              <Workbook.Column label="resourcetType" value="resourcetType" />
+              <Workbook.Column label="provider" value="provider" />
+              <Workbook.Column label="ruleId" value="ruleId" />
+              <Workbook.Column label="assetsScanned" value="assetsScanned" />
+              <Workbook.Column label="passed" value="passed" />
+              <Workbook.Column label="failed" value="failed" />
+              <Workbook.Column label="contributionpercent" value="contribution_percent" />
+              <Workbook.Column label="autoFixEnabled" value="autoFixEnabled" />
+              <Workbook.Column label="exempted" value="exempted" />
+              <Workbook.Column label="isAssetsExempted" value="isAssetsExempted" />
+            </Workbook.Sheet>
+          </Workbook>
         </div>
 
         <Divider variant="middle" style={{ width: "100%", margin: "16px 0" }} />
@@ -74,87 +121,30 @@ const PolicyComplianceOverview = () => {
             alignItems: "center",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-
-              justifyContent: "space-evenly",
-              alignItems: "center",
-            }}
-          >
-            <Typography
+          <Paper className={classes.root}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
               className={
                 filterOption === "All"
                   ? classes.selectedFilter
                   : classes.filterText
               }
-              onClick={() => setFilterOption("All")}
+              
             >
-              All
-            </Typography>
-            <Typography
-              className={
-                filterOption === "Tagging"
-                  ? classes.selectedFilter
-                  : classes.filterText
-              }
-              style={{ marginLeft: 10, marginRight: 10 }}
-              onClick={() => setFilterOption("Tagging")}
-            >
-              Tagging
-            </Typography>
-            <Typography
-              className={
-                filterOption === "Governance"
-                  ? classes.selectedFilter
-                  : classes.filterText
-              }
-              onClick={() => setFilterOption("Governance")}
-              style={{ marginLeft: 10, marginRight: 10 }}
-            >
-              Governance
-            </Typography>
-            <Typography
-              className={
-                filterOption === "Security"
-                  ? classes.selectedFilter
-                  : classes.filterText
-              }
-              onClick={() => setFilterOption("Security")}
-              style={{ marginLeft: 10, marginRight: 10 }}
-            >
-              Security
-            </Typography>
-            <Typography
-              className={
-                filterOption === "CostOpt"
-                  ? classes.selectedFilter
-                  : classes.filterText
-              }
-              onClick={() => setFilterOption("CostOpt")}
-              style={{ marginLeft: 10, marginRight: 10 }}
-            >
-              Cost Optimization
-            </Typography>
-          </div>
-          <Typography variant="caption">Total of 111 policies</Typography>
+              <Tab label="All" onClick={() => filtertableData('All')} />
+              <Tab label="Tagging" onClick={() => filtertableData('tagging')} />
+              <Tab label="Governance" onClick={() => filtertableData("governance")} />
+              <Tab label="Security" onClick={() => filtertableData('security')} />
+              <Tab label="Cost Optimization" onClick={() => filtertableData("costOptimization")} />
+
+            </Tabs>
+            {/* <Typography variant="caption">Total of {policyData.length} policies</Typography> */}
+          </Paper>
+          
         </div>
       </Paper>
-      {[1, 2, 3, 4, 5, 6].map((row, index) => (
-        <Paper
-          key={index}
-          elevation={0}
-          style={{
-            width: "100%",
-            display: "flex",
-            marginTop: 2,
-            marginBottom: 2,
-            backgroundColor: index % 2 === 0 ? "#F7FAFC" : "white",
-          }}
-        >
-          <PolicyOverviewRow />
-        </Paper>
-      ))}
+      <PolicyCompilance tableData={policyData} />
     </div>
   );
 };
