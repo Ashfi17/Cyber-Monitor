@@ -67,6 +67,7 @@ const DrawerMenu = (props) => {
 
   const [open, setOpen] = React.useState(false);
   const [openComp, setOpenComp] = React.useState(false)
+  const [openAdmin, setOpenAdmin] = React.useState(false)
   const history = useHistory();
 
   const handleClick = () => {
@@ -75,6 +76,10 @@ const DrawerMenu = (props) => {
 
   const handleClickComp = () => {
     setOpenComp(!openComp)
+  }
+
+  const handleClickAdmin = () => {
+    setOpenAdmin(!openAdmin)
   }
 
   const logoutUser = () => {
@@ -135,20 +140,20 @@ const DrawerMenu = (props) => {
             </ListItem>
           </List>
         </Collapse>
-        <ListItem button onClick={(e) => props.history.push("/home-page")}>
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
           <ListItemIcon>
             <img
               src={require("../assets/images/drawer-investigate-icon.svg")}
             />
           </ListItemIcon>
           <ListItemText style={{ color: "white" }} primary="Investigate" />
-        </ListItem>
-        <ListItem button onClick={(e) => props.history.push("/home-page")}>
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
           <ListItemIcon>
             <img src={require("../assets/images/drawer-policies-icon.svg")} />
           </ListItemIcon>
           <ListItemText style={{ color: "white" }} primary="Policies" />
-        </ListItem>
+        </ListItem> */}
         <ListItem button onClick={handleClickComp}>
           <ListItemIcon>
             <img
@@ -175,55 +180,82 @@ const DrawerMenu = (props) => {
             </ListItem>
           </List>
         </Collapse>
-        <ListItem button onClick={(e) => props.history.push("/home-page")}>
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
           <ListItemIcon>
             <img src={require("../assets/images/drawer-alerts-icon.svg")} />
           </ListItemIcon>
           <ListItemText style={{ color: "white" }} primary="Alerts" />
-        </ListItem>
-        <ListItem button onClick={(e) => props.history.push("/home-page")}>
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
           <ListItemIcon>
             <img src={require("../assets/images/drawer-compute-icon.svg")} />
           </ListItemIcon>
           <ListItemText style={{ color: "white" }} primary="Compute" />
-        </ListItem>
-        <ListItem button onClick={(e) => props.history.push("/home-page")}>
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
           <ListItemIcon>
             <img
               src={require("../assets/images/drawer-notification-icon.svg")}
             />
           </ListItemIcon>
           <ListItemText style={{ color: "white" }} primary="Notification" />
-        </ListItem>
-        <ListItem button onClick={(e) => props.history.push("/home-page")}>
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
           <ListItemIcon>
             <img src={require("../assets/images/drawer-settings-icon.svg")} />
           </ListItemIcon>
           <ListItemText style={{ color: "white" }} primary="Settings" />
-        </ListItem>
-        <ListItem button onClick={(e) => props.history.push("/manage-policy")}>
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/manage-policy")}>
           <ListItemIcon>
             <img src={require("../assets/images/Mask Group 376.svg")} />
           </ListItemIcon>
           <ListItemText style={{ color: "white" }} primary="Admin" />
+        </ListItem> */}
+
+        <ListItem button onClick={handleClickAdmin}>
+          <ListItemIcon>
+          <img src={require("../assets/images/Mask Group 376.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Admin"> {openAdmin ? <ExpandLessIcon color="secondary" /> : <ExpandMoreIcon color="secondary" />}</ListItemText>
         </ListItem>
+        <Collapse in={openAdmin} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/manage-policy")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Manage Policy" />
+            </ListItem>
+            {/* <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/policyknowledge")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Policy Knowledge" />
+            </ListItem> */}
+          </List>
+        </Collapse>
+
+
       </List>
       {/* <Divider /> */}
       <List style={{ position: "absolute", bottom: 0 }}>
-        <ListItem button onClick={(e) => props.history.push("/home-page")}>
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
           <ListItemIcon>
             <img
               src={require("../assets/images/drawer-subscription-icon.svg")}
             />
           </ListItemIcon>
           <ListItemText style={{ color: "white" }} primary="Subscription" />
-        </ListItem>
-        <ListItem button onClick={(e) => props.history.push("/home-page")}>
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
           <ListItemIcon>
             <img src={require("../assets/images/drawer-profile-icon.svg")} />
           </ListItemIcon>
           <ListItemText style={{ color: "white" }} primary="Profile" />
-        </ListItem>
+        </ListItem> */}
         <ListItem button onClick={logoutUser}>
           <ListItemIcon>
             <img src={require("../assets/images/drawer-logout-icon.svg")} />
