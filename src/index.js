@@ -2,7 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import axios from "axios";
 import reportWebVitals from './reportWebVitals';
+
+axios.defaults.baseURL = 'http://pacbot-2030676945.us-east-2.elb.amazonaws.com/api/';
 
 ReactDOM.render(
   <React.StrictMode>

@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   paper2: {
-    maxHeight: "240px",
+    maxHeight: "240px"
   },
   helpOutline: {
     marginLeft: "231px",
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     top: "588px",
     left: "318px",
     width: "160px",
+    display:'inline-block',
     height: "200px",
     background: "#FFFFFF 0% 0% no-repeat padding-box",
     border: "2px solid #D8DCE9",
@@ -448,8 +449,8 @@ export default function CenteredGrid() {
                       "padding-top": "20px",
                     }}
                   >
-                    <li style={{ display: "inline" }}>
-                      <Typography style={{ 'margin-left': '15px' }}>
+                    <li>
+                      <Typography style={{ 'margin-left': '12px' }}>
                         <img
                           src={require("../../assets/OverallCompilancetrend/vpc.svg")}
                         />
@@ -463,16 +464,6 @@ export default function CenteredGrid() {
                         {data.name}
                       </Typography>
                       </Typography>
-                      {/* <Typography
-                        style={{
-                          fontWeight: "bold",
-                          "letter-spacing": "0px",
-                          color: "#262C49",
-                          'margin-left': '10px'
-                        }}
-                      >
-                        {data.name}
-                      </Typography> */}
                       <Grid container spacing={3}>
                         <Grid item xs={1}>
                           <Typography

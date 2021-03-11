@@ -36,17 +36,42 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AssetInvestory = (props) => {
-
+console.log(props, 'propsData')
+const [ datesData, setDates ] = useState([])
+const [ minData, setMinimum ] = useState([])
+const [ maxData, setMaximum ] = useState([])
 const classes = useStyles();
+
+useEffect(() => {
+  const dataArray = [];
+  if (props && props.aswAppDates.length > 0) {
+    setDates(props.aswAppDates)
+  }
+  if (props && props.awsAppMin.length > 0) {
+    setMinimum(props.awsAppMin)
+    const obj1 = {}
+    obj1.name = 'Minimum';
+    obj1.data = props.awsAppMin;
+    dataArray.push(obj1)
+  }
+  if (props && props.awsAppMax.length > 0) {
+    setMaximum(props.awsAppMax)
+    const obj2 = {}
+    obj2.name = 'Minimum';
+    obj2.data = props.awsAppMax;
+    dataArray.push(obj2)
+  }
+  console.log(dataArray, 'dataArray')
+}, [props])
 
 const dataSeries = [
     {
         name: 'Minimum',
-        data: [35000, null, 49586, null]
+        data: minData
       },
       {
         name: 'Maximum',
-        data: [22000, null, 38758, null]
+        data: maxData
       }
   ]
   const dataOptions = {
@@ -67,11 +92,11 @@ const dataSeries = [
     },
     // labels: [],
     xaxis: {
-        categories: ['Jan `21', 'Feb `21', 'Mar `21', 'Apr `21'],
+        categories: datesData,
     },
     yaxis: {
-        min: 20000, 
-        max: 60000
+        min: 0, 
+        max: 100
       },
   }
 

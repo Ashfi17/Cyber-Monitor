@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -9,11 +10,20 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import {Paper, Chip, Grid, Typography, FormControl, Select, IconButton, InputBase} from "@material-ui/core";
+import {
+  Paper,
+  Chip,
+  Grid,
+  Typography,
+  FormControl,
+  Select,
+  IconButton,
+  InputBase,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import LayoutContainer from "../reusableComponent/LayoutContainer";
 // import AssetList from '../../components/AssetList/AssetList'
-import { getAssets } from '../../actions/assetsActions';
+import { getAssets } from "../../actions/assetsActions";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -164,23 +174,28 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
-	iconButton: {
-		padding: 10,
-	},
-	root1: {
-		padding: "2px 4px",
-		display: "flex",
-		alignItems: "center",
-		width: 261,
-		height: 40,
-		top: 63,
-		left: 1055,
-	},
-	input: {
-		marginLeft: theme.spacing(1),
-		flex: 1,
-	},
-	paper3: {
+  iconButton: {
+    padding: 10,
+  },
+  root1: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: 261,
+    height: 40,
+    top: 63,
+    left: 1055,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  select: {
+    '&:before': {
+        borderColor: 'white',
+    }
+},
+  paper3: {
     top: "63px",
     left: "563px",
     width: "241px",
@@ -195,19 +210,21 @@ const AssetListTable = (props) => {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
-	const [ tableData, setTableData ] = useState([]);
-	const [assetType, setAssetType] = useState("All");
+  const [tableData, setTableData] = useState([]);
+  const [assetType, setAssetType] = useState("All");
   const [category, setCategory] = useState("All");
-	// const [selectedRowData, setSelectedRowData] = useState({})
+  // const [selectedRowData, setSelectedRowData] = useState({})
 
-	useEffect(() => {
-    getAssets().then((respo) => {
-        console.log(respo, 'assetData')
-				setTableData(respo)
-    }).catch((error) => {
-        console.log(error)
-    })
-  }, [])
+  useEffect(() => {
+    getAssets()
+      .then((respo) => {
+        console.log(respo, "assetData");
+        setTableData(respo);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -216,11 +233,11 @@ const AssetListTable = (props) => {
   };
 
   const handleClick = (row) => {
-		if (row) {
-			// setSelectedRowData(row)
+    if (row) {
+      // setSelectedRowData(row)
       props.history.push(`/asset-list`, {
-				rowData: row,
-			});
+        rowData: row,
+      });
     }
   };
 
@@ -242,7 +259,7 @@ const AssetListTable = (props) => {
   return (
     <div className={classes.root}>
       <LayoutContainer>
-			<Grid container spacing={3} style={{ padding: '20px'}}>
+        <Grid container spacing={3} style={{ padding: "20px" }}>
           <Grid item xs={3}>
             {/* <Typography
               className={classes.paper3}
@@ -257,19 +274,25 @@ const AssetListTable = (props) => {
               <Paper component="form" className={classes.root1}>
                 <Typography style={{ color: "#b2bbbf", fontSize: 14 }}>
                   Asset Type :{"  "}
-                  <FormControl style={{ width: "164px", height: 0 }}>
+                  <FormControl
+                    variant="outlined"
+                    style={{ width: "164px", height: 0 }}
+                  >
                     <Select
-                      native
-                      value={assetType}
-                      // onChange={handleChangeCategory}
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      value={"All"}
+                      // onChange={handleChange}
+                      className={classes.select}
+                      style={{
+                        height: "40px",
+                        top: '-10px',
+                        width: '172px'
+                      }}
                     >
-                      <option value={""}>All</option>
-                      {/* <option value={"Tagging"}>Tagging</option>
-                      <option value={"Governance"}>Governance</option>
-                      <option value={"Security"}>Security</option>
-                      <option value={"Cost Optimization"}>
-                        Cost Optimization
-                      </option> */}
+                      <MenuItem value={"All"}>All</MenuItem>
+                      <MenuItem value={"Pass"}>Pass</MenuItem>
+                      <MenuItem value={"Fail"}>Fail</MenuItem>
                     </Select>
                   </FormControl>
                 </Typography>
@@ -280,17 +303,26 @@ const AssetListTable = (props) => {
             <Typography className={classes.paper3}>
               <Paper component="form" className={classes.root1}>
                 <Typography style={{ color: "#b2bbbf", fontSize: 14 }}>
-									Category :{"  "}
-                  <FormControl style={{ width: "164px", height: 0 }}>
+                  Category :{"  "}
+                  <FormControl
+                    variant="outlined"
+                    style={{ width: "164px", height: 0 }}
+                  >
                     <Select
-                      native
-                      value={category}
-                      // onChange={handleChangeSeverity}
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      value={"All"}
+                      className={classes.select}
+                      // onChange={handleChange}
+                      style={{
+                        height: "40px",
+                        top: '-10px',
+                        width: '181px'
+                      }}
                     >
-                      <option value={""}>All</option>
-                      {/* <option value={"Critical"}>Critical</option>
-                      <option value={"High"}>High</option>
-                      <option value={"Low"}>Low</option> */}
+                      <MenuItem value={"All"}>All</MenuItem>
+                      <MenuItem value={"Pass"}>Pass</MenuItem>
+                      <MenuItem value={"Fail"}>Fail</MenuItem>
                     </Select>
                   </FormControl>
                 </Typography>
@@ -350,17 +382,52 @@ const AssetListTable = (props) => {
                         tabIndex={-1}
                         key={row._resourceid}
                         selected={isItemSelected}
-												style={{ cursor: 'pointer' }}
+                        style={{ cursor: "pointer" }}
                       >
                         <TableCell align="left">{row._resourceid}</TableCell>
-												<TableCell align="left">{row && row.subnetid ? row.subnetid : 'No Data'}</TableCell>
-												<TableCell align="left">{row.accountid}</TableCell>
-												<TableCell align="left">{<Chip style={{ 'borderRadius': '4px' }} label={row._entitytype.charAt(0).toUpperCase()+row._entitytype.slice(1)} />}</TableCell>
-												<TableCell align="left">{row._cloudType}</TableCell>
-												<TableCell align="left">{row.region}</TableCell>
-                        <TableCell align="left">{<Chip style={{ 'borderRadius': '4px' }} label={
-													<div style={{ color: row.state === 'available' ? '#7569EE' : row.state === 'completed' ? '#26C76E' : '#F7A844' }}>{row.state === undefined ? 'Running' : row.state === 'in-use' ? 'Running' : row.state.charAt(0).toUpperCase()+row.state.slice(1)}</div>
-												} />}</TableCell>
+                        <TableCell align="left">
+                          {row && row.subnetid ? row.subnetid : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">{row.accountid}</TableCell>
+                        <TableCell align="left">
+                          {
+                            <Chip
+                              style={{ borderRadius: "4px" }}
+                              label={
+                                row._entitytype.charAt(0).toUpperCase() +
+                                row._entitytype.slice(1)
+                              }
+                            />
+                          }
+                        </TableCell>
+                        <TableCell align="left">{row._cloudType}</TableCell>
+                        <TableCell align="left">{row.region}</TableCell>
+                        <TableCell align="left">
+                          {
+                            <Chip
+                              style={{ borderRadius: "4px" }}
+                              label={
+                                <div
+                                  style={{
+                                    color:
+                                      row.state === "available"
+                                        ? "#7569EE"
+                                        : row.state === "completed"
+                                        ? "#26C76E"
+                                        : "#F7A844",
+                                  }}
+                                >
+                                  {row.state === undefined
+                                    ? "Running"
+                                    : row.state === "in-use"
+                                    ? "Running"
+                                    : row.state.charAt(0).toUpperCase() +
+                                      row.state.slice(1)}
+                                </div>
+                              }
+                            />
+                          }
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -383,7 +450,7 @@ const AssetListTable = (props) => {
           />
         </Paper>
       </LayoutContainer>
-			{/* <AssetList
+      {/* <AssetList
 				rowData={selectedRowData}
 			/> */}
     </div>

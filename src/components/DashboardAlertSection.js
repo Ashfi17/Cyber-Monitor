@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import { makeStyles, Paper, Typography, Grid } from "@material-ui/core";
+import { getCompliance } from '../actions/complianceActions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -25,30 +26,43 @@ const useStyles = makeStyles((theme) => ({
 
 const DashboardAlertSection = (props) => {
   const classes = useStyles();
+  const [totalCompliance, setTotalCompliance] = useState({});
+  const [cardData, setCardData] = useState([]);
+  const [ overallCount, setOverallCount ] = useState(0)
 
-  const cardData = [
-    {
-      count: "842",
-      text: "Security",
-      icon: require("../assets/images/dashboard-alert-security-icon.svg"),
-    },
-    {
-      count: "546",
-      text: "Cost Optimization",
-      icon: require("../assets/images/dashboard-alert-cost-optimization-icon.svg"),
-    },
-    {
-      count: "784",
-      text: "Governance",
-      icon: require("../assets/images/dashboard-alert-governance-icon.svg"),
-    },
-    {
-      count: "98",
-      text: "Tagging",
-      icon: require("../assets/images/dashboard-alert-tagging-icon.svg"),
-    },
-    ,
-  ];
+  useEffect(() => {
+    getCompliance()
+    .then((resp) => {
+      if (resp.distribution) {
+        const dataArray = [];
+        const obj = {};
+        const obj1 = {};
+        const obj2 = {};
+        const obj3 = {};
+        obj.count = resp.distribution.security;
+        obj.text = "Security";
+        obj.icon = require("../assets/images/dashboard-alert-security-icon.svg");
+        obj1.count = resp.distribution.costOptimization;
+        obj1.text = "Cost Optimization";
+        obj1.icon = require("../assets/images/dashboard-alert-cost-optimization-icon.svg");
+        obj2.count = resp.distribution.governance;
+        obj2.text = "Governance";
+        obj2.icon = require("../assets/images/dashboard-alert-governance-icon.svg");
+        obj3.count = resp.distribution.tagging;
+        obj3.text = "Tagging";
+        obj3.icon = require("../assets/images/dashboard-alert-tagging-icon.svg");
+        dataArray.push(obj)
+        dataArray.push(obj1)
+        dataArray.push(obj2)
+        dataArray.push(obj3)
+        setCardData(dataArray);
+        setOverallCount(resp.distribution.overall)
+      }
+    }).catch((error) => {
+      console.log(error)
+    })
+  }, [])
+
   return (
     <Paper className={classes.paper} elevation={0}>
       <div style={{ width: "20%", position: "relative" }}>
@@ -58,7 +72,7 @@ const DashboardAlertSection = (props) => {
             color="textPrimary"
             style={{ fontWeight: "bold" }}
           >
-            15,00
+            {overallCount}
           </Typography>
           <Typography
             variant="subtitle2"
