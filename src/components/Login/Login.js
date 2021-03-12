@@ -98,15 +98,11 @@ const Login = (props) => {
     loginDetails(values)
       .then((response) => {
         if (response.data.success === true) {
-          // localStorage.setItem(
-          //   "currentUserLoginDetails",
-          //   JSON.stringify(response.data)
-          // );
+          setAuthUser(response.data);
           props.history.push("/home-page");
         } else {
           alert(response.data.message);
         }
-        setAuthUser(response.data);
       })
       .catch((error) => {
         console.log(error);

@@ -228,6 +228,13 @@ const DrawerMenu = (props) => {
             >
               <ListItemText style={{ color: "white" }} primary="Manage Policy" />
             </ListItem>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/manage-rules")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Manage Rules" />
+            </ListItem>
             {/* <ListItem
               button
               className={classes.nested}

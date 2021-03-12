@@ -10,6 +10,7 @@ import PolicyKnowledge from './components/PolicyKnowledge/PolicyKnowledge'
 import TaggingCompliance from './components/TaggingCompliance/TaggingCompliance';
 import AssetListTable from './components/AssetList/AsserListTableView';
 import ManagePolicy from './components/Admin/ManagePolicy';
+import ManageRules from './components/Admin/ManageRules';
 
 const Routers = (props) => {
   return (
@@ -21,9 +22,10 @@ const Routers = (props) => {
             <Route exact path='/asset-dashboard' component={AssetDashboard} />
             <Route exact path='/asset-list' component={AssetList} />
             <Route exact path='/policyknowledge' component={PolicyKnowledge} />
-            <Route exact path='/manage-policy' component={ManagePolicy} />
             <Route exact path='/assetlist-table' component={AssetListTable} />
             <Route exact path='/tagging-compliance' component={TaggingCompliance} />
+            <Route exact path='/manage-policy' component={ManagePolicy} />
+            <Route exact path='/manage-rules' component={ManageRules} />
           </Switch>
         </div>
     </BrowserRouter>

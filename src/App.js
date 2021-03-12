@@ -5,7 +5,6 @@ import { CssBaseline } from "@material-ui/core";
 import { Provider } from "react-redux";
 import store from "./store";
 import "./App.css";
-import setAuthorizationToken from './actions/setAuthorizationToken'
 import Routers from "./Router";
 
 export const appContext = createContext();
@@ -36,14 +35,18 @@ theme = responsiveFontSizes(theme);
 
 const App = (props) => {
   const [authUser, setAuthUser] = useState(null);
+
   useEffect(() => {
     var parsedAuthUser;
-      const localAuthUser = localStorage.getItem('currentUserLoginDetails')
-      parsedAuthUser = JSON.parse(localAuthUser);
-      console.log(parsedAuthUser, 'parsedAuthUserparsedAuthUser')
-      if (parsedAuthUser) {
-        setAuthorizationToken(parsedAuthUser)
+    if (!authUser) {
+      const localAuthUser = localStorage.getItem("currentUserLoginDetails");
+      if (localAuthUser) {
+        parsedAuthUser = JSON.parse(localAuthUser);
+        setAuthUser(parsedAuthUser);
       }
+    } else {
+      parsedAuthUser = authUser;
+    }
   }, [authUser])
 
   return (
