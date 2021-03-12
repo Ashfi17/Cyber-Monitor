@@ -106,21 +106,21 @@ export default function ManagePolicy() {
   }, []);
 
   useEffect(() => {
-    const arryData = [];
+    let arryData = [];
     getPolicyList()
       .then((result) => {
+        arryData = [];
         if (result && result.content) {
           result.content.map((data) => {
             const json = Object.assign({}, data);
             arryData.push(json);
           });
         }
+        setPolicyListData(arryData);
       })
       .catch((error) => {
         console.log(error);
       });
-    console.log(arryData, "arrayData");
-    setPolicyListData(arryData);
   }, []);
 
   const handleChangeGrid = (data) => {
@@ -141,7 +141,6 @@ export default function ManagePolicy() {
     setSeverity(event.target.value);
   };
   const handleChangeCategory = (event) => {
-    console.log(event.target.value);
     const searchKey = event.target.value;
     policyknowledgeApi(searchKey)
       .then((resp) => {
@@ -186,7 +185,6 @@ export default function ManagePolicy() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {console.log(policyDetails, "policyDetails")}
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <Typography
@@ -460,7 +458,6 @@ export default function ManagePolicy() {
                   onClick={() => handleChangeGrid(data)}
                   style={{ cursor: "pointer" }}
                 >
-                  {console.log(data[7], "datadatadata")}
                   <Paper className={classes.paper}>
                     <div style={{ color: "black", fontWeight: "bold" }}>
                       {data[7]}
