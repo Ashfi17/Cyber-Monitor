@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AssetInvestory = (props) => {
-console.log(props, 'propsData')
 const [ datesData, setDates ] = useState([])
 const [ minData, setMinimum ] = useState([])
 const [ maxData, setMaximum ] = useState([])

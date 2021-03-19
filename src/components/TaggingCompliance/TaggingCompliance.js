@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   paper2: {
-    maxHeight: "240px"
+    maxWidth: '1163px',
+    'overflow-x': 'auto',
+    'white-space': 'nowrap'
   },
   helpOutline: {
     marginLeft: "231px",
@@ -427,9 +429,8 @@ export default function CenteredGrid() {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={12}>
-            <Paper className={classes.paper2}>
-              <Typography
+          <Grid item xs={12} >
+          <Typography
                 variant="h6"
                 style={{
                   color: "black",
@@ -440,6 +441,7 @@ export default function CenteredGrid() {
               >
                 Overall Compliance Trend
               </Typography>
+            <Paper className={classes.paper2} >
               {gridData.map((data) => (
                 <div className={classes.tabletShape}>
                   <ul

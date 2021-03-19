@@ -32,50 +32,31 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     margin: "8px 0",
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
 }));
 
 const AssetByApplication = (props) => {
-  const { count } = props;
-  console.log(count, 'props.data')
+  const { countDetails } = props;
+  console.log(countDetails, 'props.data')
   const classes = useStyles();
-
-  const chartOptions = {
-    labels: ["Total Violations", "Critical"],
-    colors: ["#7569EE", "#F7A844"],
-    dataLabels: {
-      enabled: false,
-    },
-
-    plotOptions: {
-      pie: {
-        customScale: 1,
-        // size: 20,
-      },
-    },
-    legend: {
-      show: false,
-      //   position: "top",
-      //   horizontalAlign: "center",
-    },
-  };
 
   return (
     <Paper className={classes.paper} elevation={0}>
       <Typography variant="h6" style={{ fontWeight: "bold", fontSize: 14 }}>
       Asset by Application
       </Typography>
-      <Grid container spacing={2} style={{ marginTop: 6, marginBottom: 6 }}>
+      <Grid container spacing={2} style={{ marginTop: 6, marginBottom: 6, height: 'calc(58vh - 10px)', 'overflow-y': 'scroll' }}>
         <Grid item xs={12}>
-          {/* {count.assetcount.map((data) => (
-            <div className={classes.chartLabels}>
-              <Typography>{data.type}</Typography>
-              <Typography style={{ fontWeight: "bold" }}>{data.count}</Typography>
+          {countDetails && countDetails.length !== 0 && countDetails.map((data) => (
+            <div className={classes.chartLabels} style={{ height: "12pxpx" }}>
+              <Typography>{data && data.type ? data.type.charAt(0).toUpperCase() + data.type.slice(1) : ''}</Typography>
+              <Typography style={{ fontWeight: "bold" }}>
+              {( data.count.toString().length < 2 ? "0"+data.count : data.count ).toString()}</Typography>
             </div>
-          ))} */}
+          ))}
           
-          <div className={classes.chartLabels}>
+          {/* <div className={classes.chartLabels}>
             <Typography>Firestorm</Typography>
             <Typography style={{ fontWeight: "bold" }}>32</Typography>
           </div>
@@ -121,7 +102,7 @@ const AssetByApplication = (props) => {
           <div className={classes.chartLabels}>
             <Typography>Without Application Tag</Typography>
             <Typography style={{ fontWeight: "bold" }}>100 %</Typography>
-          </div>
+          </div> */}
         </Grid>
       </Grid>
     </Paper>

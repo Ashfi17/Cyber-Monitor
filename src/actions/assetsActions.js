@@ -6,11 +6,11 @@ const localUrl = '/asset/v1'
 //     headers: {"Authorization" : `Bearer ${'4dd5fb38-addd-488c-9d26-506793d010af'}`}
 // }
 
-export const getAssets = () => {
+export const getAssets = (searchKey) => {
     const url = `${localUrl}/list/assets`;
     return new Promise((resolve, reject) => {
       axios
-        .post(url, {ag:"aws",filter:{domain:"Infra & Platforms"},from:0,searchtext:"",size:25} )
+        .post(url, {ag:"aws",filter:{domain:"Infra & Platforms"},from:0,searchtext:searchKey,size:500} )
         .then((result) => {
           if (result) {
             //   console.log(result.data.data.response, 'result.data.data.response')

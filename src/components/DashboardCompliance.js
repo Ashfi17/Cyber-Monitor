@@ -87,9 +87,16 @@ const DashboardCompliance = (props) => {
 
   return (
     <Paper className={classes.paper} elevation={0}>
-      <Typography variant="h6" style={{ fontWeight: "bold", fontSize: 14 }}>
-        Overall Compliance
-      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={6} style={{ float: 'left' }}>
+          <Typography variant="h6" style={{ fontWeight: "bold", fontSize: 14 }}>
+            Overall Compliance
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+        <img src={require("../assets/images/bx-right-arrow-alt.svg")} style={{ float: 'right' }} />
+        </Grid>
+      </Grid>
       <Grid container spacing={2} style={{ marginTop: 6, marginBottom: 6 }}>
         <Grid item xs={7}>
           <Chart

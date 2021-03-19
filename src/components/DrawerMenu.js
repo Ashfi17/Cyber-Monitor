@@ -97,7 +97,9 @@ const DrawerMenu = (props) => {
       }}
       anchor="left"
     >
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar}>
+        <img src={require("../assets/images/CyMonitor_logo.svg")} style={{ width: '190px', marginLeft: '20px', marginTop: '20px', cursor: 'pointer' }} onClick={(e) => props.history.push("/home-page")} />
+      </div>
       <Divider />
       <List>
         <ListItem

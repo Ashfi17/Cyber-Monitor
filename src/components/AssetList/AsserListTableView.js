@@ -211,15 +211,26 @@ const AssetListTable = (props) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [tableData, setTableData] = useState([]);
+  const [uniqueList, setUniqueAssetList] = useState([]);
+  const [searchKey, setSearchKey] = useState('')
   const [assetType, setAssetType] = useState("All");
   const [category, setCategory] = useState("All");
   // const [selectedRowData, setSelectedRowData] = useState({})
 
   useEffect(() => {
-    getAssets()
+    const searchKey = ''
+    let arrayData = [];
+    getAssets(searchKey)
       .then((respo) => {
-        console.log(respo, "assetData");
-        setTableData(respo);
+        arrayData = [];
+        if (respo) {
+          respo.map((data) => {
+            arrayData.push(data._entitytype)
+          })
+          const uniqueArray = arrayData.filter((v, i, a) => a.indexOf(v) === i);
+          setUniqueAssetList(uniqueArray);
+          setTableData(respo);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -250,6 +261,25 @@ const AssetListTable = (props) => {
     setPage(0);
   };
 
+  const handleSearchResults = (e) => {
+    setSearchKey(e.target.value)
+    getAssets(e.target.value).then((resp) => {
+      setTableData(resp)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
+  const handleChangeAssetType = (e) => {
+    setSearchKey(e.target.value)
+    setAssetType(e.target.value)
+    getAssets(e.target.value).then((resp) => {
+      setTableData(resp)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
@@ -260,7 +290,7 @@ const AssetListTable = (props) => {
     <div className={classes.root}>
       <LayoutContainer>
         <Grid container spacing={3} style={{ padding: "20px" }}>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             {/* <Typography
               className={classes.paper3}
               style={{ "margin-left": "12px", fontWeight: 600 }}
@@ -269,37 +299,42 @@ const AssetListTable = (props) => {
               Total of {policyKnowledgeData.length} policies
             </Typography> */}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <Typography className={classes.paper3}>
               <Paper component="form" className={classes.root1}>
                 <Typography style={{ color: "#b2bbbf", fontSize: 14 }}>
                   Asset Type :{"  "}
                   <FormControl
                     variant="outlined"
-                    style={{ width: "164px", height: 0 }}
+                    style={{ width: "164px", height: 0, 
+                    maxHeight: '197px' }}
                   >
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      value={"All"}
-                      // onChange={handleChange}
+                      value={assetType}
+                      onChange={(e) => handleChangeAssetType(e)}
                       className={classes.select}
                       style={{
                         height: "40px",
                         top: '-10px',
-                        width: '172px'
+                        width: '172px',
+                        maxHeight: '197px'
                       }}
                     >
                       <MenuItem value={"All"}>All</MenuItem>
-                      <MenuItem value={"Pass"}>Pass</MenuItem>
-                      <MenuItem value={"Fail"}>Fail</MenuItem>
+                      {
+                        uniqueList.map((data) => 
+                          <MenuItem value={data}>{data}</MenuItem>
+                        )
+                      }
                     </Select>
                   </FormControl>
                 </Typography>
               </Paper>
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          {/* <Grid item xs={3}>
             <Typography className={classes.paper3}>
               <Paper component="form" className={classes.root1}>
                 <Typography style={{ color: "#b2bbbf", fontSize: 14 }}>
@@ -328,8 +363,8 @@ const AssetListTable = (props) => {
                 </Typography>
               </Paper>
             </Typography>
-          </Grid>
-          <Grid item xs={3}>
+          </Grid> */}
+          <Grid item xs={4}>
             <Typography className={classes.paper3}>
               <Paper component="form" className={classes.root1}>
                 <IconButton
@@ -343,7 +378,7 @@ const AssetListTable = (props) => {
                   className={classes.input}
                   placeholder="Search"
                   inputProps={{ "aria-label": "search google maps" }}
-                  // onChange={(e) => handleSearchResults(e)}
+                  onChange={(e) => handleSearchResults(e)}
                 />
               </Paper>
             </Typography>

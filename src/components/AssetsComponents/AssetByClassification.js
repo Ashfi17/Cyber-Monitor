@@ -88,7 +88,6 @@ const AssetByClassification = (props) => {
         "Snapshot",
         "Sg",
         "Reservedi...",
-        "Nat",
       ],
     },
     legend: {

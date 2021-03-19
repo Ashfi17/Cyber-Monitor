@@ -14,7 +14,6 @@ export const loginDetails = (values) => {
         .then((result) => {
           if (result) {
             resolve(result);
-            console.log(result)
             localStorage.setItem(
               "currentUserLoginDetails",
               JSON.stringify(result.data)

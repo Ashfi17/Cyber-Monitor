@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     opacity: 1,
   },
   loginButton: {
-    top: "170px",
+    top: "89px",
     width: "270px",
     height: "53px",
     background: "#7569EE 0% 0% no-repeat padding-box",
@@ -94,7 +94,15 @@ const Login = (props) => {
     }));
   };
 
-  const saveLoginDetails = () => {
+  const handleEnterClick = (event) => {
+    var code = event.keyCode || event.which;
+    if (code === 13) {
+      saveLoginDetails(event);
+    }
+  };
+
+  const saveLoginDetails = (e) => {
+    e.preventDefault();
     loginDetails(values)
       .then((response) => {
         if (response.data.success === true) {
@@ -116,7 +124,7 @@ const Login = (props) => {
           <Grid container spacing={2}>
             <Grid item md={6}>
               <img
-                style={{ float: "left", padding: "20px", cursor: "pointer" }}
+                style={{ float: "left", padding: "20px", cursor: "pointer", marginLeft: '-110px' }}
                 src={require("../../assets/images/cymonitorlogo.PNG")}
                 alt="Dashboard"
               />
@@ -136,7 +144,7 @@ const Login = (props) => {
             </Grid>
           </Grid>
           <Grid item md={5}>
-            <Box display="grid" placeContent="center">
+            <Box display="grid" placeContent="center" style={{ marginLeft: '81px',  marginTop: '88px' }}>
               <Box component="h2">
                 <span className={classes.headingWelcome}>Welcome to</span>
                 <br />
@@ -149,6 +157,7 @@ const Login = (props) => {
                   className={classes.inputField}
                   value={values.username}
                   name="username"
+                  onKeyPress={(e) => handleEnterClick(e)}
                   onChange={(e) => handleChange(e)}
                 />
                 <Typography className={classes.fieldName}>Password</Typography>
@@ -157,6 +166,7 @@ const Login = (props) => {
                   className={classes.inputField}
                   value={values.password}
                   name="password"
+                  onKeyPress={(e) => handleEnterClick(e)}
                   onChange={(e) => handleChange(e)}
                 />
                 <Typography className={classes.forgotPassword}>
@@ -173,13 +183,13 @@ const Login = (props) => {
           </Grid>
           <Grid item md={7}>
             <img
-              style={{ width: "864px", height: "607px" }}
+              style={{ width: "855px", height: "618px" }}
               src={require("../../assets/images/logindashboardImg.PNG")}
               alt="Dashboard"
             />
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{ marginTop: '89px' }}>
           <Grid item xs={3}>
             <img
               style={{ float: "left", padding: "20px", cursor: "pointer" }}

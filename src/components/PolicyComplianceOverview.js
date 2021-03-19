@@ -15,7 +15,7 @@ import Tab from '@material-ui/core/Tab';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
-    width: 733
+    width: 735
   },
   paper: {
     padding: theme.spacing(2)
@@ -27,31 +27,28 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     boxShadow: "0px 3px 6px #2C28281C",
   },
-  selectedFilter: {
-    backgroundColor: "#5D55C8",
-    color: "white",
-    borderRadius: 4,
-    padding: theme.spacing(0.75, 1.25),
-    fontWeight: "bold",
+  selectedButton: {
+    'background-color': '#5D55C8',
+    color: 'white'
   },
-  filterText: {
-    fontWeight: "bold",
-    cursor: "pointer",
-  },
+  unSelectedButton: {
+    'background-color': 'white',
+    color: 'black'
+  }
 }));
 
 const PolicyComplianceOverview = () => {
   const classes = useStyles();
   const [filterOption, setFilterOption] = useState("All");
   const [policyData, setPolicyData] = useState([]);
-  const [value, setValue] = useState(0);
+  const [ policyResponse, setPolicyResponse ] = useState([]);
+  const [buttonStatus, setButtonStatus] = useState(false)
 
   useEffect(() => {
     nonCompliancePolicy()
       .then((resp) => {
         if (resp) {
-          console.log(resp)
-          setPolicyData(resp);
+          setPolicyResponse(resp);
         }
       })
       .catch((error) => {
@@ -59,19 +56,73 @@ const PolicyComplianceOverview = () => {
       });
   }, []);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   const filtertableData = (ruleCate) => {
+    // if (ruleCate === 'All') {
+    //   setButtonStatus(true)
+    // } else if (ruleCate === 'tagging' && ruleCate === 'governance' && ruleCate === 'security' && ruleCate === 'costOptimization') {
+    //   setButtonStatus(false)
+    // }
+    // if (ruleCate === 'tagging') {
+    //   setButtonStatus(true)
+    // } else if (ruleCate === 'All' && ruleCate === 'governance' && ruleCate === 'security' && ruleCate === 'costOptimization') {
+    //   setButtonStatus(false)
+    // }
+    // if (ruleCate === 'governance') {
+    //   setButtonStatus(true)
+    // } else if (ruleCate === 'All' && ruleCate === 'tagging' && ruleCate === 'security' && ruleCate === 'costOptimization') {
+    //   setButtonStatus(false)
+    // }
+    // if (ruleCate === 'security') {
+    //   setButtonStatus(true)
+    // } else if (ruleCate === 'All' && ruleCate === 'tagging' && ruleCate === 'governance' && ruleCate === 'costOptimization') {
+    //   setButtonStatus(false)
+    // }
+    // if (ruleCate === 'costOptimization') {
+    //   setButtonStatus(true)
+    // } else if (ruleCate === 'All' && ruleCate === 'tagging' && ruleCate === 'governance' && ruleCate === 'security') {
+    //   setButtonStatus(false)
+    // }
+    // if (ruleCate === 'tagging') {
+    //   setButtonStatus(true)
+    // } else {
+    //   setButtonStatus(false)
+    // }
     let TabelData = []
-    policyData.map((data) => {
-    if (data.ruleCategory === ruleCate) {
-        TabelData.push(data)
-      }
-      return null;
-    })
-    setPolicyData(TabelData)
+    if (ruleCate === 'All') {
+      setPolicyData(policyResponse)
+    } else if (ruleCate === 'tagging') {
+      policyResponse.map((data) => {
+        if (data.ruleCategory === ruleCate) {
+            TabelData.push(data)
+          }
+          return null;
+        })
+        setPolicyData(TabelData)
+    } else if (ruleCate === 'governance') {
+      policyResponse.map((data) => {
+        if (data.ruleCategory === ruleCate) {
+            TabelData.push(data)
+          }
+          return null;
+        })
+        setPolicyData(TabelData)
+    } else if (ruleCate === 'security') {
+      policyResponse.map((data) => {
+        if (data.ruleCategory === ruleCate) {
+            TabelData.push(data)
+          }
+          return null;
+        })
+        setPolicyData(TabelData)
+    } else if (ruleCate === 'costOptimization') {
+      policyResponse.map((data) => {
+        if (data.ruleCategory === ruleCate) {
+            TabelData.push(data)
+          }
+          return null;
+        })
+        setPolicyData(TabelData)
+    }
   }
 
   return (
@@ -93,7 +144,7 @@ const PolicyComplianceOverview = () => {
               <Button className={classes.downloadButton}>Download Data</Button>
             }
           >
-            <Workbook.Sheet data={() => policyData} name="Policy Compilance Overview">
+            <Workbook.Sheet data={() => policyData && policyData.length > 0 ? policyData : policyResponse} name="Policy Compilance Overview">
               <Workbook.Column label="Name" value="name" />
               <Workbook.Column label="severity" value="severity" />
               <Workbook.Column label="compliancepercent" value="compliance_percent" />
@@ -121,30 +172,15 @@ const PolicyComplianceOverview = () => {
             alignItems: "center",
           }}
         >
-          <Paper className={classes.root}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              className={
-                filterOption === "All"
-                  ? classes.selectedFilter
-                  : classes.filterText
-              }
-              
-            >
-              <Tab label="All" onClick={() => filtertableData('All')} />
-              <Tab label="Tagging" onClick={() => filtertableData('tagging')} />
-              <Tab label="Governance" onClick={() => filtertableData("governance")} />
-              <Tab label="Security" onClick={() => filtertableData('security')} />
-              <Tab label="Cost Optimization" onClick={() => filtertableData("costOptimization")} />
-
-            </Tabs>
-            {/* <Typography variant="caption">Total of {policyData.length} policies</Typography> */}
-          </Paper>
-          
+          <Button className={buttonStatus === true ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData('All')}>All</Button>
+          <Button className={buttonStatus === true ? classes.selectedButton : classes.unSelectedButton } onClick={() => filtertableData('tagging')}>Tagging</Button>
+          <Button className={buttonStatus === true ? classes.selectedButton : classes.unSelectedButton } onClick={() => filtertableData("governance")}>Governance</Button>
+          <Button className={buttonStatus === true ? classes.selectedButton : classes.unSelectedButton } onClick={() => filtertableData('security')}>Security</Button>
+          <Button className={buttonStatus === true ? classes.selectedButton : classes.unSelectedButton } onClick={() => filtertableData("costOptimization")}>Cost Optimization</Button>
+          <Typography variant="caption">Total of {policyData && policyData.length > 0 ? policyData.length : policyResponse.length} policies</Typography>
         </div>
       </Paper>
-      <PolicyCompilance tableData={policyData} />
+      <PolicyCompilance tableData={policyData && policyData.length > 0 ? policyData : policyResponse} />
     </div>
   );
 };
