@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
+import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
-
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ExpandMore from "@material-ui/icons/ExpandMore";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Collapse from '@material-ui/core/Collapse';
 
 import { useHistory } from "react-router-dom";
+
+import { appContext } from "../App";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: theme.palette.secondary.main,
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
@@ -50,54 +57,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const menuItems = [
-  {
-    text: "Dashboard",
-    icon: require("../assets/images/drawer-dashboard-icon.svg"),
-  },
-  {
-    text: "Investigate",
-    icon: require("../assets/images/drawer-investigate-icon.svg"),
-  },
-  {
-    text: "Policies",
-    icon: require("../assets/images/drawer-policies-icon.svg"),
-  },
-  {
-    text: "Compliances",
-    icon: require("../assets/images/drawer-compliances-icon.svg"),
-  },
-  { text: "Alerts", icon: require("../assets/images/drawer-alerts-icon.svg") },
-  {
-    text: "Compute",
-    icon: require("../assets/images/drawer-compute-icon.svg"),
-  },
-  {
-    text: "Notification",
-    icon: require("../assets/images/drawer-notification-icon.svg"),
-  },
-  {
-    text: "Settings",
-    icon: require("../assets/images/drawer-settings-icon.svg"),
-  },
-  {
-    text: "Subscription",
-    icon: require("../assets/images/drawer-subscription-icon.svg"),
-  },
-  {
-    text: "Profile",
-    icon: require("../assets/images/drawer-profile-icon.svg"),
-  },
-  { text: "Log Out", icon: require("../assets/images/drawer-logout-icon.svg") },
-];
-
-const DrawerMenu = () => {
+const DrawerMenu = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+
+  const {
+    authUser,
+    setAuthUser,
+  } = useContext(appContext);
+
+  const [open, setOpen] = React.useState(false);
+  const [openComp, setOpenComp] = React.useState(false)
+  const [openAdmin, setOpenAdmin] = React.useState(false)
   const history = useHistory();
 
   const handleClick = () => {
     setOpen(!open);
+  };
+
+  const handleClickComp = () => {
+    setOpenComp(!openComp)
+  }
+
+  const handleClickAdmin = () => {
+    setOpenAdmin(!openAdmin)
+  }
+
+  const logoutUser = () => {
+    setAuthUser(null);
+    localStorage.removeItem("currentUserLoginDetails");
+    window.location = '/';
   };
 
   return (
@@ -109,92 +97,182 @@ const DrawerMenu = () => {
       }}
       anchor="left"
     >
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar}>
+        <img src={require("../assets/images/CyMonitor_logo.svg")} style={{ width: '190px', marginLeft: '20px', marginTop: '20px', cursor: 'pointer' }} onClick={(e) => props.history.push("/home-page")} />
+      </div>
       <Divider />
       <List>
-        {menuItems.slice(0, 8).map((item) => (
-          <ListItem
-            button
-            key={item.text}
-            onClick={handleClick}
-            className={
-              history.location.pathname === `/${item.text.toLowerCase()}`
-                ? classes.selecteditem
-                : classes.listItemText
-            }
-          >
-            <ListItemIcon>
-              <img src={item.icon} />
-            </ListItemIcon>
-            <ListItemText primary={item.text} />
-            {item.text === "Dashboard" ||
-            item.text === "Compliances" ||
-            item.text === "Alerts" ||
-            item.text === "Settings" ? (
-              open ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ExpandMore />
-              )
-            ) : null}
-          </ListItem>
-          //   <Collapse in={open} timeout="auto" unmountOnExit>
-          //   <List component="div" disablePadding>
-          //     {props.issuerSettingNestedListItem &&
-          //       props.issuerSettingNestedListItem.map(
-          //         (nestedItem, index) => (
-          //           <ListItem
-          //             button
-          //             className={
-          //               props.currentPath ===
-          //               "/settings/" + nestedItem.title.toLowerCase()
-          //                 ? classes.selecteNestedItem
-          //                 : classes.nested
-          //             }
-          //             key={nestedItem.title}
-          //             component={Link}
-          //             to={
-          //               nestedItem.title !== "Logout" &&
-          //               `/settings/${nestedItem.title.toLowerCase()}`
-          //             }
-          //             onClick={() => {
-          //               dispatch({ type: "BATCH_STEP", payload: 1 });
-          //               if (nestedItem.title === "Logout") {
-          //                 localStorage.removeItem("accessToken");
-          //                 localStorage.removeItem("refreshToken");
-          //                 localStorage.removeItem("userType");
-          //                 localStorage.removeItem("userName");
-          //                 history.push("/login");
-          //               }
-          //             }}
-          //           >
-          //             <ListItemIcon>
-          //               <Image src={nestedItem.icon} />
-          //             </ListItemIcon>
-          //             <ListItemText
-          //               primary={nestedItem.title}
-          //               className={classes.nestedItemText}
-          //             />
-          //           </ListItem>
-          //         )
-          //       )}
-          //   </List>
-          // </Collapse>
-        ))}
+        <ListItem
+          button
+          onClick={(e) => props.history.push("/home-page")}
+          className="classes.listItemText"
+        >
+          <ListItemIcon>
+            <img src={require("../assets/images/drawer-dashboard-icon.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Dashboard" />
+        </ListItem>
+        <ListItem
+          button
+          onClick={handleClick}
+        >
+          <ListItemIcon>
+            <img src={require("../assets/images/drawer-dashboard-icon.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Asset">
+            {/* {open ? <ExpandLessIcon color="secondary" /> : <ExpandMoreIcon color="secondary" />} */}
+            <img src={require("../assets/images/ic_keyboard_arrow_right_24px.svg")} />
+          </ListItemText>
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/asset-dashboard")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Asset Dashboard" />
+            </ListItem>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/assetlist-table")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Asset List" />
+            </ListItem>
+          </List>
+        </Collapse>
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
+          <ListItemIcon>
+            <img
+              src={require("../assets/images/drawer-investigate-icon.svg")}
+            />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Investigate" />
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
+          <ListItemIcon>
+            <img src={require("../assets/images/drawer-policies-icon.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Policies" />
+        </ListItem> */}
+        <ListItem button onClick={handleClickComp}>
+          <ListItemIcon>
+            <img
+              src={require("../assets/images/drawer-compliances-icon.svg")}
+            />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Compliances"> {openComp ? <ExpandLessIcon color="secondary" /> : <ExpandMoreIcon color="secondary" />}</ListItemText>
+        </ListItem>
+        <Collapse in={openComp} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/tagging-compliance")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Tagging Compliance" />
+            </ListItem>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/policyknowledge")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Policy Knowledge" />
+            </ListItem>
+          </List>
+        </Collapse>
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
+          <ListItemIcon>
+            <img src={require("../assets/images/drawer-alerts-icon.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Alerts" />
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
+          <ListItemIcon>
+            <img src={require("../assets/images/drawer-compute-icon.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Compute" />
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
+          <ListItemIcon>
+            <img
+              src={require("../assets/images/drawer-notification-icon.svg")}
+            />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Notification" />
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
+          <ListItemIcon>
+            <img src={require("../assets/images/drawer-settings-icon.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Settings" />
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/manage-policy")}>
+          <ListItemIcon>
+            <img src={require("../assets/images/Mask Group 376.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Admin" />
+        </ListItem> */}
+
+        <ListItem button onClick={handleClickAdmin}>
+          <ListItemIcon>
+          <img src={require("../assets/images/Mask Group 376.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Admin"> {openAdmin ? <ExpandLessIcon color="secondary" /> : <ExpandMoreIcon color="secondary" />}</ListItemText>
+        </ListItem>
+        <Collapse in={openAdmin} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/manage-policy")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Manage Policy" />
+            </ListItem>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/manage-rules")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Manage Rules" />
+            </ListItem>
+            {/* <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/policyknowledge")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Policy Knowledge" />
+            </ListItem> */}
+          </List>
+        </Collapse>
+
+
       </List>
       {/* <Divider /> */}
       <List style={{ position: "absolute", bottom: 0 }}>
-        {menuItems.slice(8).map((item) => (
-          <ListItem button key={item.text} className={classes.listItemText}>
-            <ListItemIcon>
-              <img src={item.icon} />
-            </ListItemIcon>
-            <ListItemText primary={item.text} />
-          </ListItem>
-        ))}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
+          <ListItemIcon>
+            <img
+              src={require("../assets/images/drawer-subscription-icon.svg")}
+            />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Subscription" />
+        </ListItem> */}
+        {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
+          <ListItemIcon>
+            <img src={require("../assets/images/drawer-profile-icon.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Profile" />
+        </ListItem> */}
+        <ListItem button onClick={logoutUser}>
+          <ListItemIcon>
+            <img src={require("../assets/images/drawer-logout-icon.svg")} />
+          </ListItemIcon>
+          <ListItemText style={{ color: "white" }} primary="Log Out" />
+        </ListItem>
       </List>
     </Drawer>
   );
 };
-
-export default DrawerMenu;
+export default withRouter(DrawerMenu);

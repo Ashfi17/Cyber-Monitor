@@ -8,13 +8,17 @@ import DashboardTagging from "../components/DashboardTagging";
 import OverallComplianceTrend from "../components/OverallComplianceTrend";
 import PolicyComplianceOverview from "../components/PolicyComplianceOverview";
 import Notifications from "../components/Notifications";
-import { getCompliance } from '../actions/complianceActions';
+import { getOverallCompliance, getRecommendations } from '../actions/complianceActions';
 
 export default function Dashboard() {
 
   useEffect(() => {
-    getCompliance()
+    getOverallCompliance()
   }, [])
+
+  useEffect(() => {
+    getRecommendations()
+  })
   
 
   return (

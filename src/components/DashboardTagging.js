@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   makeStyles,
   Paper,
@@ -7,17 +7,33 @@ import {
   Divider,
 } from "@material-ui/core";
 import Chart from "react-apexcharts";
+import { getTaggings, complianceIssues } from '../actions/complianceActions'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     borderRadius: 10,
     boxShadow: "0px 3px 6px #2C28281C",
+    height: '289px'
   },
 }));
 
 const DashboardTagging = (props) => {
   const classes = useStyles();
+  const [taggingData, setTaggingData] = useState({});
+  useEffect(() => {
+    getTaggings().then((respo) => {
+      setTaggingData(respo)
+    }).catch((error) => {
+      console.log(error)
+    })
+
+    complianceIssues().then((response) => {
+      console.log(response)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }, [])
 
   const chartOptions = {
     labels: ["Untagged"],
@@ -58,7 +74,7 @@ const DashboardTagging = (props) => {
         <Grid item xs={5}>
           <Chart
             options={chartOptions}
-            series={chartData}
+            series={[taggingData && taggingData.compliance !== undefined ? taggingData.compliance : 0]}
             type="radialBar"
             height={220}
             width={"100%"}
@@ -90,7 +106,7 @@ const DashboardTagging = (props) => {
           >
             <Typography style={{ opacity: 0.5 }}>Untagged</Typography>
             <Typography variant="h5" style={{ fontWeight: "bold" }}>
-              105
+              {taggingData.untagged}
             </Typography>
             <Divider
               variant="middle"
@@ -98,7 +114,7 @@ const DashboardTagging = (props) => {
             />
             <Typography style={{ opacity: 0.5 }}>Total</Typography>
             <Typography variant="h5" style={{ fontWeight: "bold" }}>
-              144
+              {taggingData.assets}
             </Typography>
           </div>
         </Grid>

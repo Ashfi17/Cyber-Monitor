@@ -1,0 +1,157 @@
+.myDonations-container {
+    margin: 0 auto;
+    max-width: 1170px;
+  
+    @media screen and (max-width: 960px) {
+      padding: 0 10px !important;
+    }
+    .MuiTableContainer-root.container {
+      top: 0;
+    }
+    .table-fixed {
+      .MuiTable-stickyHeader {
+        border-collapse: collapse;
+      }
+    }
+    .MuiTableCell-paddingNone {
+      padding-left: 15px;
+    }
+  
+    .footer-container {
+      display: none;
+    }
+  
+    .hamburger-icon {
+      position: fixed;
+      z-index: 10;
+      background-color: white !important;
+      border: 2px solid #eee;
+      padding: 12px 14px;
+      margin: 30px 0 0 12px;
+      left: 0;
+    }
+  
+    .hamburger-icon:hover {
+      background-color: #cd2627 !important;
+      border: 2px solid white;
+      color: white !important;
+    }
+  
+    .searchbar {
+      margin-top: 0;
+      border: 1px solid #ebebeb;
+  
+      input[type="text"] {
+        padding: 4px 0 4px 10px;
+        background-color: #f6f6f6;
+        width: 231px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+      }
+  
+      input[type="text"]:focus {
+        width: 500px;
+        position: absolute;
+        top: -19px;
+        border: 1px solid #ededed;
+      }
+    }
+  
+    .container {
+      padding: 0 10px;
+    }
+    .menu-container {
+      padding-right: 10px;
+    }
+    .table-fixed {
+      border: 1px solid #e0e0e0;
+      background-color: white;
+  
+      // .MuiTableCell-root {
+      //   padding-left: 10px !important;
+      // }
+  
+      .MuiIconButton-root {
+        text-align: left !important;
+  
+        // padding: 0 12px !important;
+      }
+    }
+  
+    .MuiTableContainer-root {
+      min-width: 100%;
+      overflow-x: auto;
+      max-height: calc(100vh - 195px);
+      // height: calc(100% - 68px);
+      overflow-y: auto;
+      position: sticky;
+      background: white;
+      padding: 0 !important;
+      border: 4px solid white;
+      border-right: none;
+      bottom: 0;
+      top: 99px;
+  
+      .MuiTablePagination-root {
+        left: 0;
+        right: 0;
+      }
+    }
+  
+    // width: 95% !important;
+  
+    margin: 0 auto;
+    .title {
+      font: 600 18px "Roboto";
+    }
+  }
+  
+  .table-header-text {
+    color: #000 !important;
+    background-color: #fddad8 !important;
+  
+    table {
+      table-layout: fixed;
+    }
+  
+    span {
+      font: 500 14px "Roboto";
+    }
+    svg {
+      color: #000;
+    }
+    span {
+      &:focus {
+        color: #000 !important;
+      }
+      &:hover {
+        color: #000 !important;
+      }
+    }
+  }
+  
+  // .menu-container {
+  //   border-right: 2px solid #ccc;
+  // }
+  .title {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    color: rgb(205, 38, 39);
+  }
+  
+  @media screen and (max-width: 480px) {
+    .menu-container {
+      display: none;
+    }
+    .table-container {
+      max-width: 100% !important;
+    }
+  
+    @media screen and (max-width: 600px) {
+      table {
+        min-width: 0;
+      }
+    }
+  }
+  

@@ -1,0 +1,74 @@
+import React, { useEffect, useState } from "react";
+import {
+  makeStyles,
+  Paper,
+  Typography,
+  Grid,
+  Divider,
+  Button,
+  LinearProgress,
+} from "@material-ui/core";
+
+import AssociatedPoliciesTable from "./AssociatedPoliciesTable";
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    padding: theme.spacing(2),
+  },
+  downloadButton: {
+    border: "1px solid #7764E4",
+    borderRadius: 5,
+    color: "#5D55C8",
+    fontWeight: 600,
+    boxShadow: "0px 3px 6px #2C28281C",
+  },
+  selectedFilter: {
+    backgroundColor: "#5D55C8",
+    color: "white",
+    borderRadius: 4,
+    padding: theme.spacing(0.75, 1.25),
+    fontWeight: "bold",
+  },
+  filterText: {
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
+}));
+
+const AssociatedPolicies = (props) => {
+  const classes = useStyles();
+  const [filterOption, setFilterOption] = useState("All");
+
+  return (
+    <div>
+      <Paper className={classes.paper} elevation={0}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h6"
+            style={{ fontWeight: "bold", fontSize: 14, padding: "10px" }}
+          >
+            Associated Policies
+          </Typography>
+        </div>
+      </Paper>
+      <Paper
+        elevation={0}
+        style={{
+          width: "100%",
+          display: "flex",
+          marginTop: 2,
+          marginBottom: 2,
+        }}
+      >
+        <AssociatedPoliciesTable />
+      </Paper>
+    </div>
+  );
+};
+export default AssociatedPolicies;

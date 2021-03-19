@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   makeStyles,
   Paper,
@@ -7,6 +7,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import Chart from "react-apexcharts";
+import { getDistributionIssues } from '../actions/complianceActions'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,6 +36,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DashboardCompliance = (props) => {
+  const [chartData, setChartData] = useState([]);
+  const [taggingPercent, setTaggingPercent] = useState(0)
+  const [securityPercent, setSecurityPercent] = useState(0)
+  const [governencePercent, setGovernencePercent] = useState(0)
+
+  useEffect(() => {
+    getDistributionIssues().then((response) => {
+      if (response) {
+        const dataArray = [];
+        dataArray.push(response.distribution.total_issues)
+        dataArray.push(response.distribution.distribution_by_severity.critical)
+        setChartData(dataArray)
+        const tagging = ((response.distribution.distribution_ruleCategory.tagging)/response.distribution.total_issues)*100
+        const security = ((response.distribution.distribution_ruleCategory.security)/response.distribution.total_issues)*100
+        const governance = ((response.distribution.distribution_ruleCategory.governance)/response.distribution.total_issues)*100
+        setTaggingPercent(tagging.toFixed(0))
+        setSecurityPercent(security.toFixed(0))
+        setGovernencePercent(governance.toFixed(0))
+      }
+    }).catch((error) => {
+      console.log(error)
+    })
+  }, [])
+
   const classes = useStyles();
 
   const chartOptions = {
@@ -60,17 +85,23 @@ const DashboardCompliance = (props) => {
     },
   };
 
-  const chartData = [234, 16];
-
   return (
     <Paper className={classes.paper} elevation={0}>
-      <Typography variant="h6" style={{ fontWeight: "bold", fontSize: 14 }}>
-        Overall Compliance
-      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={6} style={{ float: 'left' }}>
+          <Typography variant="h6" style={{ fontWeight: "bold", fontSize: 14 }}>
+            Overall Compliance
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+        <img src={require("../assets/images/bx-right-arrow-alt.svg")} style={{ float: 'right' }} />
+        </Grid>
+      </Grid>
       <Grid container spacing={2} style={{ marginTop: 6, marginBottom: 6 }}>
         <Grid item xs={7}>
           <Chart
             options={chartOptions}
+            // series={[distributedIssues.distribution.total_issues, distributedIssues.distribution.distribution_by_severity.critical]}
             series={chartData}
             type="donut"
             height={220}
@@ -113,16 +144,20 @@ const DashboardCompliance = (props) => {
           />
           <div className={classes.chartLabels}>
             <Typography>Tagging</Typography>
-            <Typography style={{ fontWeight: "bold" }}>44%</Typography>
+            <Typography style={{ fontWeight: "bold" }}>{taggingPercent} %</Typography>
           </div>
           <div className={classes.chartLabels}>
             <Typography>Security</Typography>
-            <Typography style={{ fontWeight: "bold" }}>19%</Typography>
+            <Typography style={{ fontWeight: "bold" }}>{securityPercent} %</Typography>
           </div>
           <div className={classes.chartLabels}>
             <Typography>Governance</Typography>
-            <Typography style={{ fontWeight: "bold" }}>37%</Typography>
+            <Typography style={{ fontWeight: "bold" }}>{governencePercent} %</Typography>
           </div>
+          {/* <div className={classes.chartLabels}>
+            <Typography>Cost Optimization</Typography>
+            <Typography style={{ fontWeight: "bold" }}>{overallCompliance.costOptimization} %</Typography>
+          </div> */}
         </Grid>
       </Grid>
     </Paper>
