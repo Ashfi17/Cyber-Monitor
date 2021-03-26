@@ -26,11 +26,6 @@ const useStyles = makeStyles((theme) => ({
     color: " #7569EE",
   },
   headingWelcome: {
-    // top: '163px',
-    // left: '0px',
-    width: "370px",
-    height: "91px",
-    "text-align": "left",
     font: "normal normal bold 34px/51px Raleway",
     "letter-spacing": "0px",
     opacity: 1,
@@ -38,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
   },
   fieldName: {
     // marginLeft: "303px",
-    width: "83px",
     height: "19px",
     "text-align": "left",
     font: "normal normal normal 16px/36px Raleway",
@@ -136,7 +130,7 @@ const Login = (props) => {
                   float: "right",
                   padding: "30px",
                   cursor: "pointer",
-                }}
+                }} onClick={(e) => props.history.push("/")}
               >
                 <ArrowBackOutlinedIcon style={{ "margin-bottom": "-7px" }} />{" "}
                 <span>Back Home</span>
@@ -144,7 +138,7 @@ const Login = (props) => {
             </Grid>
           </Grid>
           <Grid item md={5}>
-            <Box display="grid" placeContent="center" style={{ marginLeft: '81px',  marginTop: '88px' }}>
+            <Box display="grid" placeContent="center" style={{ marginLeft: '81px', marginTop: '88px' }}>
               <Box component="h2">
                 <span className={classes.headingWelcome}>Welcome to</span>
                 <br />
@@ -287,21 +281,21 @@ const Login = (props) => {
               name="password"
               onChange={(e) => handleChange(e)}
             />
-             <Button
-                  style={{
-                    top: "-45px",
-                    width: "99px",
-                    height: "42px",
-                    left: '168px',
-                    background: "#7569EE 0% 0% no-repeat padding-box",
-                    "box-shadow": "0px 10px 20px #7569EE33",
-                    border: "1px solid #7569EE",
-                    "border-radius": "23px",
-                    color: "#FFFFFF",
-                    opacity: 1
-                  }}
-                >
-                  Submit
+            <Button
+              style={{
+                top: "-45px",
+                width: "99px",
+                height: "42px",
+                left: '168px',
+                background: "#7569EE 0% 0% no-repeat padding-box",
+                "box-shadow": "0px 10px 20px #7569EE33",
+                border: "1px solid #7569EE",
+                "border-radius": "23px",
+                color: "#FFFFFF",
+                opacity: 1
+              }}
+            >
+              Submit
                 </Button>
           </Grid>
         </Grid>
