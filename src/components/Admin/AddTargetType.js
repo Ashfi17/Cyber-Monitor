@@ -8,6 +8,7 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
+import { createTargetType } from "../../actions/AdminActions";
 
 const styles = (theme) => ({
   fieldName: {
@@ -68,16 +69,15 @@ const DialogContent = withStyles((theme) => ({
 }))(MuiDialogContent);
 
 const initialState = {
-  policyId: "",
-  version: "",
-  policyName: "",
-  description: "",
-  resolution: "",
-  url: "",
+  name: "",
+  desc: "",
+  config: "",
 };
 
-export default function AddPolicy(props) {
+export default function AddTargetType(props) {
   const [values, setValues] = useState(initialState);
+  const [domainName, setDomainName] = useState("");
+  const [categoryName, setCategoryName] = useState("");
 
   const handleClose = () => {
     props.onCloseModal();
@@ -90,8 +90,28 @@ export default function AddPolicy(props) {
     }));
   };
 
+  const handleChnageDomain = (e) => {
+    if (e.target.value) {
+      setDomainName(e.target.value);
+    }
+  };
+
+  const handleChnageCategory = (e) => {
+    if (e.target.value) {
+      setCategoryName(e.target.value);
+    }
+  };
+
   const saveDetails = () => {
-    console.log(values, "setofValues");
+    const obj = { ...values };
+    obj.domain = domainName;
+		obj.dataSource = 'aws';
+    obj.category = categoryName;
+		createTargetType(obj).then((resp) => {
+			props.onCloseModal()
+		}).catch((error) => {
+			console.log(error)
+		})
   };
 
   return (
@@ -115,7 +135,7 @@ export default function AddPolicy(props) {
             fontWeight: 900,
           }}
         >
-          Create Policy
+          Target Type
         </DialogTitle>
         <DialogContent>
           <Typography gutterBottom>
@@ -132,7 +152,7 @@ export default function AddPolicy(props) {
                 opacity: 0.5,
               }}
             >
-              Policy Id
+              Target
             </Typography>
             <input
               type="text"
@@ -146,7 +166,7 @@ export default function AddPolicy(props) {
                 opacity: 1,
               }}
               // value={values.username}
-              name="policyId"
+              name="name"
               onChange={(e) => handleChange(e)}
             />
           </Typography>
@@ -163,10 +183,9 @@ export default function AddPolicy(props) {
                 opacity: 0.5,
               }}
             >
-              Policy Version
+              Domain
             </Typography>
-            <input
-              type="text"
+            <select
               style={{
                 marginTop: "23px",
                 width: "318px",
@@ -176,10 +195,13 @@ export default function AddPolicy(props) {
                 "border-radius": "8px",
                 opacity: 1,
               }}
-              // value={values.username}
-              name="version"
-              onChange={(e) => handleChange(e)}
-            />
+              onClick={(e) => handleChnageDomain(e)}
+              name="domain"
+              id="domain"
+            >
+              <option value={""}>{"Select Domain"}</option>
+              <option value={"Infra & Platform"}>{"Infra & Platform"}</option>
+            </select>
           </Typography>
           <Typography gutterBottom>
             <Typography
@@ -194,10 +216,9 @@ export default function AddPolicy(props) {
                 opacity: 0.5,
               }}
             >
-              Policy Name
+              Category
             </Typography>
-            <input
-              type="text"
+            <select
               style={{
                 marginTop: "23px",
                 width: "318px",
@@ -207,10 +228,44 @@ export default function AddPolicy(props) {
                 "border-radius": "8px",
                 opacity: 1,
               }}
-              // value={values.username}
-              name="policyName"
-              onChange={(e) => handleChange(e)}
-            />
+              onClick={(e) => handleChnageCategory(e)}
+              name="category"
+              id="category"
+            >
+              <option value={""}>{"Select Category"}</option>
+              <option value={"Analytics"}>{"Analytics"}</option>
+              <option value={"Application Service"}>
+                {"Application Service"}
+              </option>
+              <option value={"Compute"}>{"Compute"}</option>Compute
+              <option value={"Database"}>{"Database"}</option>
+              <option value={"Databases"}>{"Databases"}</option>
+              <option value={"Identity & Compliance"}>
+                {"Identity & Compliance"}
+              </option>
+              <option value={"Management Tools"}>{"Management Tools"}</option>
+              <option value={"Management & Governance"}>
+                {"Management & Governance"}
+              </option>
+              <option value={"Networking"}>{"Networking"}</option>
+              <option value={"Web"}>{"Web"}</option>
+              <option value={"Governance"}>{"Governance"}</option>
+              <option value={"Internet of things"}>
+                {"Internet of things"}
+              </option>
+              <option value={"Security"}>{"Security"}</option>
+              <option value={"Networking & Content Delivery"}>
+                {"Networking & Content Delivery"}
+              </option>
+              <option value={"Developer Tool"}>{"Developer Tool"}</option>
+              <option value={"Messaging"}>{"Messaging"}</option>
+              <option value={"Contact Center"}>{"Contact Center"}</option>
+              <option value={"Storage"}>{"Storage"}</option>
+              <option value={"Bussiness Productivity"}>
+                {"Bussiness Productivity"}
+              </option>
+              <option value={"Other"}>{"Other"}</option>
+            </select>
           </Typography>
           <Typography gutterBottom>
             <Typography
@@ -242,7 +297,7 @@ export default function AddPolicy(props) {
                 opacity: 1,
               }}
               // value={values.username}
-              name="description"
+              name="desc"
               onChange={(e) => handleChange(e)}
             />
           </Typography>
@@ -260,7 +315,7 @@ export default function AddPolicy(props) {
                 opacity: 0.5,
               }}
             >
-              Resolution
+              Config
             </Typography>
             <textarea
               type="text"
@@ -275,38 +330,7 @@ export default function AddPolicy(props) {
                 "border-radius": "8px",
                 opacity: 1,
               }}
-              name="resolution"
-              onChange={(e) => handleChange(e)}
-            />
-          </Typography>
-          <Typography gutterBottom>
-            <Typography
-              style={{
-                top: "111px",
-                left: "650px",
-                width: "57px",
-                height: "16px",
-                "text-align": "left",
-                font: " normal normal bold 14px/51px Raleway",
-                "letter-spacing": "0px",
-                color: "#262C49",
-                opacity: 0.5,
-              }}
-            >
-              URL
-            </Typography>
-            <input
-              type="text"
-              style={{
-                marginTop: "23px",
-                width: "318px",
-                height: "40px",
-                background: "#FFFFFF 0% 0% no-repeat padding-box",
-                border: "1px solid #262C49",
-                "border-radius": "8px",
-                opacity: 1,
-              }}
-              name="url"
+              name="config"
               onChange={(e) => handleChange(e)}
             />
           </Typography>

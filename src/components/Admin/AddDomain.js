@@ -8,6 +8,7 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
+import { createDomain } from "../../actions/AdminActions";
 
 const styles = (theme) => ({
   fieldName: {
@@ -68,20 +69,15 @@ const DialogContent = withStyles((theme) => ({
 }))(MuiDialogContent);
 
 const initialState = {
-  policyId: "",
-  version: "",
-  policyName: "",
-  description: "",
-  resolution: "",
-  url: "",
+  name: "",
+  desc: "",
+  config: "",
 };
 
-export default function AddPolicy(props) {
+export default function AddTargetType(props) {
+    const { rowData } = props;
+    console.log(props.editData, 'editDataeditDataeditData')
   const [values, setValues] = useState(initialState);
-
-  const handleClose = () => {
-    props.onCloseModal();
-  };
 
   const handleChange = (event) => {
     setValues((previousValues) => ({
@@ -91,7 +87,12 @@ export default function AddPolicy(props) {
   };
 
   const saveDetails = () => {
-    console.log(values, "setofValues");
+    const obj = { ...values };
+    createDomain(obj).then((resp) => {
+        props.onCloseModal()
+    }).catch((error) => {
+        console.log(error)
+    })
   };
 
   return (
@@ -115,7 +116,7 @@ export default function AddPolicy(props) {
             fontWeight: 900,
           }}
         >
-          Create Policy
+          Create Domain
         </DialogTitle>
         <DialogContent>
           <Typography gutterBottom>
@@ -132,7 +133,7 @@ export default function AddPolicy(props) {
                 opacity: 0.5,
               }}
             >
-              Policy Id
+              Domine
             </Typography>
             <input
               type="text"
@@ -145,70 +146,12 @@ export default function AddPolicy(props) {
                 "border-radius": "8px",
                 opacity: 1,
               }}
-              // value={values.username}
-              name="policyId"
-              onChange={(e) => handleChange(e)}
-            />
-          </Typography>
-          <Typography gutterBottom>
-            <Typography
-              style={{
-                top: "111px",
-                left: "650px",
-                height: "16px",
-                "text-align": "left",
-                font: " normal normal bold 14px/51px Raleway",
-                "letter-spacing": "0px",
-                color: "#262C49",
-                opacity: 0.5,
-              }}
-            >
-              Policy Version
-            </Typography>
-            <input
-              type="text"
-              style={{
-                marginTop: "23px",
-                width: "318px",
-                height: "40px",
-                background: "#FFFFFF 0% 0% no-repeat padding-box",
-                border: "1px solid #262C49",
-                "border-radius": "8px",
-                opacity: 1,
-              }}
-              // value={values.username}
-              name="version"
-              onChange={(e) => handleChange(e)}
-            />
-          </Typography>
-          <Typography gutterBottom>
-            <Typography
-              style={{
-                top: "111px",
-                left: "650px",
-                height: "16px",
-                "text-align": "left",
-                font: " normal normal bold 14px/51px Raleway",
-                "letter-spacing": "0px",
-                color: "#262C49",
-                opacity: 0.5,
-              }}
-            >
-              Policy Name
-            </Typography>
-            <input
-              type="text"
-              style={{
-                marginTop: "23px",
-                width: "318px",
-                height: "40px",
-                background: "#FFFFFF 0% 0% no-repeat padding-box",
-                border: "1px solid #262C49",
-                "border-radius": "8px",
-                opacity: 1,
-              }}
-              // value={values.username}
-              name="policyName"
+              defaultValue={
+                values.name
+                ? values.name
+                : rowData && rowData.lastName
+            }
+              name="name"
               onChange={(e) => handleChange(e)}
             />
           </Typography>
@@ -242,7 +185,7 @@ export default function AddPolicy(props) {
                 opacity: 1,
               }}
               // value={values.username}
-              name="description"
+              name="desc"
               onChange={(e) => handleChange(e)}
             />
           </Typography>
@@ -260,7 +203,7 @@ export default function AddPolicy(props) {
                 opacity: 0.5,
               }}
             >
-              Resolution
+              Config
             </Typography>
             <textarea
               type="text"
@@ -275,38 +218,7 @@ export default function AddPolicy(props) {
                 "border-radius": "8px",
                 opacity: 1,
               }}
-              name="resolution"
-              onChange={(e) => handleChange(e)}
-            />
-          </Typography>
-          <Typography gutterBottom>
-            <Typography
-              style={{
-                top: "111px",
-                left: "650px",
-                width: "57px",
-                height: "16px",
-                "text-align": "left",
-                font: " normal normal bold 14px/51px Raleway",
-                "letter-spacing": "0px",
-                color: "#262C49",
-                opacity: 0.5,
-              }}
-            >
-              URL
-            </Typography>
-            <input
-              type="text"
-              style={{
-                marginTop: "23px",
-                width: "318px",
-                height: "40px",
-                background: "#FFFFFF 0% 0% no-repeat padding-box",
-                border: "1px solid #262C49",
-                "border-radius": "8px",
-                opacity: 1,
-              }}
-              name="url"
+              name="config"
               onChange={(e) => handleChange(e)}
             />
           </Typography>

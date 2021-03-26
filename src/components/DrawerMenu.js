@@ -237,6 +237,27 @@ const DrawerMenu = (props) => {
             >
               <ListItemText style={{ color: "white" }} primary="Manage Rules" />
             </ListItem>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/manage-target-type")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Manage Target Type" />
+            </ListItem>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/manage-domain")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Manage Domain" />
+            </ListItem>
+            <ListItem
+              button
+              className={classes.nested}
+              onClick={(e) => props.history.push("/system-management")}
+            >
+              <ListItemText style={{ color: "white" }} primary="System Management" />
+            </ListItem>
             {/* <ListItem
               button
               className={classes.nested}
