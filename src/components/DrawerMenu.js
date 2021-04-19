@@ -240,6 +240,13 @@ const DrawerMenu = (props) => {
             <ListItem
               button
               className={classes.nested}
+              onClick={(e) => props.history.push("/manage-roles")}
+            >
+              <ListItemText style={{ color: "white" }} primary="Manage Roles" />
+            </ListItem>
+            <ListItem
+              button
+              className={classes.nested}
               onClick={(e) => props.history.push("/manage-target-type")}
             >
               <ListItemText style={{ color: "white" }} primary="Manage Target Type" />

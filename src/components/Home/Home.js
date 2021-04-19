@@ -82,10 +82,6 @@ const initialState = {
     emailId: ""
 };
 const Home = (props) => {
-    // const classes = useStyles();
-    /* useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []) */
     const [stickyHeadIs, setValues] = useState(false);
     const [values, setEmlValues] = useState(initialState);
 

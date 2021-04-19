@@ -12,6 +12,7 @@ import TaggingCompliance from './components/TaggingCompliance/TaggingCompliance'
 import AssetListTable from './components/AssetList/AsserListTableView';
 import ManagePolicy from './components/Admin/ManagePolicy';
 import ManageRules from './components/Admin/ManageRules';
+import ManageRoles from './components/Admin/Roles';
 import ManageTargetType from './components/Admin/ManageTargetTypes';
 import ManageDomain from './components/Admin/ManageDomain'
 import SystemManagement from './components/Admin/SystemManagement';
@@ -31,6 +32,7 @@ const Routers = (props) => {
           <Route exact path='/tagging-compliance' component={TaggingCompliance} />
           <Route exact path='/manage-policy' component={ManagePolicy} />
           <Route exact path='/manage-rules' component={ManageRules} />
+          <Route exact path='/manage-roles' component={ManageRoles} />
           <Route exact path='/manage-target-type' component={ManageTargetType} />
           <Route exact path='/manage-domain' component={ManageDomain} />
           <Route exact path='/system-management' component={SystemManagement} />
@@ -39,5 +41,4 @@ const Routers = (props) => {
     </BrowserRouter>
   );
 };
-
 export default Routers;

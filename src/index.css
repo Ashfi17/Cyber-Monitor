@@ -32,6 +32,7 @@ p {
 
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -561,4 +562,97 @@ p {
   text-shadow: 0px 3px 6px #00000029;
   right: 8px;
   transform: translateY(-50%);
+}
+
+/* ================Manage Rules Css start======================================= */
+.manageRules {
+  margin-top: 30px;
+}
+
+.manageRules .MuiPaper-elevation1 {
+  box-shadow: 0px 3px 6px #2c28281c !important;
+  cursor: pointer;
+}
+
+/* Jamal */
+.rulesData h5 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font: normal normal 14px/24px Poppins;
+  /* letter-spacing: 0px; */
+  color: #262C49;
+  max-width: 100%;
+}
+
+.rulesData p {
+  word-break: break-word;
+  font: normal normal 12px/18px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+  opacity: 0.5;
+}
+
+.alloCation {
+  background: rgb(117 105 238 / 10%) 0% 0%;
+  border-radius: 6px;
+  color: #7569EE;
+  display: inline-block;
+  padding: 6px 15px;
+}
+
+.CreatedBy {
+  background: rgb(118 118 118 / 10%) 0% 0%;
+  color: #767676;
+  display: inline-block;
+  padding: 6px 15px;
+  border-radius: 6px;
+  min-width: 30px;
+  max-width: 80px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+
+}
+
+.addNewButton {
+  width: 144px;
+  height: 40px;
+  background: #FFFFFF !important;
+  box-shadow: 0px 6px 10px #7569EE26 !important;
+  border: 1px solid #7569EE !important;
+  border-radius: 8px !important;
+  color: #7569EE !important;
+}
+
+.addFillButton {
+  width: 144px;
+  height: 40px;
+  background: #7569EE !important;
+  box-shadow: 0px 6px 10px #7569EE26;
+  border: 1px solid #7569EE !important;
+  border-radius: 8px !important;
+  color: #FFFFFF !important;
+}
+
+.writeTitle {
+  text-align: center;
+  font: normal normal bold 14px/21px Poppins !important;
+  letter-spacing: 0px;
+  color: #262C49;
+
+}
+
+#customized-dialog-title .MuiTypography-h6 {
+  text-align: center;
+  font: normal normal bold 18px/27px Poppins !important;
+  color: #262C49 !important;
+  font-weight: 900;
+
+}
+
+input:focus {
+  outline: none;
 }

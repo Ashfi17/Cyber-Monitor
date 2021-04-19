@@ -71,8 +71,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initialState = {
-  username: "",
-  password: "",
+  username: "admin@pacbot.org",
+  password: "pacman",
 };
 
 const Login = (props) => {
@@ -118,7 +118,12 @@ const Login = (props) => {
           <Grid container spacing={2}>
             <Grid item md={6}>
               <img
-                style={{ float: "left", padding: "20px", cursor: "pointer", marginLeft: '-110px' }}
+                style={{
+                  float: "left",
+                  padding: "20px",
+                  cursor: "pointer",
+                  marginLeft: "-110px",
+                }}
                 src={require("../../assets/images/cymonitorlogo.PNG")}
                 alt="Dashboard"
               />
@@ -130,7 +135,8 @@ const Login = (props) => {
                   float: "right",
                   padding: "30px",
                   cursor: "pointer",
-                }} onClick={(e) => props.history.push("/")}
+                }}
+                onClick={(e) => props.history.push("/")}
               >
                 <ArrowBackOutlinedIcon style={{ "margin-bottom": "-7px" }} />{" "}
                 <span>Back Home</span>
@@ -138,7 +144,11 @@ const Login = (props) => {
             </Grid>
           </Grid>
           <Grid item md={5}>
-            <Box display="grid" placeContent="center" style={{ marginLeft: '81px', marginTop: '88px' }}>
+            <Box
+              display="grid"
+              placeContent="center"
+              style={{ marginLeft: "81px", marginTop: "88px" }}
+            >
               <Box component="h2">
                 <span className={classes.headingWelcome}>Welcome to</span>
                 <br />
@@ -183,7 +193,7 @@ const Login = (props) => {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={2} style={{ marginTop: '89px' }}>
+        <Grid container spacing={2} style={{ marginTop: "89px" }}>
           <Grid item xs={3}>
             <img
               style={{ float: "left", padding: "20px", cursor: "pointer" }}
@@ -286,17 +296,17 @@ const Login = (props) => {
                 top: "-45px",
                 width: "99px",
                 height: "42px",
-                left: '168px',
+                left: "168px",
                 background: "#7569EE 0% 0% no-repeat padding-box",
                 "box-shadow": "0px 10px 20px #7569EE33",
                 border: "1px solid #7569EE",
                 "border-radius": "23px",
                 color: "#FFFFFF",
-                opacity: 1
+                opacity: 1,
               }}
             >
               Submit
-                </Button>
+            </Button>
           </Grid>
         </Grid>
       </Container>
