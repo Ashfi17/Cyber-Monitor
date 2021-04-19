@@ -12,13 +12,6 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    backgroundColor: "#F1F3F9",
-    // display: "flex",
-    // justifyContent: "space-between",
-  },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
@@ -56,7 +49,7 @@ const AppbarHeader = (props) => {
       position="fixed"
       // variant=""
       anchor="left"
-      className={classes.appBar}
+      className={"appMainBar"}
       elevation={0}
     >
       <Toolbar

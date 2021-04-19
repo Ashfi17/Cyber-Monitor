@@ -3,6 +3,7 @@
 
 * {
   scroll-behavior: smooth;
+  box-sizing: border-box !important;
 }
 
 body {
@@ -32,16 +33,14 @@ p {
 
 ::-webkit-scrollbar {
   width: 5px;
-  height: 5px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 40px #7569ee;
 }
@@ -656,3 +655,64 @@ p {
 input:focus {
   outline: none;
 }
+
+/* =================== */
+.mainContent {
+  flex-grow: 1;
+  padding: 24px 60px 64px 60px;
+}
+
+/* =============== */
+.policyCompTableSec {
+  min-width: 750px;
+}
+
+.policyCompTableSec .MuiTableCell-root {
+  padding: 10px;
+}
+
+/* =================== */
+
+.policyCompPagination .MuiToolbar-gutters {
+  padding-left: 0;
+}
+
+.policyCompPagination .MuiTablePagination-selectRoot {
+  margin-right: 15px;
+}
+
+.policyCompPagination .MuiTablePagination-actions {
+  margin-left: 15px;
+}
+
+.appMainBar {
+  width: calc(100% - 240px) !important;
+  margin-left: 240px;
+  background-color: #F1F3F9 !important;
+}
+
+.mainDrawerMenu {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+  /* .mainDrawerMenu {
+    display: none;
+  } */
+
+  /* .appMainBar {
+    margin: 0 !important;
+    width: 100% !important;
+  } */
+
+  .mainContent {
+    padding: 25px;
+  }
+
+  .policyCompTableSec {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {}

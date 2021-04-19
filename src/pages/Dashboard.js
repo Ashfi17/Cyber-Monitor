@@ -19,26 +19,26 @@ export default function Dashboard() {
   useEffect(() => {
     getRecommendations()
   })
-  
+
 
   return (
     <div>
       <LayoutContainer>
         <DashboardAlertSection />
         <Grid container spacing={3} style={{ marginTop: 20 }}>
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12}>
             <DashboardCompliance />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12}>
             <DashboardTagging />
           </Grid>
         </Grid>
         <OverallComplianceTrend />
         <Grid container spacing={3} style={{ marginTop: 20 }}>
-          <Grid item xs={8}>
+          <Grid item md={8} xs={12}>
             <PolicyComplianceOverview />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item md={4} xs={12}>
             <Notifications />
           </Grid>
         </Grid>

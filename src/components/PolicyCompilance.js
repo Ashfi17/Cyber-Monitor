@@ -53,7 +53,7 @@ const headCells = [
     disablePadding: false,
     label: "Compilance %",
     width: 160,
-  },
+  }, { id: "", numeric: true, disablePadding: false, label: "" },
   // { id: 'severity', numeric: true, disablePadding: false, label: 'Policy Severity' },
   // { id: 'lastScan', numeric: true, disablePadding: false, label: 'Last Scanned' },
 ];
@@ -116,9 +116,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginBottom: theme.spacing(2),
   },
-  table: {
-    minWidth: 750,
-  },
   statusCode: {
     top: "1113px",
     left: "302px",
@@ -136,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: 20,
     width: 1,
-  },
+  }
 }));
 
 const PolicyCompilance = (props) => {
@@ -193,7 +190,7 @@ const PolicyCompilance = (props) => {
       <Paper className={classes.paper}>
         <TableContainer>
           <Table
-            className={classes.table}
+            className="policyCompTableSec"
             aria-labelledby="tableTitle"
             size={"medium"}
             aria-label="enhanced table"
@@ -225,11 +222,11 @@ const PolicyCompilance = (props) => {
                     >
                       <TableCell id={labelId} scope="row" padding="none">
                         {row && row.compliance_percent && row.compliance_percent === 100
-                        ? <div className={classes.statusCode} style={{ background: '#00B946 0% 0% no-repeat padding-box' }} /> 
-                        : (row && row.compliance_percent && row.compliance_percent !== 100) || (row && row.compliance_percent && row.compliance_percent !== 0)
-                        ? <div className={classes.statusCode} style={{ background: '#F75C1B 0% 0% no-repeat padding-box' }} /> 
-                        : <div className={classes.statusCode} style={{ background: '#FF1493 0% 0% no-repeat padding-box' }}/>}
-                        
+                          ? <div className={classes.statusCode} style={{ background: '#00B946 0% 0% no-repeat padding-box' }} />
+                          : (row && row.compliance_percent && row.compliance_percent !== 100) || (row && row.compliance_percent && row.compliance_percent !== 0)
+                            ? <div className={classes.statusCode} style={{ background: '#F75C1B 0% 0% no-repeat padding-box' }} />
+                            : <div className={classes.statusCode} style={{ background: '#FF1493 0% 0% no-repeat padding-box' }} />}
+
                       </TableCell>
                       <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="left">
@@ -237,6 +234,7 @@ const PolicyCompilance = (props) => {
                           // className={classes.bar1Determinate}
                           value={row.compliance_percent}
                           variant="determinate"
+                          style={{ minWidth: "150px" }}
                         />
                       </TableCell>
                       <TableCell align="left">
@@ -255,15 +253,21 @@ const PolicyCompilance = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Grid container spacing={3}>
-          <Grid item xs={5}>
-            <div style={{ width: '380px', marginTop: '17px' }}>
-              <img style={{ height: '15px' }} src={require("../assets/images/compliant.svg")} />{' '} <span style={{ 'font-size': '12px' }}>Complaint</span>{' '}
-              <img style={{ height: '15px' }} src={require("../assets/images/nonCompliant.svg")} />{' '} <span style={{ 'font-size': '12px' }}>Not Complaint</span>{' '}
-              <img style={{ height: '15px' }} src={require("../assets/images/notStarted.svg")} />{' '} <span style={{ 'font-size': '12px' }}>Not Complaint Not started</span>{' '}
-            </div>
+        <Grid container alignItems="center">
+          <Grid item xs={6}>
+            <Grid container spacing={2} style={{ margin: 0 }}>
+              <Grid item>
+                <img style={{ height: "15px", verticalAlign: "middle" }} src={require("../assets/images/compliant.svg")} /> <span style={{ fontSize: "10px" }}>Complaint</span>
+              </Grid>
+              <Grid item>
+                <img style={{ height: "15px", verticalAlign: "middle" }} src={require("../assets/images/nonCompliant.svg")} /> <span style={{ fontSize: "10px" }}>Not Complaint</span>
+              </Grid>
+              <Grid item>
+                <img style={{ height: "15px", verticalAlign: "middle" }} src={require("../assets/images/notStarted.svg")} /> <span style={{ fontSize: "10px" }}>Not Complaint Not started</span>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={6}>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
@@ -272,6 +276,7 @@ const PolicyCompilance = (props) => {
               page={page}
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
+              className="policyCompPagination"
             />
           </Grid>
         </Grid>

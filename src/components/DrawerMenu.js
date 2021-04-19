@@ -26,10 +26,6 @@ const useStyles = makeStyles((theme) => ({
     width: `calc(100% - ${drawerWidth}px)`,
     marginRight: drawerWidth,
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: theme.palette.secondary.main,
@@ -90,12 +86,12 @@ const DrawerMenu = (props) => {
 
   return (
     <Drawer
-      className={classes.drawer}
+      className={"mainDrawerMenu"}
       variant="permanent"
       classes={{
         paper: classes.drawerPaper,
       }}
-      anchor="left"
+      anchor={"left"} open={props.state["left"]} onClose={props.toggleDrawer("left", false)}
     >
       <div className={classes.toolbar}>
         <img src={require("../assets/images/CyMonitor_logo.svg")} style={{ width: '190px', marginLeft: '20px', marginTop: '20px', cursor: 'pointer' }} onClick={(e) => props.history.push("/home-page")} />
@@ -217,7 +213,7 @@ const DrawerMenu = (props) => {
 
         <ListItem button onClick={handleClickAdmin}>
           <ListItemIcon>
-          <img src={require("../assets/images/Mask Group 376.svg")} />
+            <img src={require("../assets/images/Mask Group 376.svg")} />
           </ListItemIcon>
           <ListItemText style={{ color: "white" }} primary="Admin"> {openAdmin ? <ExpandLessIcon color="secondary" /> : <ExpandMoreIcon color="secondary" />}</ListItemText>
         </ListItem>

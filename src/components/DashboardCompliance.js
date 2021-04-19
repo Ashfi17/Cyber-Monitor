@@ -48,9 +48,9 @@ const DashboardCompliance = (props) => {
         dataArray.push(response.distribution.total_issues)
         dataArray.push(response.distribution.distribution_by_severity.critical)
         setChartData(dataArray)
-        const tagging = ((response.distribution.distribution_ruleCategory.tagging)/response.distribution.total_issues)*100
-        const security = ((response.distribution.distribution_ruleCategory.security)/response.distribution.total_issues)*100
-        const governance = ((response.distribution.distribution_ruleCategory.governance)/response.distribution.total_issues)*100
+        const tagging = ((response.distribution.distribution_ruleCategory.tagging) / response.distribution.total_issues) * 100
+        const security = ((response.distribution.distribution_ruleCategory.security) / response.distribution.total_issues) * 100
+        const governance = ((response.distribution.distribution_ruleCategory.governance) / response.distribution.total_issues) * 100
         setTaggingPercent(tagging.toFixed(0))
         setSecurityPercent(security.toFixed(0))
         setGovernencePercent(governance.toFixed(0))
@@ -94,11 +94,11 @@ const DashboardCompliance = (props) => {
           </Typography>
         </Grid>
         <Grid item xs={6}>
-        <img src={require("../assets/images/bx-right-arrow-alt.svg")} style={{ float: 'right' }} />
+          <img src={require("../assets/images/bx-right-arrow-alt.svg")} style={{ float: 'right' }} />
         </Grid>
       </Grid>
       <Grid container spacing={2} style={{ marginTop: 6, marginBottom: 6 }}>
-        <Grid item xs={7}>
+        <Grid item sm={7} xs={12}>
           <Chart
             options={chartOptions}
             // series={[distributedIssues.distribution.total_issues, distributedIssues.distribution.distribution_by_severity.critical]}
@@ -109,7 +109,7 @@ const DashboardCompliance = (props) => {
         </Grid>
         <Grid
           item
-          xs={5}
+          sm={5} xs={12}
           style={{
             display: "flex",
             flexDirection: "column",

@@ -41,8 +41,8 @@ const PolicyComplianceOverview = () => {
   const classes = useStyles();
   const [filterOption, setFilterOption] = useState("All");
   const [policyData, setPolicyData] = useState([]);
-  const [ policyResponse, setPolicyResponse ] = useState([]);
-  const [buttonStatus, setButtonStatus] = useState(false)
+  const [policyResponse, setPolicyResponse] = useState([]);
+  const [buttonStatus, setButtonStatus] = useState(false);
 
   useEffect(() => {
     nonCompliancePolicy()
@@ -93,36 +93,37 @@ const PolicyComplianceOverview = () => {
     } else if (ruleCate === 'tagging') {
       policyResponse.map((data) => {
         if (data.ruleCategory === ruleCate) {
-            TabelData.push(data)
-          }
-          return null;
-        })
-        setPolicyData(TabelData)
+          TabelData.push(data)
+        }
+        return null;
+      })
+      setPolicyData(TabelData)
     } else if (ruleCate === 'governance') {
       policyResponse.map((data) => {
         if (data.ruleCategory === ruleCate) {
-            TabelData.push(data)
-          }
-          return null;
-        })
-        setPolicyData(TabelData)
+          TabelData.push(data)
+        }
+        return null;
+      })
+      setPolicyData(TabelData)
     } else if (ruleCate === 'security') {
       policyResponse.map((data) => {
         if (data.ruleCategory === ruleCate) {
-            TabelData.push(data)
-          }
-          return null;
-        })
-        setPolicyData(TabelData)
+          TabelData.push(data)
+        }
+        return null;
+      })
+      setPolicyData(TabelData)
     } else if (ruleCate === 'costOptimization') {
       policyResponse.map((data) => {
         if (data.ruleCategory === ruleCate) {
-            TabelData.push(data)
-          }
-          return null;
-        })
-        setPolicyData(TabelData)
+          TabelData.push(data)
+        }
+        return null;
+      })
+      setPolicyData(TabelData)
     }
+    setFilterOption(ruleCate);
   }
 
   return (
@@ -135,9 +136,7 @@ const PolicyComplianceOverview = () => {
             alignItems: "center",
           }}
         >
-          <Typography style={{ fontWeight: "bold" }}>
-            Policy Compliance Overview
-          </Typography>
+          <Typography style={{ fontWeight: "bold" }}>Policy Compliance Overview</Typography>
           <Workbook
             filename="Policy Compilance Overview.xlsx"
             element={
@@ -172,11 +171,11 @@ const PolicyComplianceOverview = () => {
             alignItems: "center",
           }}
         >
-          <Button className={buttonStatus === true ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData('All')}>All</Button>
-          <Button className={buttonStatus === true ? classes.selectedButton : classes.unSelectedButton } onClick={() => filtertableData('tagging')}>Tagging</Button>
-          <Button className={buttonStatus === true ? classes.selectedButton : classes.unSelectedButton } onClick={() => filtertableData("governance")}>Governance</Button>
-          <Button className={buttonStatus === true ? classes.selectedButton : classes.unSelectedButton } onClick={() => filtertableData('security')}>Security</Button>
-          <Button className={buttonStatus === true ? classes.selectedButton : classes.unSelectedButton } onClick={() => filtertableData("costOptimization")}>Cost Optimization</Button>
+          <Button className={filterOption === "All" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("All")}>All</Button>
+          <Button className={filterOption === "tagging" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("tagging")}>Tagging</Button>
+          <Button className={filterOption === "governance" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("governance")}>Governance</Button>
+          <Button className={filterOption === "security" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("security")}>Security</Button>
+          <Button className={filterOption === "costOptimization" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("costOptimization")}>Cost Optimization</Button>
           <Typography variant="caption">Total of {policyData && policyData.length > 0 ? policyData.length : policyResponse.length} policies</Typography>
         </div>
       </Paper>
