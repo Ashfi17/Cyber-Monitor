@@ -727,6 +727,19 @@ input:focus {
   font-size: 0.8rem;
 }
 
+.overallCompncTrendComp {
+  padding: 15px 22px;
+  margin-top: 25px;
+}
+
+.overallCompncTrendComp h6 {
+  margin-bottom: 12px;
+}
+
+.overallCompncScrollComp {
+  white-space: nowrap;
+}
+
 @media (max-width: 960px) {
 
   /* .mainDrawerMenu {
@@ -811,6 +824,8 @@ input:focus {
     height: 100%;
     width: 40%;
   }
+
+
 }
 
 

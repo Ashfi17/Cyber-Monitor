@@ -206,7 +206,7 @@ export default function ManageTargetType() {
   };
 
   const handleClosePopUp = () => {
-    setOpen(false)
+    setOpen(false);
     getTargetTypes(searchKey)
       .then((resp) => {
         setTargetTypeList(resp.content);
@@ -214,7 +214,7 @@ export default function ManageTargetType() {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -268,7 +268,7 @@ export default function ManageTargetType() {
       </Typography>
       <Typography style={{ "margin-top": "30px" }}>
         <Grid container spacing={3}>
-          <Grid item xs={6}>
+          <Grid item md={3} xs={6}>
             <Typography
               style={{
                 padding: "10px",
@@ -458,7 +458,10 @@ export default function ManageTargetType() {
           </Grid>
         </Grid>
       </Typography> */}
-      <div style={{     marginLeft: '355px', marginTop: '154px' }} onClick={handleClickOpen}>
+      <div
+        style={{ marginLeft: "355px", marginTop: "154px" }}
+        onClick={handleClickOpen}
+      >
         <img src={require("../../assets/images/Group 515.svg")} />
       </div>
     </div>
@@ -613,7 +616,10 @@ export default function ManageTargetType() {
           </SwipeableDrawer>
         </React.Fragment>
       </LayoutContainer>
-      <AddTargetType openPopUp={open} onCloseModal={(e) => handleClosePopUp(e)} />
+      <AddTargetType
+        openPopUp={open}
+        onCloseModal={(e) => handleClosePopUp(e)}
+      />
     </div>
   );
 }

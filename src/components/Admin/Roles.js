@@ -13,7 +13,10 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import CreateRole from "./CreateRole";
 import EditRole from "./EditRole";
-import { getRoleDataList, getRoleDetailsFromId } from "../../actions/AdminActions";
+import {
+  getRoleDataList,
+  getRoleDetailsFromId,
+} from "../../actions/AdminActions";
 import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     color: "black",
     height: "191px",
-    maxWidth: "266px",
     borderRadius: "10px",
   },
   paper1: {
@@ -114,21 +116,25 @@ export default function ManageRoles() {
   const [roleResDataListArr, setRoleResDataListArr] = useState([]);
 
   useEffect(() => {
-    getRoleDataList().then((resp) => {
-      setRoleResData(resp);
-      setRoleResDataListArr(resp.content);
-    }).catch((error) => {
-      console.log(error);
-    });
+    getRoleDataList()
+      .then((resp) => {
+        setRoleResData(resp);
+        setRoleResDataListArr(resp.content);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const getRoleDataAfterEdit = () => {
-    getRoleDataList().then((resp) => {
-      setRoleResData(resp);
-      setRoleResDataListArr(resp.content);
-    }).catch((error) => {
-      console.log(error);
-    });
+    getRoleDataList()
+      .then((resp) => {
+        setRoleResData(resp);
+        setRoleResDataListArr(resp.content);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   //   useEffect(() => {
@@ -205,14 +211,16 @@ export default function ManageRoles() {
     setOpen(true);
   };
   const editHandleClickOpen = (obj) => {
-    setState({ ...state, "right": false });
-    getRoleDetailsFromId(obj.roleId).then((resp) => {
-      obj.writePermission = resp.writePermission;
-      setRoleDataObj(obj);
-      setOpenEditMdl(true);
-    }).catch((error) => {
-      console.log(error);
-    });
+    setState({ ...state, right: false });
+    getRoleDetailsFromId(obj.roleId)
+      .then((resp) => {
+        obj.writePermission = resp.writePermission;
+        setRoleDataObj(obj);
+        setOpenEditMdl(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const toggleDrawer = (anchor, open, dataObj) => (event) => {
@@ -294,7 +302,7 @@ export default function ManageRoles() {
             fontSize: "14px",
             marginLeft: "10px",
             wordBreak: "break-all",
-            display: "inline-block"
+            display: "inline-block",
           }}
         >
           {roleDataObj.users ? roleDataObj.users.join(", ") : "--"}
@@ -458,7 +466,7 @@ export default function ManageRoles() {
         <div className="box manageRules">
           <Grid container spacing={3}>
             {roleResDataListArr.map((data_obj, index) => (
-              <Grid className="rulesData" item xs={3} key={index}>
+              <Grid className="rulesData" item md={3} xs={6} key={index}>
                 <Paper
                   className={classes.paper}
                   onClick={toggleDrawer("right", true, data_obj)}
@@ -480,13 +488,23 @@ export default function ManageRoles() {
                         justify="space-between"
                         style={{ height: "100%" }}
                       >
-                        <Grid item xs={6} style={{ "text-align": "left" }}>
+                        <Grid
+                          item
+                          md={3}
+                          xs={6}
+                          style={{ "text-align": "left" }}
+                        >
                           <p>Allocation</p>
                           <span className="alloCation">
                             {data_obj.users ? data_obj.users.length : "--"}
                           </span>
                         </Grid>
-                        <Grid item xs={6} style={{ "text-align": "right" }}>
+                        <Grid
+                          item
+                          md={3}
+                          xs={6}
+                          style={{ "text-align": "right" }}
+                        >
                           <p>Created By</p>
                           <span className="CreatedBy">
                             {data_obj.createdBy ? data_obj.createdBy : "--"}

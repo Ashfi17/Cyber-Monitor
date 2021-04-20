@@ -16,13 +16,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     color: theme.palette.text.secondary,
   },
-  paper2: {
-    maxWidth: '1163px',
-    'overflow-x': 'auto',
-    'white-space': 'nowrap'
-  },
   helpOutline: {
-    marginLeft: "231px",
     marginTop: "-11px",
   },
   legendCircle: {
@@ -38,15 +32,10 @@ const useStyles = makeStyles((theme) => ({
     "text-decoration": "underline",
   },
   tabletShape: {
-    top: "588px",
-    left: "318px",
-    width: "160px",
-    display:'inline-block',
     height: "200px",
     background: "#FFFFFF 0% 0% no-repeat padding-box",
     border: "2px solid #D8DCE9",
     "border-radius": "15px",
-    opacity: 1,
     transform: 'scale(0.9, 0.9)'
   },
 }));
@@ -144,7 +133,7 @@ export default function CenteredGrid() {
   const chartSeries = [55, 67];
   const chartOptions = {
     chart: {
-      height: 180,
+      height: 200,
       type: "radialBar",
     },
     plotOptions: {
@@ -239,12 +228,12 @@ export default function CenteredGrid() {
     <div className={classes.root}>
       <LayoutContainer>
         <Grid container spacing={3}>
-          <Grid item xs={3}>
+          <Grid item md={3} xs={6}>
             <Paper className={classes.paper}>
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
-              <Typography style={{ "margin-top": "-19px" }}>
+              <Typography className="overallStatusComp">
                 <Typography
                   variant="h6"
                   style={{ color: "#E46666" }}
@@ -261,12 +250,12 @@ export default function CenteredGrid() {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} xs={6}>
             <Paper className={classes.paper}>
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
-              <Typography style={{ "margin-top": "-19px" }}>
+              <Typography className="overallStatusComp">
                 <Typography
                   variant="h6"
                   style={{ color: "#262C49" }}
@@ -283,12 +272,12 @@ export default function CenteredGrid() {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} xs={6}>
             <Paper className={classes.paper}>
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
-              <Typography style={{ "margin-top": "-19px" }}>
+              <Typography className="overallStatusComp">
                 <Typography
                   className={classes.topTypo}
                   variant="h6"
@@ -305,12 +294,12 @@ export default function CenteredGrid() {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} xs={6}>
             <Paper className={classes.paper}>
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
-              <Typography style={{ "margin-top": "-19px" }}>
+              <Typography className="overallStatusComp">
                 <Typography
                   variant="h6"
                   style={{ color: "#E46666" }}
@@ -329,7 +318,7 @@ export default function CenteredGrid() {
           </Grid>
         </Grid>
         <Grid container spacing={3}>
-          <Grid item xs={8}>
+          <Grid item md={8} xs={12}>
             <Paper className={classes.paper}>
               <Typography
                 variant="h6"
@@ -353,7 +342,7 @@ export default function CenteredGrid() {
               </Grid>
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item md={4} xs={12}>
             <Paper className={classes.paper}>
               <Typography>
                 <Typography
@@ -405,7 +394,7 @@ export default function CenteredGrid() {
                   <Grid item xs={4}>
                     <div
                       className={classes.legendContainer}
-                      // style={{ marginLeft: 12 }}
+                    // style={{ marginLeft: 12 }}
                     >
                       <Typography
                         variant="caption"
@@ -429,78 +418,72 @@ export default function CenteredGrid() {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={12} >
+        </Grid>
+        <Paper className="overallCompncTrendComp">
           <Typography
-                variant="h6"
-                style={{
-                  color: "black",
-                  fontWeight: "bold",
-                  fontSize: 14,
-                  padding: "10px",
-                }}
-              >
-                Overall Compliance Trend
-              </Typography>
-            <Paper className={classes.paper2} >
-              {gridData.map((data) => (
-                <div className={classes.tabletShape}>
-                  <ul
-                    style={{
-                      "min-width": "696px",
-                      "list-style": "none",
-                      "padding-top": "20px",
-                    }}
-                  >
-                    <li>
-                      <Typography style={{ 'margin-left': '12px' }}>
-                        <img
-                          src={require("../../assets/OverallCompilancetrend/vpc.svg")}
-                        />
-                        <Typography
+            variant="h6"
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: 14,
+            }}
+          >Overall Compliance Trend</Typography>
+          <Grid container spacing={3}>
+            {gridData.map((data) => (
+              <Grid item md={2} sm={4} xs={6} className={classes.tabletShape}>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    padding: "20px 5px",
+                    textAlign: "center"
+                  }}
+                >
+                  <li>
+                    <Typography>
+                      <img
+                        src={require("../../assets/OverallCompilancetrend/vpc.svg")}
+                      />
+                      <Typography
                         style={{
                           fontWeight: "bold",
-                          "letter-spacing": "0px",
                           color: "#262C49",
                         }}
                       >
                         {data.name}
                       </Typography>
-                      </Typography>
-                      <Grid container spacing={3}>
-                        <Grid item xs={1}>
-                          <Typography
-                            variant="h6"
-                            style={{
-                              fontWeight: "bold",
-                              fontSize: 12,
-                              'margin-left': '-30px'
-                            }}
-                          >
-                            Tagging
+                    </Typography>
+                    <Grid container spacing={1}>
+                      <Grid item xs={6}>
+                        <Typography
+                          variant="h6"
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: 12,
+                          }}
+                        >
+                          Tagging
                           </Typography>
-                          <Typography>{data.tagging}</Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Typography
-                            variant="h6"
-                            style={{
-                              fontWeight: "bold",
-                              fontSize: 12,
-                              'margin-left': '-14px'
-                            }}
-                          >
-                            Untagging
-                          </Typography>
-                      <Typography>{data.untagging}</Typography>
-                        </Grid>
+                        <Typography>{data.tagging}</Typography>
                       </Grid>
-                    </li>
-                  </ul>
-                </div>
-              ))}
-            </Paper>
+                      <Grid item xs={6}>
+                        <Typography
+                          variant="h6"
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: 12,
+                          }}
+                        >
+                          Untagging
+                          </Typography>
+                        <Typography>{data.untagging}</Typography>
+                      </Grid>
+                    </Grid>
+                  </li>
+                </ul>
+              </Grid>
+            ))}
           </Grid>
-        </Grid>
+        </Paper>
       </LayoutContainer>
     </div>
   );

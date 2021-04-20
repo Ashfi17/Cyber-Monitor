@@ -11,8 +11,7 @@ import {
   getCountByApplication,
   getMaxMin,
 } from "../actions/assetsActions";
-import { 
-  gettaggingByApplication } from '../actions/complianceActions'
+import { gettaggingByApplication } from "../actions/complianceActions";
 import AssetInvestory from "../components/AssetsComponents/AssetInvestory";
 import AssetAWS from "../components/AssetsComponents/AssetAWS";
 import AssetByClassification from "../components/AssetsComponents/AssetByClassification";
@@ -68,27 +67,27 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
   menuPaper: {
-    maxHeight: 181
-  }
+    maxHeight: 181,
+  },
 }));
 
 export default function AssetDashboard() {
   const classes = useStyles();
   const [assetCount, setAssetCount] = useState([]);
-  const [ AWSAppList, setAWSAppList ] = useState([]);
-  const [ awsAppType, setAwsAppType ] = useState('subnet');
-  const [ countByApplication, setCountByApplication ] = useState({})
-  const [ overallData, setOverallData ] = useState({});
-  const [ aWSDate, setAWSDate ] = useState([])
-  const [ aWSMin, setAWSMin ] = useState([])
-  const [ aWSMax, setAWSMax ] = useState([])
+  const [AWSAppList, setAWSAppList] = useState([]);
+  const [awsAppType, setAwsAppType] = useState("subnet");
+  const [countByApplication, setCountByApplication] = useState({});
+  const [overallData, setOverallData] = useState({});
+  const [aWSDate, setAWSDate] = useState([]);
+  const [aWSMin, setAWSMin] = useState([]);
+  const [aWSMax, setAWSMax] = useState([]);
 
   useEffect(() => {
-    getCountByApplication('subnet')
+    getCountByApplication("subnet")
       .then((resp) => {
         console.log(resp, "byApplication");
         if (resp) {
-          setCountByApplication(resp)
+          setCountByApplication(resp);
         }
       })
       .catch((error) => {
@@ -99,16 +98,16 @@ export default function AssetDashboard() {
   useEffect(() => {
     getCount()
       .then((resp) => {
-        console.log(resp, 'counterDetails');
+        console.log(resp, "counterDetails");
         const arrayData = [];
         resp.assetcount.map((data) => {
           const obj = {};
           obj.count = data.count;
           obj.type = data.type;
           arrayData.push(obj);
-        })
-        console.log(arrayData, 'arrayData');
-        setAssetCount(arrayData)
+        });
+        console.log(arrayData, "arrayData");
+        setAssetCount(arrayData);
       })
       .catch((error) => {
         console.log(error);
@@ -116,100 +115,104 @@ export default function AssetDashboard() {
   }, []);
 
   useEffect(() => {
-    gettaggingByApplication().then((resp) => {
-      resp.response.map((data) => {
-        const keyData = Object.keys(data)
-        setAWSAppList(keyData)
+    gettaggingByApplication()
+      .then((resp) => {
+        resp.response.map((data) => {
+          const keyData = Object.keys(data);
+          setAWSAppList(keyData);
+        });
       })
-    }).catch((error) => {
-      console.log(error)
-    })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   useEffect(() => {
-    getMaxMin('subnet')
-    .then((resp) => {
-      let AWSDates = [];
-      let AWSMin = [];
-      let AWSMax = [];
-      resp.trend.map((data) => {
-        if (data.date) {
-          AWSDates.push(data.date)
-        } 
-        if (data.min) {
-          AWSMin.push(data.min)
-        } 
-         if (data.max) {
-          AWSMax.push(data.max)
-        }
+    getMaxMin("subnet")
+      .then((resp) => {
+        let AWSDates = [];
+        let AWSMin = [];
+        let AWSMax = [];
+        resp.trend.map((data) => {
+          if (data.date) {
+            AWSDates.push(data.date);
+          }
+          if (data.min) {
+            AWSMin.push(data.min);
+          }
+          if (data.max) {
+            AWSMax.push(data.max);
+          }
+        });
+        setAWSDate(AWSDates);
+        setAWSMin(AWSMin);
+        setAWSMax(AWSMax);
       })
-      setAWSDate(AWSDates)
-      setAWSMin(AWSMin)
-      setAWSMax(AWSMax)
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }, [])
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   useEffect(() => {
-    if (assetCount && countByApplication)  {
-      console.log(assetCount, countByApplication, 'inEff')
-      assetCount && assetCount.length > 0 && assetCount.map((data) => {
-        if (countByApplication) {
-          if (data.type === countByApplication.type) {
-            const obj = {};
-            obj.type = data.type;
-            obj.count = data.count;
-            obj.assetCount = countByApplication.assetcount;
-            // setOverallData(obj);
+    if (assetCount && countByApplication) {
+      console.log(assetCount, countByApplication, "inEff");
+      assetCount &&
+        assetCount.length > 0 &&
+        assetCount.map((data) => {
+          if (countByApplication) {
+            if (data.type === countByApplication.type) {
+              const obj = {};
+              obj.type = data.type;
+              obj.count = data.count;
+              obj.assetCount = countByApplication.assetcount;
+              // setOverallData(obj);
+            }
           }
-        }
-      })
+        });
     }
-  })
+  });
 
   const handleChangeAWS = (e) => {
     getMaxMin(e.target.value)
-    .then((resp) => {
-      let AWSDates = [];
-      let AWSMin = [];
-      let AWSMax = [];
-      if (resp && resp.trend) {
-        resp.trend.map((data) => {
-          if (data.date) {
-            AWSDates.push(data.date)
-          } 
-          if (data.min) {
-            AWSMin.push(data.min)
-          } 
-           if (data.max) {
-            AWSMax.push(data.max)
-          }
-        })
-        setAWSDate(AWSDates)
-        setAWSMin(AWSMin)
-        setAWSMax(AWSMax)
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    setAwsAppType(e.target.value)
-    selectedValue(e.target.value)
-  }
+      .then((resp) => {
+        let AWSDates = [];
+        let AWSMin = [];
+        let AWSMax = [];
+        if (resp && resp.trend) {
+          resp.trend.map((data) => {
+            if (data.date) {
+              AWSDates.push(data.date);
+            }
+            if (data.min) {
+              AWSMin.push(data.min);
+            }
+            if (data.max) {
+              AWSMax.push(data.max);
+            }
+          });
+          setAWSDate(AWSDates);
+          setAWSMin(AWSMin);
+          setAWSMax(AWSMax);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setAwsAppType(e.target.value);
+    selectedValue(e.target.value);
+  };
 
   const selectedValue = (value) => {
     getCountByApplication(value)
-    .then((resp) => {
-      if (resp) {
-        setCountByApplication(resp)
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
+      .then((resp) => {
+        if (resp) {
+          setCountByApplication(resp);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
@@ -217,7 +220,7 @@ export default function AssetDashboard() {
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <Grid container spacing={3}>
-              <Grid item xs={3}>
+              <Grid item xs={6}>
                 <Typography
                   className={classes.paper3}
                   style={{
@@ -228,18 +231,18 @@ export default function AssetDashboard() {
                   }}
                   variant="subtitle2"
                 >
-                 Asset Inventorys :
+                  Asset Inventorys :
                 </Typography>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={6}>
                 <FormControl
                   variant="outlined"
-                  style={{ width: "174px", height: 0, "margin-left": "3px", }}
+                  style={{ width: "174px", height: 0, "margin-left": "3px" }}
                 >
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
-                    value={'All'}
+                    value={"All"}
                     // onChange={handleChange}
                     style={{
                       height: "30px",
@@ -251,8 +254,8 @@ export default function AssetDashboard() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={3} />
-              <Grid item xs={3} />
+              <Grid item xs={6} />
+              <Grid item xs={6} />
             </Grid>
           </Grid>
           <Grid item xs={6}>
@@ -282,13 +285,14 @@ export default function AssetDashboard() {
                     value={awsAppType}
                     onChange={handleChangeAWS}
                     style={{
-                      height: "30px"
+                      height: "30px",
                     }}
                     MenuProps={{ classes: { paper: classes.menuPaper } }}
                   >
-                    {AWSAppList.length !== 0 && AWSAppList.map((data) => 
-                    <MenuItem value={data}>{data}</MenuItem>
-                    )}
+                    {AWSAppList.length !== 0 &&
+                      AWSAppList.map((data) => (
+                        <MenuItem value={data}>{data}</MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -298,10 +302,10 @@ export default function AssetDashboard() {
           </Grid>
         </Grid>
         <Grid container spacing={3} style={{ marginTop: 20 }}>
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12}>
             <AssetInvestory />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12}>
             <AssetAWS
               aswAppDates={aWSDate}
               awsAppMin={aWSMin}
@@ -310,10 +314,13 @@ export default function AssetDashboard() {
           </Grid>
         </Grid>
         <Grid container spacing={3} style={{ marginTop: 20 }}>
-          <Grid item xs={4}>
-            <AssetByApplication countDetails={assetCount} overallData={overallData} />
+          <Grid item md={6} xs={12}>
+            <AssetByApplication
+              countDetails={assetCount}
+              overallData={overallData}
+            />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item md={6} xs={12}>
             <AssetByClassification />
           </Grid>
         </Grid>

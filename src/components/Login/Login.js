@@ -112,7 +112,12 @@ const Login = (props) => {
   };
 
   return (
-    <Box component="div" bgcolor="#262c49" minHeight="100vh">
+    <Box
+      component="div"
+      bgcolor="#262c49"
+      minHeight="100vh"
+      style={{ overflow: "hidden" }}
+    >
       <Container>
         <Grid container spacing={2}>
           <Grid container spacing={2}>
@@ -143,7 +148,7 @@ const Login = (props) => {
               </div>
             </Grid>
           </Grid>
-          <Grid item md={5}>
+          <Grid item md={5} sm={6} xs={12}>
             <Box
               display="grid"
               placeContent="center"
@@ -185,7 +190,7 @@ const Login = (props) => {
               </Box>
             </Box>
           </Grid>
-          <Grid item md={7}>
+          <Grid item md={7} sm={6} xs={12}>
             <img
               style={{ width: "855px", height: "618px" }}
               src={require("../../assets/images/logindashboardImg.PNG")}
@@ -194,7 +199,7 @@ const Login = (props) => {
           </Grid>
         </Grid>
         <Grid container spacing={2} style={{ marginTop: "89px" }}>
-          <Grid item xs={3}>
+          <Grid item md={3} xs={4}>
             <img
               style={{ float: "left", padding: "20px", cursor: "pointer" }}
               src={require("../../assets/images/cymonitorlogo.PNG")}
@@ -223,7 +228,7 @@ const Login = (props) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} xs={4}>
             <div
               style={{
                 color: "white",
@@ -248,7 +253,7 @@ const Login = (props) => {
               <ListItemText primary="Login" />
             </List>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} xs={4}>
             <div
               style={{
                 color: "white",
@@ -273,7 +278,7 @@ const Login = (props) => {
               <ListItemText primary="Privacy Policy" />
             </List>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3} xs={4}>
             <div
               style={{
                 color: "white",

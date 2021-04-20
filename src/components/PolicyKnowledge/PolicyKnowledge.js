@@ -10,7 +10,10 @@ import Select from "@material-ui/core/Select";
 import { Grid, Typography, Button } from "@material-ui/core";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
-import { policyknowledgeApi, policyKnowledgeDescription } from '../../actions/complianceActions'
+import {
+  policyknowledgeApi,
+  policyKnowledgeDescription,
+} from "../../actions/complianceActions";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -23,21 +26,30 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   paper: {
-    padding: theme.spacing(2),
-    textAlign: "left",
-    color: "black",
-    height: 140,
-    width: 370,
+    boxShadow: "0px 3px 6px #2c28281c",
+    borderRadius: "10px",
+    height: "150px",
+    padding: "15px",
   },
   paper1: {
     textAlign: "center",
     background: "#F1F3F9 0% 0% no-repeat padding-box",
-    "border-radius": "4px",
+    borderRadius: "4px",
+    textAlign: "center",
+    boxShadow: "0px 3px 10px #f75c1b33",
+    padding: "7px",
+    minWidth: "120px",
+    mxnWidth: "125px",
   },
   paper2: {
     textAlign: "center",
     background: "#F1F3F9 0% 0% no-repeat padding-box",
-    "border-radius": "4px",
+    borderRadius: "4px",
+    textAlign: "center",
+    boxShadow: "0px 3px 10px #f75c1b33",
+    padding: "7px",
+    minWidth: "120px",
+    mxnWidth: "125px",
   },
   paper3: {
     top: "63px",
@@ -64,64 +76,73 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PolicyKnowledge() {
-  
   const classes = useStyles();
   const [severity, setSeverity] = useState("All");
   const [category, setCategory] = useState("All");
   const [policyKnowledgeData, setPolicyKnowledgeData] = useState([]);
-  const [ policyKnowledgeDes, setPolicyKnowledgeDes ] = useState({})
-  const [searchKey, setSearchKey] = useState('')
+  const [policyKnowledgeDes, setPolicyKnowledgeDes] = useState({});
+  const [searchKey, setSearchKey] = useState("");
   const [state, setState] = React.useState({
     right: false,
   });
 
   useEffect(() => {
-    const searchKey = ''
-    policyknowledgeApi(searchKey).then((resp) => {
-      setPolicyKnowledgeData(resp.response)
-    }).catch((error) => {
-      console.log(error)
-    })
-  }, [])
+    const searchKey = "";
+    policyknowledgeApi(searchKey)
+      .then((resp) => {
+        setPolicyKnowledgeData(resp.response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleChangeGrid = (data) => {
     if (data) {
-      policyKnowledgeDescription(data.ruleId).then((resp) => {
-        setPolicyKnowledgeDes(resp)
-      }).catch((error) => {
-        console.log(error)
-      })
+      policyKnowledgeDescription(data.ruleId)
+        .then((resp) => {
+          setPolicyKnowledgeDes(resp);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-  }
+  };
 
   const handleChangeSeverity = (event) => {
-    const searchKey = event.target.value
-    policyknowledgeApi(searchKey).then((resp) => {
-      setPolicyKnowledgeData(resp.response)
-    }).catch((error) => {
-      console.log(error)
-    })
+    const searchKey = event.target.value;
+    policyknowledgeApi(searchKey)
+      .then((resp) => {
+        setPolicyKnowledgeData(resp.response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     setSeverity(event.target.value);
   };
   const handleChangeCategory = (event) => {
-    console.log(event.target.value)
-    const searchKey = event.target.value
-    policyknowledgeApi(searchKey).then((resp) => {
-      setPolicyKnowledgeData(resp.response)
-    }).catch((error) => {
-      console.log(error)
-    })
+    console.log(event.target.value);
+    const searchKey = event.target.value;
+    policyknowledgeApi(searchKey)
+      .then((resp) => {
+        setPolicyKnowledgeData(resp.response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     setCategory(event.target.value);
   };
 
   const handleSearchResults = (e) => {
-    setSearchKey(e.target.value)
-    policyknowledgeApi(searchKey).then((resp) => {
-      setPolicyKnowledgeData(resp.response)
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
+    setSearchKey(e.target.value);
+    policyknowledgeApi(searchKey)
+      .then((resp) => {
+        setPolicyKnowledgeData(resp.response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -169,11 +190,13 @@ export default function PolicyKnowledge() {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography style={{ fontWeight: "bold", padding: "15px" }}>
-           {policyKnowledgeDes && policyKnowledgeDes.displayName}
+            {policyKnowledgeDes && policyKnowledgeDes.displayName}
           </Typography>
         </Grid>
       </Grid>
-      <Typography style={{ padding: "15px", color: '#b3b0af' }}>Description</Typography>
+      <Typography style={{ padding: "15px", color: "#b3b0af" }}>
+        Description
+      </Typography>
       <Typography style={{ padding: "15px" }}>
         {policyKnowledgeDes && policyKnowledgeDes.ruleDescription}
       </Typography>
@@ -182,18 +205,19 @@ export default function PolicyKnowledge() {
           <Typography
             style={{
               padding: "15px",
-							color: '#b3b0af',
+              color: "#b3b0af",
             }}
           >
             Category{" "}
           </Typography>
-          <Paper className={classes.paper1}
-						style={{
+          <Paper
+            className={classes.paper1}
+            style={{
               // background: "#D40A25",
               width: "130px",
               height: "35px",
             }}
-					>
+          >
             <span style={{ color: "#7569EE" }}>
               {policyKnowledgeDes && policyKnowledgeDes.ruleCategory}
             </span>
@@ -203,7 +227,7 @@ export default function PolicyKnowledge() {
           <Typography
             style={{
               padding: "15px",
-							color: '#b3b0af',
+              color: "#b3b0af",
             }}
           >
             Severity
@@ -216,30 +240,35 @@ export default function PolicyKnowledge() {
               height: "35px",
             }}
           >
-            <span style={{ color: "white" }}>{policyKnowledgeDes && policyKnowledgeDes.severity}</span>
+            <span style={{ color: "white" }}>
+              {policyKnowledgeDes && policyKnowledgeDes.severity}
+            </span>
           </Paper>
         </Grid>
       </Grid>
       <Typography
         style={{
-					color: '#b3b0af',
+          color: "#b3b0af",
           padding: "15px",
         }}
       >
         Version
       </Typography>
-      <Paper className={classes.paper1}
-				style={{
-					width: "130px",
-					height: "35px",
-				}}
-			>
-        <span style={{ color: "#7569EE" }}>{policyKnowledgeDes && policyKnowledgeDes.policyVersion}</span>
+      <Paper
+        className={classes.paper1}
+        style={{
+          width: "130px",
+          height: "35px",
+        }}
+      >
+        <span style={{ color: "#7569EE" }}>
+          {policyKnowledgeDes && policyKnowledgeDes.policyVersion}
+        </span>
       </Paper>
       <Typography
         style={{
           padding: "15px",
-					color: '#b3b0af'
+          color: "#b3b0af",
         }}
       >
         Resolution
@@ -259,12 +288,12 @@ export default function PolicyKnowledge() {
   return (
     <div className={classes.root}>
       <LayoutContainer>
-        <Grid container spacing={3}>
+        {/* <Grid container spacing={3}>
           <Grid item xs={3}>
             <Typography
               className={classes.paper3}
               style={{ "margin-left": "12px", fontWeight: 600 }}
-              variant='subtitle2'
+              variant="subtitle2"
             >
               Total of {policyKnowledgeData.length} policies
             </Typography>
@@ -333,28 +362,37 @@ export default function PolicyKnowledge() {
               </Paper>
             </Typography>
           </Grid>
-        </Grid>
+        </Grid> */}
         <React.Fragment key={"right"}>
-          <Grid
-            container
-            justify="center"
-            spacing={3}
-            onClick={toggleDrawer("right", true)}
-          >
+          <Grid container spacing={3} onClick={toggleDrawer("right", true)}>
             {policyKnowledgeData.map((data, index) => (
-              <Grid key={index} item onClick={() => handleChangeGrid(data)} style={{ cursor: 'pointer' }}>
+              <Grid
+                md={4}
+                xs={6}
+                key={index}
+                item
+                onClick={() => handleChangeGrid(data)}
+                style={{ cursor: "pointer" }}
+              >
                 <Paper className={classes.paper}>
                   {data.name}
-                  <Grid container spacing={3} >
-                    <Grid item xs>
-                      <Typography style={{ height: '29px' }}>
-                      <Paper className={classes.paper1}>
-                        <span style={{ color: "#7569EE", height: '29px' }}>{(data.ruleCategory).toUpperCase()}</span>
-                      </Paper>
-                      </Typography>
+                  <Grid
+                    container
+                    spacing={3}
+                    direction="row"
+                    justify="space-between"
+                    alignItems="flex-end"
+                    style={{ paddingTop: "40px" }}
+                  >
+                    <Grid item xs={6}>
+                      <div className={classes.paper1}>
+                        <span style={{ color: "#7569EE" }}>
+                          {data.ruleCategory.toUpperCase()}
+                        </span>
+                      </div>
                     </Grid>
-                    <Grid item xs>
-                      <Paper
+                    <Grid item xs={6}>
+                      <div
                         className={classes.paper2}
                         style={{
                           background:
@@ -365,12 +403,10 @@ export default function PolicyKnowledge() {
                               : "#FFC96D",
                         }}
                       >
-                        <span style={{ height: '29px' }}>
-                          <Typography style={{ color: "white", height: '29px' }}>
-                            {(data.severity).toUpperCase()}
-                          </Typography>
+                        <span style={{ color: "#fff" }}>
+                          {data.severity.toUpperCase()}
                         </span>
-                      </Paper>
+                      </div>
                     </Grid>
                   </Grid>
                 </Paper>
