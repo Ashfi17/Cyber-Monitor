@@ -4,7 +4,8 @@ import {
   Paper,
   Typography,
   Divider,
-  Button
+  Button,
+  Grid
 } from "@material-ui/core";
 import { nonCompliancePolicy } from "../actions/complianceActions";
 import PolicyCompilance from "./PolicyCompilance";
@@ -164,20 +165,26 @@ const PolicyComplianceOverview = () => {
         </div>
 
         <Divider variant="middle" style={{ width: "100%", margin: "16px 0" }} />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Button className={filterOption === "All" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("All")}>All</Button>
-          <Button className={filterOption === "tagging" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("tagging")}>Tagging</Button>
-          <Button className={filterOption === "governance" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("governance")}>Governance</Button>
-          <Button className={filterOption === "security" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("security")}>Security</Button>
-          <Button className={filterOption === "costOptimization" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("costOptimization")}>Cost Optimization</Button>
-          <Typography variant="caption">Total of {policyData && policyData.length > 0 ? policyData.length : policyResponse.length} policies</Typography>
-        </div>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item>
+            <Button className={filterOption === "All" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("All")}>All</Button>
+          </Grid>
+          <Grid item>
+            <Button className={filterOption === "tagging" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("tagging")}>Tagging</Button>
+          </Grid>
+          <Grid item>
+            <Button className={filterOption === "governance" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("governance")}>Governance</Button>
+          </Grid>
+          <Grid item>
+            <Button className={filterOption === "security" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("security")}>Security</Button>
+          </Grid>
+          <Grid item>
+            <Button className={filterOption === "costOptimization" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("costOptimization")}>Cost Optimization</Button>
+          </Grid>
+          <Grid item>
+            <Typography variant="caption">Total of {policyData && policyData.length > 0 ? policyData.length : policyResponse.length} policies</Typography>
+          </Grid>
+        </Grid>
       </Paper>
       <PolicyCompilance tableData={policyData && policyData.length > 0 ? policyData : policyResponse} />
     </div>

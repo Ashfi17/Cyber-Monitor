@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import {
   makeStyles,
   AppBar,
@@ -8,6 +8,8 @@ import {
 } from "@material-ui/core";
 
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 240;
 
@@ -44,6 +46,22 @@ const AppbarHeader = (props) => {
 
   today = mm + " '" + dd + ", " + yyyy;
 
+  const [tabNdMobViewIs, setTabNdMobViewIs] = React.useState(false);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResizeWindow);
+    handleResizeWindow();
+  }, []);
+
+  const handleResizeWindow = () => {
+    var windowInnerWidth = window.innerWidth;
+    if (windowInnerWidth <= 960) {
+      setTabNdMobViewIs(true);
+    } else {
+      setTabNdMobViewIs(false);
+    }
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -54,7 +72,6 @@ const AppbarHeader = (props) => {
     >
       <Toolbar
         style={{
-          backgroundColor: "#F1F3F9",
           display: "flex",
           justifyContent: "space-between",
         }}
@@ -65,6 +82,13 @@ const AppbarHeader = (props) => {
           }
           aria-label="breadcrumb"
         >
+          {/* {tabNdMobViewIs &&
+            <Typography>
+              <IconButton aria-label="menu" style={{ color: "#262C49" }} onClick={props.toggleDrawer("left", true)}>
+                <MenuIcon />
+              </IconButton>
+            </Typography>
+          } */}
           <Typography
             style={{ color: "#262C49", opacity: 0.5, fontWeight: "bold" }}
           >

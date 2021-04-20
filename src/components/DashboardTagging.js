@@ -71,7 +71,7 @@ const DashboardTagging = (props) => {
         Tagging
       </Typography>
       <Grid container spacing={2} style={{ marginTop: 6, marginBottom: 6 }}>
-        <Grid item xs={5}>
+        <Grid item xs={6}>
           <Chart
             options={chartOptions}
             series={[taggingData && taggingData.compliance !== undefined ? taggingData.compliance : 0]}
@@ -83,7 +83,7 @@ const DashboardTagging = (props) => {
 
         <Grid
           item
-          xs={5}
+          xs={6}
           style={{
             display: "flex",
           }}

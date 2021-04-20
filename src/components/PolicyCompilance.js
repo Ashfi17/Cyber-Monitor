@@ -234,7 +234,7 @@ const PolicyCompilance = (props) => {
                           // className={classes.bar1Determinate}
                           value={row.compliance_percent}
                           variant="determinate"
-                          style={{ minWidth: "150px" }}
+                          className="linearProgDeterminate"
                         />
                       </TableCell>
                       <TableCell align="left">
@@ -254,7 +254,7 @@ const PolicyCompilance = (props) => {
           </Table>
         </TableContainer>
         <Grid container alignItems="center">
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12}>
             <Grid container spacing={2} style={{ margin: 0 }}>
               <Grid item>
                 <img style={{ height: "15px", verticalAlign: "middle" }} src={require("../assets/images/compliant.svg")} /> <span style={{ fontSize: "10px" }}>Complaint</span>
@@ -267,7 +267,7 @@ const PolicyCompilance = (props) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12}>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"

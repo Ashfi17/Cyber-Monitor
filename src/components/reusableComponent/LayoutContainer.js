@@ -4,6 +4,8 @@ import clsx from "clsx";
 import { makeStyles, Breadcrumbs, Typography } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 import { useSelector } from "react-redux";
 import AppbarHeader from "../AppbarHeader";
@@ -33,30 +35,27 @@ const useStyles = makeStyles((theme) => ({
 const LayoutContainer = (props) => {
   const classes = useStyles();
   const store = useSelector((state) => state);
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
+  // const [state, setState] = React.useState({ left: false });
   const { ui } = store;
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setState({ ...state, [anchor]: open });
-  };
+  // const toggleDrawer = (anchor, open) => (event) => {
+  //   /* if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+  //     return;
+  //   } */
+  //   setState({ ...state, [anchor]: open });
+  // };
 
   return (
     <div style={{ backgroundColor: "#F1F3F9", minHeight: "100vh" }}>
       <div className={classes.root}>
         <CssBaseline />
-        {/* <Button onClick={toggleDrawer("left", true)}>Left</Button> */}
+        {/* <IconButton className="mainMenuIconBtn" aria-label="menu" style={{ color: "#262C49" }} onClick={toggleDrawer("left", true)}>
+          <MenuIcon />
+        </IconButton> */}
         <AppbarHeader />
 
         {/* DRAWER MENU */}
-        <DrawerMenu state={state} toggleDrawer={toggleDrawer} />
+        <DrawerMenu />
         <main className="mainContent">
           <div className={classes.drawerHeader} />
           {props.children}
