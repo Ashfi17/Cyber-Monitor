@@ -7,7 +7,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import Chart from "react-apexcharts";
-import MinimizeIcon from '@material-ui/icons/Minimize';
+import MinimizeIcon from "@material-ui/icons/Minimize";
 // import { getCompliance } from '../actions/complianceActions'
 
 const useStyles = makeStyles((theme) => ({
@@ -37,82 +37,81 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AssetInvestory = (props) => {
+  const classes = useStyles();
 
-const classes = useStyles();
-
-const dataSeries = [
+  const dataSeries = [
     {
       name: "Resource",
-      data: [280, 3500, 3000, 7700]
+      data: [280, 3500, 3000, 7700],
     },
     {
-        name: "Fail",
-        data: [200, 2900, 3300, 6600]
-      },
+      name: "Fail",
+      data: [200, 2900, 3300, 6600],
+    },
     {
       name: "Pass",
-      data: [100, 2200, 3000, 5000]
-    }
-  ]
+      data: [100, 2200, 3000, 5000],
+    },
+  ];
   const dataOptions = {
     chart: {
       height: 350,
-      type: 'line',
+      type: "line",
       zoom: {
-        enabled: false
+        enabled: false,
       },
       animations: {
-        enabled: false
+        enabled: false,
       },
-    //   dropShadow: {
-    //     enabled: true,
-    //     color: '#000',
-    //     top: 18,
-    //     left: 7,
-    //     blur: 10,
-    //     opacity: 0.2
-    //   },
+      //   dropShadow: {
+      //     enabled: true,
+      //     color: '#000',
+      //     top: 18,
+      //     left: 7,
+      //     blur: 10,
+      //     opacity: 0.2
+      //   },
       toolbar: {
-        show: true
-      }
+        show: true,
+      },
     },
-    colors: ['#7569EE', '#26C76E', '#E46666'],
+    colors: ["#7569EE", "#26C76E", "#E46666"],
     dataLabels: {
       enabled: true,
     },
     stroke: {
-      curve: 'smooth'
+      curve: "smooth",
     },
     grid: {
-      borderColor: '#e7e7e7',
+      borderColor: "#e7e7e7",
       row: {
-        colors: ['#f3f3f3', 'transparent'],
-        opacity: 0.5
+        colors: ["#f3f3f3", "transparent"],
+        opacity: 0.5,
       },
     },
     markers: {
-      size: 1
+      size: 1,
     },
     xaxis: {
-      categories: ['Jan `21', 'Feb `21', 'Mar `21', 'Apr `21'],
+      categories: ["Jan `21", "Feb `21", "Mar `21", "Apr `21"],
     },
     yaxis: {
       min: 0,
-      max: 7500
+      max: 7500,
     },
     legend: {
-      position: 'top',
-      horizontalAlign: 'right',
+      position: "top",
+      horizontalAlign: "right",
       floating: true,
       offsetY: -25,
-      offsetX: -5
-    }
-  }
+      offsetX: -5,
+    },
+  };
 
   return (
     <Paper className={classes.paper} elevation={0}>
       <Typography variant="h6" style={{ fontWeight: "bold", fontSize: 14 }}>
-       Asset Trend
+        Asset Trend
       </Typography>
       <Grid container spacing={2} style={{ marginTop: 6, marginBottom: 6 }}>
         <Grid item xs={12}>
@@ -120,7 +119,7 @@ const dataSeries = [
             options={dataOptions}
             series={dataSeries}
             type="line"
-            height={220}
+            height={400}
           />
         </Grid>
       </Grid>

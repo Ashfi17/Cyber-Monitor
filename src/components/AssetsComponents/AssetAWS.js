@@ -36,43 +36,49 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AssetInvestory = (props) => {
-const [ datesData, setDates ] = useState([])
-const [ minData, setMinimum ] = useState([])
-const [ maxData, setMaximum ] = useState([])
-const classes = useStyles();
+  const [datesData, setDates] = useState([]);
+  const [minData, setMinimum] = useState([]);
+  const [maxData, setMaximum] = useState([]);
+  const classes = useStyles();
 
-useEffect(() => {
-  const dataArray = [];
-  if (props && props.aswAppDates.length > 0) {
-    setDates(props.aswAppDates)
-  }
-  if (props && props.awsAppMin.length > 0) {
-    setMinimum(props.awsAppMin)
-    const obj1 = {}
-    obj1.name = 'Minimum';
-    obj1.data = props.awsAppMin;
-    dataArray.push(obj1)
-  }
-  if (props && props.awsAppMax.length > 0) {
-    setMaximum(props.awsAppMax)
-    const obj2 = {}
-    obj2.name = 'Minimum';
-    obj2.data = props.awsAppMax;
-    dataArray.push(obj2)
-  }
-  console.log(dataArray, 'dataArray')
-}, [props])
+  useEffect(() => {
+    const dataArray = [];
+    if (props && props.aswAppDates.length > 0) {
+      setDates(props.aswAppDates);
+    } else {
+      setDates([]);
+    }
+    if (props && props.awsAppMin.length > 0) {
+      setMinimum(props.awsAppMin);
+      const obj1 = {};
+      obj1.name = 'Minimum';
+      obj1.data = props.awsAppMin;
+      dataArray.push(obj1);
+    } else {
+      setMinimum([]);
+    }
+    if (props && props.awsAppMax.length > 0) {
+      setMaximum(props.awsAppMax);
+      const obj2 = {};
+      obj2.name = 'Minimum';
+      obj2.data = props.awsAppMax;
+      dataArray.push(obj2);
+    } else {
+      setMaximum([]);
+    }
+    console.log("dataArray", dataArray);
+  }, [props])
 
-const dataSeries = [
+  const dataSeries = [
     {
-        name: 'Minimum',
-        data: minData
-      },
-      {
-        name: 'Maximum',
-        data: maxData
-      }
-  ]
+      name: 'Minimum',
+      data: minData
+    },
+    {
+      name: 'Maximum',
+      data: maxData
+    }
+  ];
   const dataOptions = {
     chart: {
       height: 350,
@@ -86,32 +92,35 @@ const dataSeries = [
     },
     colors: ['#26C76E', '#E46666'],
     stroke: {
-      width: [5,5,4],
+      width: [5, 5, 4],
       curve: 'smooth'
     },
     // labels: [],
     xaxis: {
-        categories: datesData,
+      categories: datesData,
     },
     yaxis: {
-        min: 0, 
-        max: 100
-      },
-  }
+      min: 0,
+      max: 100
+    },
+  };
 
   return (
     <Paper className={classes.paper} elevation={0}>
       <Typography variant="h6" style={{ fontWeight: "bold", fontSize: 14 }}>
-      Inventory
+        Inventory
       </Typography>
       <Grid container spacing={2} style={{ marginTop: 6, marginBottom: 6 }}>
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{ position: "relative" }}>
           <Chart
             options={dataOptions}
             series={dataSeries}
             type="line"
-            height={220}
+            height={400}
           />
+          {datesData.length == 0 &&
+            <div className="noDataErrorMsg">Doesn't look like any data is available</div>
+          }
         </Grid>
       </Grid>
     </Paper>

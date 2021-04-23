@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Chart from "react-apexcharts";
 import LayoutContainer from "../reusableComponent/LayoutContainer";
 import Paper from "@material-ui/core/Paper";
 import { Grid, Typography } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import { getComplianceTagging } from "../../actions/complianceActions";
 // import icon from '../../assets/OverallCompilancetrend/'
 
 const useStyles = makeStyles((theme) => ({
@@ -40,8 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CenteredGrid() {
+export default function CenteredGrid(props) {
   const classes = useStyles();
+  const [taggingCountDetails, setTaggingCountDetails] = useState({ "output": { "assets": 0, "untagged": 0, "tagged": 0, "compliance": 0 } });
 
   const gridData = [
     {
@@ -224,6 +226,35 @@ export default function CenteredGrid() {
     },
   };
 
+  useEffect(() => {
+    getComplianceTagging()
+      .then((respo) => {
+        if (respo) {
+          setTaggingCountDetails(respo);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const redirectingToAssetListDash = (getParam) => {
+    var storeObj = {
+      type: "taggable",
+      data: { tagged: "false" }
+    };
+    if (getParam == "total") {
+      storeObj.data = {};
+    } else if (getParam == "tagging") {
+      storeObj.data.tagged = "true";
+    } else {
+      storeObj.data.tagged = "false";
+    }
+    console.log("storeObj", storeObj);
+    localStorage.setItem("assetDataForFilter", JSON.stringify(storeObj));
+    props.history.push("/assetlist-table");
+  };
+
   return (
     <div className={classes.root}>
       <LayoutContainer>
@@ -239,7 +270,7 @@ export default function CenteredGrid() {
                   style={{ color: "#E46666" }}
                   className={classes.topTypo}
                 >
-                  06%
+                  {taggingCountDetails.output.compliance}%
                 </Typography>
                 <Typography
                   variant="h6"
@@ -251,7 +282,7 @@ export default function CenteredGrid() {
             </Paper>
           </Grid>
           <Grid item md={3} xs={6}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} style={{ cursor: "pointer" }} onClick={() => redirectingToAssetListDash("total")}>
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
@@ -261,7 +292,7 @@ export default function CenteredGrid() {
                   style={{ color: "#262C49" }}
                   className={classes.topTypo}
                 >
-                  121
+                  {taggingCountDetails.output.assets}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -273,7 +304,7 @@ export default function CenteredGrid() {
             </Paper>
           </Grid>
           <Grid item md={3} xs={6}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} style={{ cursor: "pointer" }} onClick={() => redirectingToAssetListDash("tagging")}>
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
@@ -283,7 +314,7 @@ export default function CenteredGrid() {
                   variant="h6"
                   style={{ color: "#26C76E" }}
                 >
-                  08
+                  {taggingCountDetails.output.tagged}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -295,7 +326,7 @@ export default function CenteredGrid() {
             </Paper>
           </Grid>
           <Grid item md={3} xs={6}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} style={{ cursor: "pointer" }} onClick={() => redirectingToAssetListDash("untagging")}>
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
@@ -305,7 +336,7 @@ export default function CenteredGrid() {
                   style={{ color: "#E46666" }}
                   className={classes.topTypo}
                 >
-                  113
+                  {taggingCountDetails.output.untagged}
                 </Typography>
                 <Typography
                   variant="h6"

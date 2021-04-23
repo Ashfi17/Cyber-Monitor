@@ -10,9 +10,9 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import Collapse from "@material-ui/core/Collapse";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import { useHistory } from "react-router-dom";
 
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `linear-gradient(270deg, #827BDF, #5D55C8);`,
     color: "white",
     padding: theme.spacing(0.5, 1.75),
-    display: "flex"
+    display: "flex",
   },
   nestedselecteditem: {
     backgroundImage: `linear-gradient(270deg, #827BDF, #5D55C8);`,
@@ -55,10 +55,7 @@ const useStyles = makeStyles((theme) => ({
 const DrawerMenu = (props) => {
   const classes = useStyles();
 
-  const {
-    authUser,
-    setAuthUser,
-  } = useContext(appContext);
+  const { authUser, setAuthUser } = useContext(appContext);
 
   const [open, setOpen] = React.useState(false);
   const [openComp, setOpenComp] = React.useState(false);
@@ -69,7 +66,11 @@ const DrawerMenu = (props) => {
   const [leftStateIs, setLeftStateIs] = React.useState(false);
 
   const toggleDrawer = (open) => (event) => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setLeftStateIs(open);
@@ -97,22 +98,32 @@ const DrawerMenu = (props) => {
   };
 
   const handleClickComp = () => {
-    setOpenComp(!openComp)
-  }
+    setOpenComp(!openComp);
+  };
 
   const handleClickAdmin = () => {
-    setOpenAdmin(!openAdmin)
-  }
+    setOpenAdmin(!openAdmin);
+  };
 
   const logoutUser = () => {
     setAuthUser(null);
     localStorage.removeItem("currentUserLoginDetails");
-    window.location = '/';
+    window.location = "/";
+  };
+
+  const assetListTableRedirection = () => {
+    localStorage.removeItem("assetDataForFilter");
+    props.history.push("/assetlist-table");
   };
 
   return (
     <>
-      <IconButton className="mainMenuIconBtn" aria-label="menu" style={{ color: "#262C49" }} onClick={toggleDrawer(true)}>
+      <IconButton
+        className="mainMenuIconBtn"
+        aria-label="menu"
+        style={{ color: "#262C49" }}
+        onClick={toggleDrawer(true)}
+      >
         <MenuIcon />
       </IconButton>
       <Drawer
@@ -121,48 +132,75 @@ const DrawerMenu = (props) => {
         classes={{
           paper: classes.drawerPaper,
         }}
-        anchor={"left"} open={leftStateIs} onClose={toggleDrawer(false)}
+        anchor={"left"}
+        open={leftStateIs}
+        onClose={toggleDrawer(false)}
       >
         <div className={classes.toolbar}>
-          <img src={require("../assets/images/CyMonitor_logo.svg")} style={{ width: '190px', marginLeft: '20px', marginTop: '20px', cursor: 'pointer' }} onClick={(e) => props.history.push("/home-page")} />
+          <img
+            src={require("../assets/images/CyMonitor_logo.svg")}
+            style={{
+              width: "190px",
+              marginLeft: "20px",
+              marginTop: "20px",
+              cursor: "pointer",
+            }}
+            onClick={(e) => props.history.push("/home-page")}
+          />
         </div>
         <Divider />
         <List>
           <ListItem
             button
             onClick={(e) => props.history.push("/home-page")}
-            className={currentLocation == "/home-page" ? classes.selecteditem : ""}
+            className={
+              currentLocation == "/home-page" ? classes.selecteditem : ""
+            }
           >
             <ListItemIcon>
-              <img src={require("../assets/images/drawer-dashboard-icon.svg")} />
+              <img
+                src={require("../assets/images/drawer-dashboard-icon.svg")}
+              />
             </ListItemIcon>
             <ListItemText style={{ color: "white" }} primary="Dashboard" />
           </ListItem>
-          <ListItem
-            button
-            onClick={handleClick}
-          >
+          <ListItem button onClick={handleClick}>
             <ListItemIcon>
-              <img src={require("../assets/images/drawer-dashboard-icon.svg")} />
+              <img
+                src={require("../assets/images/drawer-dashboard-icon.svg")}
+              />
             </ListItemIcon>
             <ListItemText style={{ color: "white" }} primary="Asset">
               {/* {open ? <ExpandLessIcon color="secondary" /> : <ExpandMoreIcon color="secondary" />} */}
-              <img src={require("../assets/images/ic_keyboard_arrow_right_24px.svg")} />
+              <img
+                src={require("../assets/images/ic_keyboard_arrow_right_24px.svg")}
+              />
             </ListItemText>
           </ListItem>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem
                 button
-                className={currentLocation == "/asset-dashboard" ? classes.nestedselecteditem : classes.nested}
+                className={
+                  currentLocation == "/asset-dashboard"
+                    ? classes.nestedselecteditem
+                    : classes.nested
+                }
                 onClick={(e) => props.history.push("/asset-dashboard")}
               >
-                <ListItemText style={{ color: "white" }} primary="Asset Dashboard" />
+                <ListItemText
+                  style={{ color: "white" }}
+                  primary="Asset Dashboard"
+                />
               </ListItem>
               <ListItem
                 button
-                className={currentLocation == "/assetlist-table" ? classes.nestedselecteditem : classes.nested}
-                onClick={(e) => props.history.push("/assetlist-table")}
+                className={
+                  currentLocation == "/assetlist-table"
+                    ? classes.nestedselecteditem
+                    : classes.nested
+                }
+                onClick={(e) => assetListTableRedirection()}
               >
                 <ListItemText style={{ color: "white" }} primary="Asset List" />
               </ListItem>
@@ -188,23 +226,44 @@ const DrawerMenu = (props) => {
                 src={require("../assets/images/drawer-compliances-icon.svg")}
               />
             </ListItemIcon>
-            <ListItemText style={{ color: "white" }} primary="Compliances"> {openComp ? <ExpandLessIcon color="secondary" /> : <ExpandMoreIcon color="secondary" />}</ListItemText>
+            <ListItemText style={{ color: "white" }} primary="Compliances">
+              {" "}
+              {openComp ? (
+                <ExpandLessIcon color="secondary" />
+              ) : (
+                <ExpandMoreIcon color="secondary" />
+              )}
+            </ListItemText>
           </ListItem>
           <Collapse in={openComp} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem
                 button
-                className={currentLocation == "/tagging-compliance" ? classes.nestedselecteditem : classes.nested}
+                className={
+                  currentLocation == "/tagging-compliance"
+                    ? classes.nestedselecteditem
+                    : classes.nested
+                }
                 onClick={(e) => props.history.push("/tagging-compliance")}
               >
-                <ListItemText style={{ color: "white" }} primary="Tagging Compliance" />
+                <ListItemText
+                  style={{ color: "white" }}
+                  primary="Tagging Compliance"
+                />
               </ListItem>
               <ListItem
                 button
-                className={currentLocation == "/policyknowledge" ? classes.nestedselecteditem : classes.nested}
+                className={
+                  currentLocation == "/policyknowledge"
+                    ? classes.nestedselecteditem
+                    : classes.nested
+                }
                 onClick={(e) => props.history.push("/policyknowledge")}
               >
-                <ListItemText style={{ color: "white" }} primary="Policy Knowledge" />
+                <ListItemText
+                  style={{ color: "white" }}
+                  primary="Policy Knowledge"
+                />
               </ListItem>
             </List>
           </Collapse>
@@ -245,51 +304,100 @@ const DrawerMenu = (props) => {
             <ListItemIcon>
               <img src={require("../assets/images/Mask Group 376.svg")} />
             </ListItemIcon>
-            <ListItemText style={{ color: "white" }} primary="Admin"> {openAdmin ? <ExpandLessIcon color="secondary" /> : <ExpandMoreIcon color="secondary" />}</ListItemText>
+            <ListItemText style={{ color: "white" }} primary="Admin">
+              {" "}
+              {openAdmin ? (
+                <ExpandLessIcon color="secondary" />
+              ) : (
+                <ExpandMoreIcon color="secondary" />
+              )}
+            </ListItemText>
           </ListItem>
           <Collapse in={openAdmin} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem
                 button
-                className={currentLocation == "/manage-policy" ? classes.nestedselecteditem : classes.nested}
+                className={
+                  currentLocation == "/manage-policy"
+                    ? classes.nestedselecteditem
+                    : classes.nested
+                }
                 onClick={(e) => props.history.push("/manage-policy")}
               >
-                <ListItemText style={{ color: "white" }} primary="Manage Policy" />
+                <ListItemText
+                  style={{ color: "white" }}
+                  primary="Manage Policy"
+                />
               </ListItem>
               <ListItem
                 button
-                className={currentLocation == "/manage-rules" ? classes.nestedselecteditem : classes.nested}
+                className={
+                  currentLocation == "/manage-rules"
+                    ? classes.nestedselecteditem
+                    : classes.nested
+                }
                 onClick={(e) => props.history.push("/manage-rules")}
               >
-                <ListItemText style={{ color: "white" }} primary="Manage Rules" />
+                <ListItemText
+                  style={{ color: "white" }}
+                  primary="Manage Rules"
+                />
               </ListItem>
               <ListItem
                 button
-                className={currentLocation == "/manage-roles" ? classes.nestedselecteditem : classes.nested}
+                className={
+                  currentLocation == "/manage-roles"
+                    ? classes.nestedselecteditem
+                    : classes.nested
+                }
                 onClick={(e) => props.history.push("/manage-roles")}
               >
-                <ListItemText style={{ color: "white" }} primary="Manage Roles" />
+                <ListItemText
+                  style={{ color: "white" }}
+                  primary="Manage Roles"
+                />
               </ListItem>
               <ListItem
                 button
-                className={currentLocation == "/manage-target-type" ? classes.nestedselecteditem : classes.nested}
+                className={
+                  currentLocation == "/manage-target-type"
+                    ? classes.nestedselecteditem
+                    : classes.nested
+                }
                 onClick={(e) => props.history.push("/manage-target-type")}
               >
-                <ListItemText style={{ color: "white" }} primary="Manage Target Type" />
+                <ListItemText
+                  style={{ color: "white" }}
+                  primary="Manage Target Type"
+                />
               </ListItem>
               <ListItem
                 button
-                className={currentLocation == "/manage-domain" ? classes.nestedselecteditem : classes.nested}
+                className={
+                  currentLocation == "/manage-domain"
+                    ? classes.nestedselecteditem
+                    : classes.nested
+                }
                 onClick={(e) => props.history.push("/manage-domain")}
               >
-                <ListItemText style={{ color: "white" }} primary="Manage Domain" />
+                <ListItemText
+                  style={{ color: "white" }}
+                  primary="Manage Domain"
+                />
               </ListItem>
               <ListItem
                 button
-                className={currentLocation == "/system-management" ? classes.nestedselecteditem : classes.nested}
+                className={
+                  currentLocation == "/system-management"
+                    ? classes.nestedselecteditem
+                    : classes.nested
+                }
                 onClick={(e) => props.history.push("/system-management")}
               >
-                <ListItemText style={{ color: "white" }} primary="System Management" />
+                <ListItemText
+                  style={{ color: "white" }}
+                  primary="System Management"
+                />
               </ListItem>
               {/* <ListItem
               button
@@ -300,8 +408,6 @@ const DrawerMenu = (props) => {
             </ListItem> */}
             </List>
           </Collapse>
-
-
         </List>
         {/* <Divider /> */}
         <List style={{ position: "absolute", bottom: 0 }}>

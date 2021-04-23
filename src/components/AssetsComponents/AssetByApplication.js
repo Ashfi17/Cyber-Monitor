@@ -5,6 +5,7 @@ import {
   Typography,
   Grid,
   Divider,
+  Button,
 } from "@material-ui/core";
 import Chart from "react-apexcharts";
 // import { getCompliance } from '../actions/complianceActions'
@@ -30,32 +31,98 @@ const useStyles = makeStyles((theme) => ({
   },
   chartLabels: {
     width: "100%",
-    margin: "8px 0",
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    cursor: "pointer",
+    padding: "10px",
+    // borderBottom: "1px solid #ddd",
   },
 }));
 
 const AssetByApplication = (props) => {
   const { countDetails } = props;
-  console.log(countDetails, 'props.data')
+  const { awsAppType } = props;
+  const { overallData } = props;
+  const { countByApplication } = props;
   const classes = useStyles();
+
+  const onClickStoreData = (getData, callName) => {
+    var storeData = {};
+    if (callName == "taggable") {
+      storeData = {
+        type: callName,
+        data: {
+          resourceType: getData,
+          tagName: "Application",
+          tagged: "false",
+        }
+      };
+    } else {
+      storeData = {
+        type: callName,
+        data: {
+          domain: "Infra & Platforms",
+          application: getData.application,
+          resourceType: awsAppType,
+        }
+      };
+    }
+
+    console.log("storeData", storeData);
+    localStorage.setItem("assetDataForFilter", JSON.stringify(storeData));
+    props.onClickPageChange();
+  };
 
   return (
     <Paper className={classes.paper} elevation={0}>
       <Typography variant="h6" style={{ fontWeight: "bold", fontSize: 14 }}>
-      Asset by Application
+        Asset by Application
       </Typography>
-      <Grid container spacing={2} style={{ marginTop: 6, marginBottom: 6, height: 'calc(58vh - 10px)', 'overflow-y': 'scroll' }}>
-        <Grid item xs={12}>
-          {countDetails && countDetails.length !== 0 && countDetails.map((data) => (
-            <div className={classes.chartLabels} style={{ height: "12pxpx" }}>
-              <Typography>{data && data.type ? data.type.charAt(0).toUpperCase() + data.type.slice(1) : ''}</Typography>
-              <Typography style={{ fontWeight: "bold" }}>
-              {( data.count.toString().length < 2 ? "0"+data.count : data.count ).toString()}</Typography>
-            </div>
-          ))}
-          
+      <Grid
+        container
+        spacing={2}
+        style={{
+          marginTop: 6,
+          marginBottom: 6,
+          height: "430px",
+          "overflow-y": "scroll",
+        }}
+      >
+        <Grid className="assetByApp" item xs={12} style={{ padding: "0" }}>
+          {countByApplication &&
+            countByApplication.length !== 0 &&
+            countByApplication.map((data) => (
+              <Button
+                className={classes.chartLabels}
+                onClick={() => onClickStoreData(data, "asset")}
+              >
+                <Typography>
+                  {data && data.application
+                    ? data.application.charAt(0).toUpperCase() +
+                    data.application.slice(1)
+                    : ""}
+                </Typography>
+                <Typography style={{ fontWeight: "bold" }}>
+                  {(data.count.toString().length < 2
+                    ? "0" + data.count
+                    : data.count
+                  ).toString()}
+                </Typography>
+              </Button>
+            ))}
+          <Divider
+            variant="middle"
+            style={{ width: "100%", margin: "16px 0" }}
+          />
+          <Button
+            className={classes.chartLabels}
+            onClick={() => onClickStoreData(awsAppType, "taggable")}
+          >
+            <Typography>Without Application Tag</Typography>
+            <Typography style={{ fontWeight: "bold" }}>
+              {overallData[awsAppType]}
+            </Typography>
+          </Button>
           {/* <div className={classes.chartLabels}>
             <Typography>Firestorm</Typography>
             <Typography style={{ fontWeight: "bold" }}>32</Typography>

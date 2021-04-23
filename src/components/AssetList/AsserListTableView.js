@@ -23,7 +23,8 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import LayoutContainer from "../reusableComponent/LayoutContainer";
 // import AssetList from '../../components/AssetList/AssetList'
-import { getAssets } from "../../actions/assetsActions";
+import { postFiltersApi } from "../../actions/complianceActions";
+import { getAssets, getTaggableData } from "../../actions/assetsActions";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -56,7 +57,7 @@ const headCells = [
     id: "_resourceid",
     numeric: true,
     disablePadding: false,
-    label: <div style={{ fontWeight: "bold" }}>Resource Id</div>,
+    label: <div style={{ fontWeight: "bold" }}>Resource ID</div>,
   },
   // {
   //   id: "name",
@@ -65,22 +66,16 @@ const headCells = [
   //   label: <div style={{ fontWeight: "bold" }}>Compilance %</div>,
   // },
   {
-    id: "subnetid",
+    id: "publicip",
     numeric: true,
     disablePadding: false,
-    label: <div style={{ fontWeight: "bold" }}>Subnet Id</div>,
+    label: <div style={{ fontWeight: "bold" }}>Public IP</div>,
   },
   {
-    id: "accountid",
+    id: "allocationid",
     numeric: true,
     disablePadding: false,
-    label: <div style={{ fontWeight: "bold" }}>Account Id</div>,
-  },
-  {
-    id: "_entitytype",
-    numeric: true,
-    disablePadding: false,
-    label: <div style={{ fontWeight: "bold" }}>Asset Type</div>,
+    label: <div style={{ fontWeight: "bold" }}>Allocation ID</div>,
   },
   {
     id: "_cloudType",
@@ -89,17 +84,78 @@ const headCells = [
     label: <div style={{ fontWeight: "bold" }}>Cloud Type</div>,
   },
   {
+    id: "private",
+    numeric: true,
+    disablePadding: false,
+    label: <div style={{ fontWeight: "bold" }}>Private</div>,
+  },
+  {
+    id: "accountid",
+    numeric: true,
+    disablePadding: false,
+    label: <div style={{ fontWeight: "bold" }}>Account ID</div>,
+  },
+  /* {
+    id: "subnetid",
+    numeric: true,
+    disablePadding: false,
+    label: <div style={{ fontWeight: "bold" }}>Subnet ID</div>,
+  }, */
+  {
+    id: "instanceid",
+    numeric: true,
+    disablePadding: false,
+    label: <div style={{ fontWeight: "bold" }}>Instance ID</div>,
+  },
+  {
+    id: "accountname",
+    numeric: true,
+    disablePadding: false,
+    label: <div style={{ fontWeight: "bold" }}>Account Name</div>,
+  },
+  {
+    id: "_entitytype",
+    numeric: true,
+    disablePadding: false,
+    label: <div style={{ fontWeight: "bold" }}>Asset Type</div>,
+  },
+
+  {
+    id: "domain",
+    numeric: true,
+    disablePadding: false,
+    label: <div style={{ fontWeight: "bold" }}>Domain</div>,
+  },
+  {
+    id: "networkinterfaceid",
+    numeric: true,
+    disablePadding: false,
+    label: <div style={{ fontWeight: "bold" }}>Network Interface ID</div>,
+  },
+  {
     id: "region",
     numeric: true,
     disablePadding: false,
     label: <div style={{ fontWeight: "bold" }}>Region</div>,
   },
   {
-    id: "state",
+    id: "networkinterfaceownerid",
     numeric: true,
     disablePadding: false,
-    label: <div style={{ fontWeight: "bold" }}>State</div>,
+    label: <div style={{ fontWeight: "bold" }}>Network Interface Owner ID</div>,
   },
+  {
+    id: "associationid",
+    numeric: true,
+    disablePadding: false,
+    label: <div style={{ fontWeight: "bold" }}>Association ID</div>,
+  },
+  // {
+  //   id: "state",
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: <div style={{ fontWeight: "bold" }}>State</div>,
+  // },
 ];
 
 function EnhancedTableHead(props) {
@@ -160,9 +216,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginBottom: theme.spacing(2),
   },
-  table: {
-    minWidth: 750,
-  },
   visuallyHidden: {
     border: 0,
     clip: "rect(0 0 0 0)",
@@ -191,10 +244,10 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
   select: {
-    '&:before': {
-        borderColor: 'white',
-    }
-},
+    "&:before": {
+      borderColor: "white",
+    },
+  },
   paper3: {
     top: "63px",
     left: "563px",
@@ -212,29 +265,80 @@ const AssetListTable = (props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [tableData, setTableData] = useState([]);
   const [uniqueList, setUniqueAssetList] = useState([]);
-  const [searchKey, setSearchKey] = useState('')
+  const [searchKey, setSearchKey] = useState("");
   const [assetType, setAssetType] = useState("All");
   const [category, setCategory] = useState("All");
+  const [assetDataFilterObj, setAssetDataFilterObj] = useState({});
   // const [selectedRowData, setSelectedRowData] = useState({})
 
   useEffect(() => {
-    const searchKey = ''
-    let arrayData = [];
-    getAssets(searchKey)
-      .then((respo) => {
-        arrayData = [];
-        if (respo) {
-          respo.map((data) => {
-            arrayData.push(data._entitytype)
-          })
-          const uniqueArray = arrayData.filter((v, i, a) => a.indexOf(v) === i);
-          setUniqueAssetList(uniqueArray);
-          setTableData(respo);
-        }
+    postFiltersApi("blank")
+      .then((resp) => {
+        let arrayData = [];
+        console.log("respresp", resp);
+        resp.response.map((data) => {
+          arrayData.push(data.optionName);
+        });
+        const uniqueArray = arrayData.filter((v, i, a) => a.indexOf(v) === i);
+        setUniqueAssetList(uniqueArray);
       })
       .catch((error) => {
         console.log(error);
       });
+  }, []);
+
+  useEffect(() => {
+    const searchKey = "";
+    var asset_data_filter_obj = JSON.parse(
+      localStorage.getItem("assetDataForFilter")
+    );
+    if (asset_data_filter_obj) {
+      setAssetDataFilterObj(asset_data_filter_obj);
+      if (asset_data_filter_obj.type == "taggable") {
+        var searchData = asset_data_filter_obj.data;
+
+        getTaggableData("", searchData)
+          .then((respo) => {
+            // arrayData = [];
+            if (respo) {
+              /* respo.map((data) => {
+                arrayData.push(data._entitytype);
+              });
+              const uniqueArray = arrayData.filter((v, i, a) => a.indexOf(v) === i);
+              setUniqueAssetList(uniqueArray); */
+              setTableData(respo);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        var filterObj = asset_data_filter_obj.data;
+        getAssets(searchKey, filterObj)
+          .then((respo) => {
+            if (respo) {
+              setTableData(respo);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    } else {
+      setAssetDataFilterObj({});
+      var filterObj = {
+        domain: "Infra & Platforms",
+      };
+      getAssets(searchKey, filterObj)
+        .then((respo) => {
+          if (respo) {
+            setTableData(respo);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, []);
 
   const handleRequestSort = (event, property) => {
@@ -262,23 +366,42 @@ const AssetListTable = (props) => {
   };
 
   const handleSearchResults = (e) => {
-    setSearchKey(e.target.value)
-    getAssets(e.target.value).then((resp) => {
-      setTableData(resp)
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
+    setSearchKey(e.target.value);
+    var filterObj = {};
+    if (assetDataFilterObj?.type == "taggable") {
+      filterObj = assetDataFilterObj.data;
+      getTaggableData(e.target.value, filterObj)
+        .then((respo) => {
+          if (respo) {
+            setTableData(respo);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      filterObj = assetDataFilterObj.data;
+      getAssets(e.target.value, filterObj).then((resp) => {
+        setTableData(resp);
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+
+  };
 
   const handleChangeAssetType = (e) => {
-    setSearchKey(e.target.value)
-    setAssetType(e.target.value)
-    getAssets(e.target.value).then((resp) => {
-      setTableData(resp)
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
+    setSearchKey(e.target.value);
+    setAssetType(e.target.value);
+    var filterObj = { domain: "Infra & Platforms" };
+    getAssets(e.target.value, filterObj)
+      .then((resp) => {
+        setTableData(resp);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -289,25 +412,25 @@ const AssetListTable = (props) => {
   return (
     <div className={classes.root}>
       <LayoutContainer>
-        <Grid container spacing={3} style={{ padding: "20px" }}>
-          <Grid item xs={4}>
-            {/* <Typography
-              className={classes.paper3}
-              style={{ "margin-left": "12px", fontWeight: 600 }}
-              variant='subtitle2'
-            >
-              Total of {policyKnowledgeData.length} policies
-            </Typography> */}
-          </Grid>
-          <Grid item xs={4}>
+        <Grid
+          container
+          style={{ paddingBottom: "40px" }}
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+        >
+          <Grid item>
             <Typography className={classes.paper3}>
               <Paper component="form" className={classes.root1}>
                 <Typography style={{ color: "#b2bbbf", fontSize: 14 }}>
-                  Asset Type :{"  "}
+                  Asset Type:
                   <FormControl
                     variant="outlined"
-                    style={{ width: "164px", height: 0, 
-                    maxHeight: '197px' }}
+                    style={{
+                      width: "164px",
+                      height: 0,
+                      maxHeight: "197px",
+                    }}
                   >
                     <Select
                       labelId="demo-simple-select-outlined-label"
@@ -317,62 +440,68 @@ const AssetListTable = (props) => {
                       className={classes.select}
                       style={{
                         height: "40px",
-                        top: '-10px',
-                        width: '172px',
-                        maxHeight: '197px'
+                        top: "-10px",
+                        width: "172px",
+                        maxHeight: "197px",
                       }}
                     >
                       <MenuItem value={"All"}>All</MenuItem>
-                      {
-                        uniqueList.map((data) => 
-                          <MenuItem value={data}>{data}</MenuItem>
-                        )
-                      }
+                      {uniqueList.map((data) => (
+                        <MenuItem value={data}>{data}</MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Typography>
               </Paper>
             </Typography>
           </Grid>
-          {/* <Grid item xs={3}>
-            <Typography className={classes.paper3}>
-              <Paper component="form" className={classes.root1}>
-                <Typography style={{ color: "#b2bbbf", fontSize: 14 }}>
-                  Category :{"  "}
-                  <FormControl
-                    variant="outlined"
-                    style={{ width: "164px", height: 0 }}
-                  >
-                    <Select
-                      labelId="demo-simple-select-outlined-label"
-                      id="demo-simple-select-outlined"
-                      value={"All"}
-                      className={classes.select}
-                      // onChange={handleChange}
-                      style={{
-                        height: "40px",
-                        top: '-10px',
-                        width: '181px'
-                      }}
-                    >
-                      <MenuItem value={"All"}>All</MenuItem>
-                      <MenuItem value={"Pass"}>Pass</MenuItem>
-                      <MenuItem value={"Fail"}>Fail</MenuItem>
-                    </Select>
-                  </FormControl>
+          {/* <Grid item xs={4}>
+                <Typography className={classes.paper3}>
+                  <Paper component="form" className={classes.root1}>
+                    <Typography style={{ color: "#b2bbbf", fontSize: 14 }}>
+                      Category :{"  "}
+                      <FormControl
+                        variant="outlined"
+                        style={{ width: "164px", height: 0 }}
+                      >
+                        <Select
+                          labelId="demo-simple-select-outlined-label"
+                          id="demo-simple-select-outlined"
+                          value={"All"}
+                          className={classes.select}
+                          // onChange={handleChange}
+                          style={{
+                            height: "40px",
+                            top: "-10px",
+                            width: "181px",
+                          }}
+                        >
+                          <MenuItem value={"All"}>All</MenuItem>
+                          <MenuItem value={"Pass"}>Pass</MenuItem>
+                          <MenuItem value={"Fail"}>Fail</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Typography>
+                  </Paper>
                 </Typography>
-              </Paper>
-            </Typography>
-          </Grid> */}
-          <Grid item xs={4}>
+              </Grid> */}
+          <Grid item classes="searchForAssetList">
             <Typography className={classes.paper3}>
-              <Paper component="form" className={classes.root1}>
+              <Paper
+                style={{
+                  border: "1px solid #7569EE80",
+                  borderRadius: "8px",
+                  boxShadow: "none",
+                }}
+                component="form"
+                className={classes.root1}
+              >
                 <IconButton
                   type="submit"
                   className={classes.iconButton}
                   aria-label="search"
                 >
-                  <SearchIcon />
+                  <SearchIcon style={{ color: "#7569ee" }} />
                 </IconButton>
                 <InputBase
                   className={classes.input}
@@ -384,6 +513,7 @@ const AssetListTable = (props) => {
             </Typography>
           </Grid>
         </Grid>
+
         <Paper className={classes.paper}>
           <TableContainer>
             <Table
@@ -419,13 +549,18 @@ const AssetListTable = (props) => {
                         selected={isItemSelected}
                         style={{ cursor: "pointer" }}
                       >
-                        <TableCell align="left">{row._resourceid}</TableCell>
                         <TableCell align="left">
-                          {row && row.subnetid ? row.subnetid : "No Data"}
+                          {row._resourceid ? row._resourceid : "No Data"}
                         </TableCell>
-                        <TableCell align="left">{row.accountid}</TableCell>
                         <TableCell align="left">
-                          {
+                          {row.publicip ? row.publicip : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.allocationid ? row.allocationid : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row._cloudType ? row._cloudType : "No Data"}
+                          {/* {
                             <Chip
                               style={{ borderRadius: "4px" }}
                               label={
@@ -433,12 +568,16 @@ const AssetListTable = (props) => {
                                 row._entitytype.slice(1)
                               }
                             />
-                          }
+                          } */}
                         </TableCell>
-                        <TableCell align="left">{row._cloudType}</TableCell>
-                        <TableCell align="left">{row.region}</TableCell>
                         <TableCell align="left">
-                          {
+                          {row.privateipaddress
+                            ? row.privateipaddress
+                            : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.accountid ? row.accountid : "No Data"}
+                          {/* {
                             <Chip
                               style={{ borderRadius: "4px" }}
                               label={
@@ -448,20 +587,48 @@ const AssetListTable = (props) => {
                                       row.state === "available"
                                         ? "#7569EE"
                                         : row.state === "completed"
-                                        ? "#26C76E"
-                                        : "#F7A844",
+                                          ? "#26C76E"
+                                          : "#F7A844",
                                   }}
                                 >
                                   {row.state === undefined
                                     ? "Running"
                                     : row.state === "in-use"
-                                    ? "Running"
-                                    : row.state.charAt(0).toUpperCase() +
+                                      ? "Running"
+                                      : row.state.charAt(0).toUpperCase() +
                                       row.state.slice(1)}
                                 </div>
                               }
                             />
-                          }
+                          } */}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.instanceid ? row.instanceid : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.accountname ? row.accountname : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row._entitytype ? row._entitytype : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.domain ? row.domain : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.networkinterfaceid
+                            ? row.networkinterfaceid
+                            : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.region ? row.region : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.networkinterfaceownerid
+                            ? row.networkinterfaceownerid
+                            : "No Data"}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.associationid ? row.associationid : "No Data"}
                         </TableCell>
                       </TableRow>
                     );

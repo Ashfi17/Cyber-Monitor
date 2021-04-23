@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     "border-radius": "4px",
   },
   paper3: {
-    "text-align": "left",
+    "text-align": "right",
     "letter-spacing": "0px",
     color: "#262C49",
     opacity: " 0.5",
@@ -71,12 +71,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AssetDashboard() {
+export default function AssetDashboard(props) {
   const classes = useStyles();
   const [assetCount, setAssetCount] = useState([]);
   const [AWSAppList, setAWSAppList] = useState([]);
   const [awsAppType, setAwsAppType] = useState("subnet");
-  const [countByApplication, setCountByApplication] = useState({});
+  const [countByApplication, setCountByApplication] = useState([]);
   const [overallData, setOverallData] = useState({});
   const [aWSDate, setAWSDate] = useState([]);
   const [aWSMin, setAWSMin] = useState([]);
@@ -85,9 +85,8 @@ export default function AssetDashboard() {
   useEffect(() => {
     getCountByApplication("subnet")
       .then((resp) => {
-        console.log(resp, "byApplication");
         if (resp) {
-          setCountByApplication(resp);
+          setCountByApplication(resp.assetcount);
         }
       })
       .catch((error) => {
@@ -98,7 +97,6 @@ export default function AssetDashboard() {
   useEffect(() => {
     getCount()
       .then((resp) => {
-        console.log(resp, "counterDetails");
         const arrayData = [];
         resp.assetcount.map((data) => {
           const obj = {};
@@ -106,7 +104,6 @@ export default function AssetDashboard() {
           obj.type = data.type;
           arrayData.push(obj);
         });
-        console.log(arrayData, "arrayData");
         setAssetCount(arrayData);
       })
       .catch((error) => {
@@ -115,9 +112,12 @@ export default function AssetDashboard() {
   }, []);
 
   useEffect(() => {
-    gettaggingByApplication()
+    gettaggingByApplication("subnet")
       .then((resp) => {
+        console.log("jamaresp", resp);
         resp.response.map((data) => {
+          console.log("jamadata", data);
+          setOverallData(data);
           const keyData = Object.keys(data);
           setAWSAppList(keyData);
         });
@@ -155,7 +155,6 @@ export default function AssetDashboard() {
 
   useEffect(() => {
     if (assetCount && countByApplication) {
-      console.log(assetCount, countByApplication, "inEff");
       assetCount &&
         assetCount.length > 0 &&
         assetCount.map((data) => {
@@ -206,7 +205,8 @@ export default function AssetDashboard() {
     getCountByApplication(value)
       .then((resp) => {
         if (resp) {
-          setCountByApplication(resp);
+          console.log("resp", resp);
+          setCountByApplication(resp.assetcount);
         }
       })
       .catch((error) => {
@@ -214,21 +214,19 @@ export default function AssetDashboard() {
       });
   };
 
+  const onClickPageChange = () => {
+    props.history.push("/assetlist-table");
+  };
+
   return (
     <div>
       <LayoutContainer>
         <Grid container spacing={3}>
-          <Grid item xs={6}>
-            <Grid container spacing={3}>
+          {/* <Grid item xs={6}>
+            <Grid container spacing={3} alignItems="center">
               <Grid item xs={6}>
                 <Typography
                   className={classes.paper3}
-                  style={{
-                    "margin-left": "3px",
-                    fontWeight: 600,
-                    float: "right",
-                    "margin-top": "5px",
-                  }}
                   variant="subtitle2"
                 >
                   Asset Inventorys :
@@ -237,7 +235,7 @@ export default function AssetDashboard() {
               <Grid item xs={6}>
                 <FormControl
                   variant="outlined"
-                  style={{ width: "174px", height: 0, "margin-left": "3px" }}
+                  style={{ minWidth: "150px" }}
                 >
                   <Select
                     labelId="demo-simple-select-outlined-label"
@@ -254,31 +252,17 @@ export default function AssetDashboard() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6} />
-              <Grid item xs={6} />
             </Grid>
-          </Grid>
+          </Grid> */}
           <Grid item xs={6}>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <Typography
-                  className={classes.paper3}
-                  style={{
-                    "margin-left": "12px",
-                    fontWeight: 600,
-                    float: "right",
-                    "margin-top": "5px",
-                  }}
-                  variant="subtitle2"
-                >
+            <Grid container spacing={3} alignItems="center">
+              <Grid item xs={6}>
+                <Typography className={classes.paper3} variant="subtitle2">
                   AWS Apps :
                 </Typography>
               </Grid>
-              <Grid item xs={3}>
-                <FormControl
-                  variant="outlined"
-                  style={{ width: "174px", height: 0 }}
-                >
+              <Grid item xs={6}>
+                <FormControl variant="outlined" style={{ minWidth: "150px" }}>
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
@@ -296,16 +280,21 @@ export default function AssetDashboard() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={3} />
-              <Grid item xs={3} />
             </Grid>
           </Grid>
         </Grid>
         <Grid container spacing={3} style={{ marginTop: 20 }}>
-          <Grid item md={6} xs={12}>
-            <AssetInvestory />
+          <Grid item md={4} xs={12}>
+            <AssetByApplication
+              countDetails={assetCount}
+              overallData={overallData}
+              awsAppType={awsAppType}
+              countByApplication={countByApplication}
+              onClickPageChange={onClickPageChange}
+            />
           </Grid>
-          <Grid item md={6} xs={12}>
+
+          <Grid item md={8} xs={12}>
             <AssetAWS
               aswAppDates={aWSDate}
               awsAppMin={aWSMin}
@@ -315,16 +304,14 @@ export default function AssetDashboard() {
         </Grid>
         <Grid container spacing={3} style={{ marginTop: 20 }}>
           <Grid item md={6} xs={12}>
-            <AssetByApplication
-              countDetails={assetCount}
-              overallData={overallData}
-            />
+            <AssetInvestory />
           </Grid>
+
           <Grid item md={6} xs={12}>
             <AssetByClassification />
           </Grid>
         </Grid>
-        {/* <DashboardAlertSection style={{ marginTop: 20 }} /> */}
+
         <Typography
           variant="h6"
           style={{ fontWeight: "bold", fontSize: 14, marginTop: "32px" }}
