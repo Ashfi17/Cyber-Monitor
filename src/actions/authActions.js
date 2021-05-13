@@ -8,21 +8,21 @@ import setAuthorizationToken from './setAuthorizationToken';
 
 
 export const loginDetails = (values) => {
-    return new Promise((resolve, reject) => {
-      axios
-        .post(`auth/user/login`, values)
-        .then((result) => {
-          if (result) {
-            resolve(result);
-            localStorage.setItem(
-              "currentUserLoginDetails",
-              JSON.stringify(result.data)
-            );
-            setAuthorizationToken(result.data);
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`auth/user/login`, values)
+      .then((result) => {
+        if (result) {
+          resolve(result);
+          localStorage.setItem(
+            "currentUserLoginDetails",
+            JSON.stringify(result.data)
+          );
+          setAuthorizationToken(result.data);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

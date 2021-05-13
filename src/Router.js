@@ -16,6 +16,8 @@ import ManageRoles from './components/Admin/Roles';
 import ManageTargetType from './components/Admin/ManageTargetTypes';
 import ManageDomain from './components/Admin/ManageDomain'
 import SystemManagement from './components/Admin/SystemManagement';
+import PolicyCompliance from './pages/PolicyCompliance';
+import PolicyViolationsDetails from './pages/PolicyViolationsDetails';
 
 const Routers = (props) => {
   return (
@@ -36,6 +38,8 @@ const Routers = (props) => {
           <Route exact path='/manage-target-type' component={ManageTargetType} />
           <Route exact path='/manage-domain' component={ManageDomain} />
           <Route exact path='/system-management' component={SystemManagement} />
+          <Route exact path='/pl-compliance' component={PolicyCompliance} />
+          <Route exact path='/pl-violations-details' component={PolicyViolationsDetails} />
         </Switch>
       </div>
     </BrowserRouter>

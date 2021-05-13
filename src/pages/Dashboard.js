@@ -8,19 +8,22 @@ import DashboardTagging from "../components/DashboardTagging";
 import OverallComplianceTrend from "../components/OverallComplianceTrend";
 import PolicyComplianceOverview from "../components/PolicyComplianceOverview";
 import Notifications from "../components/Notifications";
-import { getOverallCompliance, getRecommendations } from '../actions/complianceActions';
+import {
+  getOverallCompliance,
+  getRecommendations,
+} from "../actions/complianceActions";
 
-export default function Dashboard() {
+export default function Dashboard(props) {
+  useEffect(() => {
+    getOverallCompliance();
+  }, []);
 
   useEffect(() => {
-    getOverallCompliance()
-  }, [])
-
-  useEffect(() => {
-    getRecommendations()
-  })
-
-
+    getRecommendations();
+  });
+  const onClickPageChange = () => {
+    props.history.push("/pl-compliance");
+  };
   return (
     <div>
       <LayoutContainer>
@@ -35,12 +38,12 @@ export default function Dashboard() {
         </Grid>
         <OverallComplianceTrend />
         <Grid container spacing={3} style={{ marginTop: 20 }}>
-          <Grid item md={8} xs={12}>
-            <PolicyComplianceOverview />
+          <Grid item md={12} xs={12}>
+            <PolicyComplianceOverview onClickPageChange={onClickPageChange} />
           </Grid>
-          <Grid item md={4} xs={12}>
+          {/* <Grid item md={4} xs={12}>
             <Notifications />
-          </Grid>
+          </Grid> */}
         </Grid>
       </LayoutContainer>
     </div>

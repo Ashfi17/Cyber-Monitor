@@ -42,21 +42,22 @@ const App = (props) => {
       const localAuthUser = localStorage.getItem("currentUserLoginDetails");
       if (localAuthUser) {
         parsedAuthUser = JSON.parse(localAuthUser);
+        console.log("parsedAuthUser", parsedAuthUser);
         setAuthUser(parsedAuthUser);
       }
     } else {
       parsedAuthUser = authUser;
     }
-  }, [authUser])
+  }, [authUser]);
 
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <appContext.Provider
-           value={{
+          value={{
             authUser,
             setAuthUser
-           }}
+          }}
         >
           <CssBaseline />
           <Routers />

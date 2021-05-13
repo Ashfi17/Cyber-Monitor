@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const PolicyComplianceOverview = () => {
+const PolicyComplianceOverview = (props) => {
   const classes = useStyles();
   const [filterOption, setFilterOption] = useState("All");
   const [policyData, setPolicyData] = useState([]);
@@ -49,6 +49,7 @@ const PolicyComplianceOverview = () => {
     nonCompliancePolicy()
       .then((resp) => {
         if (resp) {
+          console.log("respnonnono", resp);
           setPolicyResponse(resp);
         }
       })
@@ -88,6 +89,7 @@ const PolicyComplianceOverview = () => {
     // } else {
     //   setButtonStatus(false)
     // }
+    console.log("policyResponse", policyResponse);
     let TabelData = []
     if (ruleCate === 'All') {
       setPolicyData(policyResponse)
@@ -125,7 +127,7 @@ const PolicyComplianceOverview = () => {
       setPolicyData(TabelData)
     }
     setFilterOption(ruleCate);
-  }
+  };
 
   return (
     <div>
@@ -186,7 +188,7 @@ const PolicyComplianceOverview = () => {
           </Grid>
         </Grid>
       </Paper>
-      <PolicyCompilance tableData={policyData && policyData.length > 0 ? policyData : policyResponse} />
+      <PolicyCompilance tableData={policyData && policyData.length > 0 ? policyData : policyResponse} onClickPageChange={props.onClickPageChange} />
     </div>
   );
 };

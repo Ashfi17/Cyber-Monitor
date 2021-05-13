@@ -252,3 +252,99 @@ export const getComplianceTagging = () => {
       });
   });
 };
+
+export const getComplianceTrend = (getParams) => {
+  const url = `${localUrl}/trend/compliancebyrule`;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, { ag: "aws", filter: { domain: "Infra & Platforms" }, from: "2021-04-07"/* getParams.fromDate */, ruleid: getParams.ruleId })
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data.response);
+        }
+      })
+      .catch((error) => {
+        reject({ message: 'Error' });
+      });
+  });
+};
+
+export const policySummaryData = (getParams) => {
+  const url = `${localUrl}/noncompliancepolicy`;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, { ag: "aws", filter: { domain: "Infra & Platforms", "ruleId.keyword": getParams.ruleId }, from: 0, searchtext: "", size: 0 })
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data.response);
+        }
+      })
+      .catch((error) => {
+        reject({ message: 'Error' });
+      });
+  });
+};
+
+export const listOfViolationsData = (getParams) => {
+  const url = `${localUrl}/issues`;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, { ag: "aws", filter: { domain: "Infra & Platforms", "ruleId.keyword": getParams.ruleId }, from: 0, searchtext: "", size: 10 })
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data.response);
+        }
+      })
+      .catch((error) => {
+        reject({ message: 'Error' });
+      });
+  });
+};
+
+export const getAllIssueAuditLog = (getParams) => {
+  const url = `${localUrl}/issueauditlog`;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, { filter: { domain: "Infra & Platforms" }, from: 0, searchtext: "", size: 10, issueId: getParams.IssueId, targetType: getParams.entitytype })
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data.response);
+        }
+      })
+      .catch((error) => {
+        reject({ message: 'Error' });
+      });
+  });
+};
+
+export const getResourcedetails = (getResourceId) => {
+  const url = `${localUrl}/resourcedetails?ag=${'aws'}&resourceId=${getResourceId}`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: 'Error' });
+      });
+  });
+};
+
+export const getPolicyViolationReason = (getTargetIssId) => {
+  const url = `${localUrl}/policyViolationReason?ag=${'aws'}&issueId=${getTargetIssId}`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: 'Error' });
+      });
+  });
+};
