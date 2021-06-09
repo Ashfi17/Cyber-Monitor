@@ -94,8 +94,9 @@ const AppbarHeader = (props) => {
           >
             Compliance
           </Typography>
+
           <Typography style={{ color: "#262C49", fontWeight: "bold" }}>
-            Overview
+            {props.pageName}
           </Typography>
         </Breadcrumbs>
         <Typography style={{ color: "#262C49", fontWeight: "bold" }}>

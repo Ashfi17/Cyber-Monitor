@@ -287,7 +287,7 @@ export default function PolicyKnowledge() {
 
   return (
     <div className={classes.root}>
-      <LayoutContainer>
+      <LayoutContainer pageName="Policy Knowledge">
         {/* <Grid container spacing={3}>
           <Grid item xs={3}>
             <Typography
@@ -399,8 +399,8 @@ export default function PolicyKnowledge() {
                             data.severity === "critical"
                               ? "#D40A25"
                               : data.severity === "high"
-                              ? "#F75C1B"
-                              : "#FFC96D",
+                                ? "#F75C1B"
+                                : "#FFC96D",
                         }}
                       >
                         <span style={{ color: "#fff" }}>

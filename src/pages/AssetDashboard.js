@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Divider } from "@material-ui/core";
+import { Grid, Typography, Divider, Button } from "@material-ui/core";
 import LayoutContainer from "../components/reusableComponent/LayoutContainer";
 import Paper from "@material-ui/core/Paper";
 import FormControl from "@material-ui/core/FormControl";
@@ -16,6 +16,7 @@ import AssetInvestory from "../components/AssetsComponents/AssetInvestory";
 import AssetAWS from "../components/AssetsComponents/AssetAWS";
 import AssetByClassification from "../components/AssetsComponents/AssetByClassification";
 import AssetByApplication from "../components/AssetsComponents/AssetByApplication";
+import backIcon from "../assets/images/header/back.svg";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -218,10 +219,17 @@ export default function AssetDashboard(props) {
     props.history.push("/assetlist-table");
   };
 
+  const backFun = () => {
+    props.history.goBack();
+  };
+
   return (
     <div>
-      <LayoutContainer>
+      <LayoutContainer pageName="Asset Dashboard">
         <Grid container spacing={3}>
+          <Grid item>
+            <Button className="backBtnStl" onClick={() => backFun()}><img src={backIcon} /></Button>
+          </Grid>
           {/* <Grid item xs={6}>
             <Grid container spacing={3} alignItems="center">
               <Grid item xs={6}>

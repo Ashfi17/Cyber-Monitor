@@ -87,7 +87,7 @@ const DashboardAlertSection = (props) => {
 
   return (
     <div>
-      <LayoutContainer>
+      <LayoutContainer pageName="System Management">
         <Paper className={classes.paper} elevation={0}>
           <Grid container spacing={3}>
             <Grid item xs={6} style={{ cursor: "pointer" }}>

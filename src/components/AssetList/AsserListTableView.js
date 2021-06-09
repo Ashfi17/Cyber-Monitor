@@ -411,7 +411,7 @@ const AssetListTable = (props) => {
 
   return (
     <div className={classes.root}>
-      <LayoutContainer>
+      <LayoutContainer pageName="Asset List">
         <Grid
           container
           style={{ paddingBottom: "40px" }}

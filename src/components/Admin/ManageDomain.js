@@ -137,14 +137,14 @@ export default function ManageDomain() {
     const searchKey = "";
     let arryData = [];
     getAdminDomains(searchKey)
-      .then((result) => { 
+      .then((result) => {
         arryData = [];
         if (result && result.content) {
-            result.content.map((data) => {
-              const json = Object.assign({}, data);
-              arryData.push(json);
-            });
-          }
+          result.content.map((data) => {
+            const json = Object.assign({}, data);
+            arryData.push(json);
+          });
+        }
         setDomainList(arryData);
       })
       .catch((error) => {
@@ -197,23 +197,23 @@ export default function ManageDomain() {
   };
 
   const handleClosePopUp = () => {
-    setOpen(false)
+    setOpen(false);
     let arryData = [];
     getAdminDomains(searchKey)
-      .then((result) => { 
+      .then((result) => {
         arryData = [];
         if (result && result.content) {
-            result.content.map((data) => {
-              const json = Object.assign({}, data);
-              arryData.push(json);
-            });
-          }
+          result.content.map((data) => {
+            const json = Object.assign({}, data);
+            arryData.push(json);
+          });
+        }
         setDomainList(arryData);
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -313,7 +313,7 @@ export default function ManageDomain() {
           </Grid>
         </Grid>
       </Typography> */}
-        <Typography style={{ "margin-top": "30px" }}>
+      <Typography style={{ "margin-top": "30px" }}>
         <Typography
           style={{
             padding: "7px",
@@ -322,7 +322,7 @@ export default function ManageDomain() {
             fontSize: "14px",
           }}
         >
-         Configuration
+          Configuration
         </Typography>
         <Typography
           style={{
@@ -478,7 +478,10 @@ export default function ManageDomain() {
           </Grid>
         </Grid>
       </Typography> */}
-      <div style={{ marginLeft: '355px', marginTop: '154px', cursor: 'pointer' }} onClick={handleClickOpen}>
+      <div
+        style={{ marginLeft: "355px", marginTop: "154px", cursor: "pointer" }}
+        onClick={handleClickOpen}
+      >
         <img src={require("../../assets/images/Group 515.svg")} />
       </div>
     </div>
@@ -486,7 +489,7 @@ export default function ManageDomain() {
 
   return (
     <div className={classes.root}>
-      <LayoutContainer>
+      <LayoutContainer pageName="Manage Domain">
         <Grid container spacing={3}>
           <Grid item xs={5} sm={2}>
             <Button className={classes.addNewButton} onClick={handleClickOpen}>
@@ -589,7 +592,9 @@ export default function ManageDomain() {
                       style={{ marginTop: "28px", marginLeft: "-4px" }}
                     >
                       <Grid item item xs={8}>
-                        <div style={{ marginBottom: "12px" }}>Asset Group Count</div>
+                        <div style={{ marginBottom: "12px" }}>
+                          Asset Group Count
+                        </div>
                         <div
                           style={{
                             marginTop: "-11px",
@@ -600,17 +605,13 @@ export default function ManageDomain() {
                             "border-radius": "6px",
                           }}
                         >
-                          <span style={{ color: "#ffffff" }}>
-                            {data[3]}
-                          </span>
+                          <span style={{ color: "#ffffff" }}>{data[3]}</span>
                         </div>
                       </Grid>
                       <Grid item item xs={4}>
-                      <div style={{ marginBottom: "5px" }}>Config</div>
+                        <div style={{ marginBottom: "5px" }}>Config</div>
                         <div>
-                          <span>
-                            {data[2]}
-                          </span>
+                          <span>{data[2]}</span>
                         </div>
                       </Grid>
                     </Grid>
@@ -628,7 +629,11 @@ export default function ManageDomain() {
           </SwipeableDrawer>
         </React.Fragment>
       </LayoutContainer>
-      <AddDomain openPopUp={open} editData={selectedDomain} onCloseModal={(e) => handleClosePopUp(e)} />
+      <AddDomain
+        openPopUp={open}
+        editData={selectedDomain}
+        onCloseModal={(e) => handleClosePopUp(e)}
+      />
     </div>
   );
 }

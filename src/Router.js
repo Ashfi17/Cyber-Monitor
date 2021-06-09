@@ -18,6 +18,7 @@ import ManageDomain from './components/Admin/ManageDomain'
 import SystemManagement from './components/Admin/SystemManagement';
 import PolicyCompliance from './pages/PolicyCompliance';
 import PolicyViolationsDetails from './pages/PolicyViolationsDetails';
+import OmniSearch from './pages/OmniSearch';
 
 const Routers = (props) => {
   return (
@@ -40,6 +41,7 @@ const Routers = (props) => {
           <Route exact path='/system-management' component={SystemManagement} />
           <Route exact path='/pl-compliance' component={PolicyCompliance} />
           <Route exact path='/pl-violations-details' component={PolicyViolationsDetails} />
+          <Route exact path='/omni-search' component={OmniSearch} />
         </Switch>
       </div>
     </BrowserRouter>

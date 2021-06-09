@@ -52,7 +52,7 @@ const LayoutContainer = (props) => {
         {/* <IconButton className="mainMenuIconBtn" aria-label="menu" style={{ color: "#262C49" }} onClick={toggleDrawer("left", true)}>
           <MenuIcon />
         </IconButton> */}
-        <AppbarHeader />
+        <AppbarHeader pageName={props.pageName} />
 
         {/* DRAWER MENU */}
         <DrawerMenu />

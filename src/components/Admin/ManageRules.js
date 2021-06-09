@@ -304,11 +304,11 @@ export default function ManagePolicy() {
           Policy Id
         </Typography>
         <Typography style={{
-            color: "black",
-            fontWeight: "bold",
-            fontSize: "14px",
-            "margin-left": "10px",
-          }}>
+          color: "black",
+          fontWeight: "bold",
+          fontSize: "14px",
+          "margin-left": "10px",
+        }}>
           PacMan_AmazonRDSIdleDBInstancesRule_version-1_
           AmazonRDSIdleDBInstancesRule_rdsdb
         </Typography>
@@ -327,11 +327,11 @@ export default function ManagePolicy() {
               Asset Type{" "}
             </Typography>
             <Typography style={{
-            color: "black",
-            fontWeight: "bold",
-            fontSize: "14px",
-            "margin-left": "10px",
-          }}>rdsdb</Typography>
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              "margin-left": "10px",
+            }}>rdsdb</Typography>
           </Grid>
           <Grid item xs={6}>
             <Typography
@@ -345,11 +345,11 @@ export default function ManagePolicy() {
               Asset Group
             </Typography>
             <Typography style={{
-            color: "black",
-            fontWeight: "bold",
-            fontSize: "14px",
-            "margin-left": "10px",
-          }}>AWS</Typography>
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              "margin-left": "10px",
+            }}>AWS</Typography>
           </Grid>
         </Grid>
       </Typography>
@@ -365,11 +365,11 @@ export default function ManagePolicy() {
           Alexa Keyword
         </Typography>
         <Typography style={{
-            color: "black",
-            fontWeight: "bold",
-            fontSize: "14px",
-            "margin-left": "10px",
-          }}>
+          color: "black",
+          fontWeight: "bold",
+          fontSize: "14px",
+          "margin-left": "10px",
+        }}>
           AmazonRDSIdleDBInstancesRule
         </Typography>
       </Typography>
@@ -387,11 +387,11 @@ export default function ManagePolicy() {
               Rule Frequency{" "}
             </Typography>
             <Typography style={{
-            color: "black",
-            fontWeight: "bold",
-            fontSize: "14px",
-            "margin-left": "10px",
-          }}>
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              "margin-left": "10px",
+            }}>
               0 0/12 * * ? *
             </Typography>
           </Grid>
@@ -481,7 +481,7 @@ export default function ManagePolicy() {
 
   return (
     <div className={classes.root}>
-      <LayoutContainer>
+      <LayoutContainer pageName="Manage Rules">
         <Grid container spacing={3}>
           <Grid item xs={5} sm={2}>
             <Button className={classes.addNewButton} onClick={handleClickOpen}>

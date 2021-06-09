@@ -215,8 +215,7 @@ export default function AssetList(props) {
 
   return (
     <div>
-      {console.log(selectedRowData, 'selectedRowData')}
-      <LayoutContainer>
+      <LayoutContainer pageName="Asset List">
         <Grid container spacing={3} style={{ marginTop: 20 }}>
           <Grid item xs={12}>
             <div className={classes.rootDetails}>

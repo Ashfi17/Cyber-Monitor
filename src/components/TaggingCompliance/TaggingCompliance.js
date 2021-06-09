@@ -257,7 +257,7 @@ export default function CenteredGrid(props) {
 
   return (
     <div className={classes.root}>
-      <LayoutContainer>
+      <LayoutContainer pageName="Tagging Compliance">
         <Grid container spacing={3}>
           <Grid item md={3} xs={6}>
             <Paper className={classes.paper}>

@@ -115,3 +115,45 @@ export const getTaggableData = (searchtext, searchKey) => {
       });
   });
 };
+
+export const getCategoriesForOmni = () => {
+  const url = `${localUrl}/search/categories?domain=${"Infra \& Platforms"}`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: "Error" });
+      });
+  });
+};
+
+export const getAllAssetDataWithFilter = (searchtext, filterObj) => {
+  const url = `${localUrl}/search`;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, {
+        ag: "aws",
+        domain: "Infra & Platforms",
+        doNotReturnFilter: false,
+        from: 0,
+        searchText: searchtext,
+        size: 50,
+        includeAllAssets: false,
+        filter: filterObj
+      })
+      .then((result) => {
+        if (result) {
+          //   console.log(result.data.data.response, 'result.data.data.response')
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: "Error" });
+      });
+  });
+};

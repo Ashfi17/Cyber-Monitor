@@ -293,7 +293,7 @@ export default function ManagePolicy() {
               }}
             >
               <span style={{ color: "#7569EE", 'margin-left': '10px' }}>
-							{policyDetails && policyDetails[8]}
+                {policyDetails && policyDetails[8]}
               </span>
             </Paper>
           </Grid>
@@ -354,23 +354,23 @@ export default function ManagePolicy() {
             >
               Modified Date
             </Typography>
-						<span
-              style={{ color: "black", padding: "10px",fontSize: "14px", 'margin-left': '10px' }}
+            <span
+              style={{ color: "black", padding: "10px", fontSize: "14px", 'margin-left': '10px' }}
             >
               <DateRangeIcon />{' '} <span style={{ 'margin-bottom': '-6px' }}>{policyDetails && policyDetails[1]}</span>
             </span>
           </Grid>
         </Grid>
       </Typography>
-			<div style={{ align: 'right' }} onClick={handleClickOpen}>
-				<img  src={require("../../assets/images/Group 515.svg")} />
-			</div>
+      <div style={{ align: 'right' }} onClick={handleClickOpen}>
+        <img src={require("../../assets/images/Group 515.svg")} />
+      </div>
     </div>
   );
 
   return (
     <div className={classes.root}>
-      <LayoutContainer>
+      <LayoutContainer pageName="Manage Policy">
         <Grid container spacing={3}>
           <Grid item xs={3}>
             <Button className={classes.addNewButton} onClick={handleClickOpen}>

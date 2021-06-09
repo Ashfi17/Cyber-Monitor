@@ -443,7 +443,7 @@ export default function ManageRoles() {
 
   return (
     <div className={classes.root}>
-      <LayoutContainer>
+      <LayoutContainer pageName="Roles">
         <Grid container direction="row" justify="flex-end">
           <Grid item>
             <Grid container direction="row" spacing={3}>

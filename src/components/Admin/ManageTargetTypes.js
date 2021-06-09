@@ -469,7 +469,7 @@ export default function ManageTargetType() {
 
   return (
     <div className={classes.root}>
-      <LayoutContainer>
+      <LayoutContainer pageName="Manage Target Types">
         <Grid container spacing={3}>
           <Grid item xs={5} sm={2}>
             <Button className={classes.addNewButton} onClick={handleClickOpen}>

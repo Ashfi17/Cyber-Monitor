@@ -417,7 +417,7 @@ export default function PolicyViolationsDetails(props) {
 
   return (
     <div>
-      <LayoutContainer>
+      <LayoutContainer pageName="Policy Violations">
         <Paper className={classes.paper} elevation={0}>
           <Grid container spacing={3}>
             <Grid item xs={3}>

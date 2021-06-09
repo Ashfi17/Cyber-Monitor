@@ -366,7 +366,7 @@ export default function PolicyCompliance(props) {
   };
   return (
     <div>
-      <LayoutContainer>
+      <LayoutContainer pageName="Policy Compliance">
         <Paper className={classes.paper}>
           <Typography variant="h5">{policyKnowObj.displayName}</Typography>
           <Typography>{policyKnowObj.ruleDescription}</Typography>

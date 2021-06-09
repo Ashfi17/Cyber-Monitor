@@ -50,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     paddingLeft: theme.spacing(4),
   },
+  drawerMenuList: {
+    height: "100%",
+    overflow: "auto"
+  }
 }));
 
 const DrawerMenu = (props) => {
@@ -149,7 +153,7 @@ const DrawerMenu = (props) => {
           />
         </div>
         <Divider />
-        <List>
+        <List className={classes.drawerMenuList}>
           <ListItem
             button
             onClick={(e) => props.history.push("/home-page")}
@@ -300,11 +304,26 @@ const DrawerMenu = (props) => {
           <ListItemText style={{ color: "white" }} primary="Admin" />
         </ListItem> */}
 
+          <ListItem
+            button
+            onClick={(e) => props.history.push("/omni-search")}
+            className={
+              currentLocation == "/omni-search" ? classes.selecteditem : ""
+            }
+          >
+            <ListItemIcon>
+              <img
+                src={require("../assets/images/drawer-dashboard-icon.svg")}
+              />
+            </ListItemIcon>
+            <ListItemText style={{ color: "white" }} primary="Search" />
+          </ListItem>
+
           <ListItem button onClick={handleClickAdmin}>
             <ListItemIcon>
               <img src={require("../assets/images/Mask Group 376.svg")} />
             </ListItemIcon>
-            <ListItemText style={{ color: "white" }} primary="Admin">
+            <ListItemText style={{ color: "white" }} primary="Configuration">
               {" "}
               {openAdmin ? (
                 <ExpandLessIcon color="secondary" />
@@ -410,7 +429,7 @@ const DrawerMenu = (props) => {
           </Collapse>
         </List>
         {/* <Divider /> */}
-        <List style={{ position: "absolute", bottom: 0 }}>
+        <List style={{ padding: 0 }}>
           {/* <ListItem button onClick={(e) => props.history.push("/home-page")}>
           <ListItemIcon>
             <img
