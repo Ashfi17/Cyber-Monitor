@@ -42,7 +42,6 @@ const App = (props) => {
       const localAuthUser = localStorage.getItem("currentUserLoginDetails");
       if (localAuthUser) {
         parsedAuthUser = JSON.parse(localAuthUser);
-        console.log("parsedAuthUser", parsedAuthUser);
         setAuthUser(parsedAuthUser);
       }
     } else {

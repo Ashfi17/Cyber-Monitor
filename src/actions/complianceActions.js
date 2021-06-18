@@ -1,7 +1,10 @@
 import axios from 'axios';
+import setAuthorizationToken from './setAuthorizationToken';
 
-const localUrl = '/compliance/v1'
-
+const localUrl = '/compliance/v1';
+const localAuthUser = localStorage.getItem("currentUserLoginDetails");
+var parsedAuthUser = JSON.parse(localAuthUser);
+setAuthorizationToken(parsedAuthUser);
 // const config = {
 //     headers: {"Authorization" : `Bearer ${'4dd5fb38-addd-488c-9d26-506793d010af'}`}
 // }

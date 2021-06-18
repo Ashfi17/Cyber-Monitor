@@ -1,7 +1,10 @@
 import axios from "axios";
+import setAuthorizationToken from './setAuthorizationToken';
 
 const localUrl = "/admin/";
-
+const localAuthUser = localStorage.getItem("currentUserLoginDetails");
+var parsedAuthUser = JSON.parse(localAuthUser);
+setAuthorizationToken(parsedAuthUser);
 export const getPolicyList = () => {
   const url = `${localUrl}policy/list?page=${0}&size=${500}`;
   return new Promise((resolve, reject) => {

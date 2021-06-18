@@ -950,6 +950,7 @@ input:focus {
   border-radius: 10px;
   padding: 15px;
   cursor: pointer;
+  min-height: 175px;
 }
 
 .filteringResults p {
@@ -1006,7 +1007,34 @@ input:focus {
   outline: none;
 }
 
+
+/* =================================== */
+
+.nowrapcontainer {
+  width: 100%;
+  overflow: auto !important;
+  white-space: nowrap !important;
+  flex-wrap: inherit !important;
+}
+
+
+.tabletShape {
+  height: 200px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 2px solid #D8DCE9;
+  border-radius: 15px;
+  margin: 15px 10px 20px !important;
+  display: inline-block;
+  width: 15%;
+}
+
+/* =================================== */
 /* ============End Css searchInputFormComMain========================== */
+.changePassModalBox .MuiDialog-paperWidthSm {
+  width: 350px;
+}
+
+
 
 @media (max-width: 960px) {
 

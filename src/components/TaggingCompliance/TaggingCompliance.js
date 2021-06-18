@@ -37,13 +37,15 @@ const useStyles = makeStyles((theme) => ({
     background: "#FFFFFF 0% 0% no-repeat padding-box",
     border: "2px solid #D8DCE9",
     "border-radius": "15px",
-    transform: 'scale(0.9, 0.9)'
+    transform: "scale(0.9, 0.9)",
   },
 }));
 
 export default function CenteredGrid(props) {
   const classes = useStyles();
-  const [taggingCountDetails, setTaggingCountDetails] = useState({ "output": { "assets": 0, "untagged": 0, "tagged": 0, "compliance": 0 } });
+  const [taggingCountDetails, setTaggingCountDetails] = useState({
+    output: { assets: 0, untagged: 0, tagged: 0, compliance: 0 },
+  });
 
   const gridData = [
     {
@@ -241,7 +243,7 @@ export default function CenteredGrid(props) {
   const redirectingToAssetListDash = (getParam) => {
     var storeObj = {
       type: "taggable",
-      data: { tagged: "false" }
+      data: { tagged: "false" },
     };
     if (getParam == "total") {
       storeObj.data = {};
@@ -282,7 +284,11 @@ export default function CenteredGrid(props) {
             </Paper>
           </Grid>
           <Grid item md={3} xs={6}>
-            <Paper className={classes.paper} style={{ cursor: "pointer" }} onClick={() => redirectingToAssetListDash("total")}>
+            <Paper
+              className={classes.paper}
+              style={{ cursor: "pointer" }}
+              onClick={() => redirectingToAssetListDash("total")}
+            >
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
@@ -304,7 +310,11 @@ export default function CenteredGrid(props) {
             </Paper>
           </Grid>
           <Grid item md={3} xs={6}>
-            <Paper className={classes.paper} style={{ cursor: "pointer" }} onClick={() => redirectingToAssetListDash("tagging")}>
+            <Paper
+              className={classes.paper}
+              style={{ cursor: "pointer" }}
+              onClick={() => redirectingToAssetListDash("tagging")}
+            >
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
@@ -326,7 +336,11 @@ export default function CenteredGrid(props) {
             </Paper>
           </Grid>
           <Grid item md={3} xs={6}>
-            <Paper className={classes.paper} style={{ cursor: "pointer" }} onClick={() => redirectingToAssetListDash("untagging")}>
+            <Paper
+              className={classes.paper}
+              style={{ cursor: "pointer" }}
+              onClick={() => redirectingToAssetListDash("untagging")}
+            >
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
@@ -425,7 +439,7 @@ export default function CenteredGrid(props) {
                   <Grid item xs={4}>
                     <div
                       className={classes.legendContainer}
-                    // style={{ marginLeft: 12 }}
+                      // style={{ marginLeft: 12 }}
                     >
                       <Typography
                         variant="caption"
@@ -458,15 +472,17 @@ export default function CenteredGrid(props) {
               fontWeight: "bold",
               fontSize: 14,
             }}
-          >Overall Compliance Trend</Typography>
-          <Grid container spacing={3}>
+          >
+            Overall Compliance Trend
+          </Typography>
+          <Grid className="nowrapcontainer">
             {gridData.map((data) => (
-              <Grid item md={2} sm={4} xs={6} className={classes.tabletShape}>
+              <Grid item md={2} sm={4} xs={6} className="tabletShape">
                 <ul
                   style={{
                     listStyle: "none",
                     padding: "20px 5px",
-                    textAlign: "center"
+                    textAlign: "center",
                   }}
                 >
                   <li>
@@ -493,7 +509,7 @@ export default function CenteredGrid(props) {
                           }}
                         >
                           Tagging
-                          </Typography>
+                        </Typography>
                         <Typography>{data.tagging}</Typography>
                       </Grid>
                       <Grid item xs={6}>
@@ -505,7 +521,7 @@ export default function CenteredGrid(props) {
                           }}
                         >
                           Untagging
-                          </Typography>
+                        </Typography>
                         <Typography>{data.untagging}</Typography>
                       </Grid>
                     </Grid>

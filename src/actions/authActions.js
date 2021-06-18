@@ -26,3 +26,18 @@ export const loginDetails = (values) => {
       });
   });
 }
+
+export const changePassword = (values) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`user/changePassword`, values)
+      .then((result) => {
+        if (result) {
+          resolve(result);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
