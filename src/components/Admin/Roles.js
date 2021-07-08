@@ -18,6 +18,7 @@ import {
   getRoleDetailsFromId,
 } from "../../actions/AdminActions";
 import moment from "moment";
+import AddUser from "./AddUser";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -114,6 +115,7 @@ export default function ManageRoles() {
   const [ruleResData, setRoleResData] = useState({});
   // for og data
   const [roleResDataListArr, setRoleResDataListArr] = useState([]);
+  const [addUserModalOpen, setAddUserModalOpen] = React.useState(false);
 
   useEffect(() => {
     getRoleDataList()
@@ -233,6 +235,10 @@ export default function ManageRoles() {
     }
     setState({ ...state, [anchor]: open });
     setRoleDataObj(dataObj);
+  };
+
+  const callChangePasswordModalBox = () => {
+    setAddUserModalOpen(true);
   };
 
   const list = (anchor) => (
@@ -448,6 +454,9 @@ export default function ManageRoles() {
           <Grid item>
             <Grid container direction="row" spacing={3}>
               <Grid item>
+                <Button className="addFillButton" onClick={callChangePasswordModalBox}>Add User</Button>
+              </Grid>
+              <Grid item>
                 <Button className="addFillButton">View User Roles</Button>
               </Grid>
               <Grid item>
@@ -486,29 +495,32 @@ export default function ManageRoles() {
                         container
                         direction="row"
                         justify="space-between"
+                        alignItems="flex-end"
                         style={{ height: "100%" }}
                       >
                         <Grid
                           item
-                          md={3}
                           xs={6}
                           style={{ "text-align": "left" }}
                         >
-                          <p>Allocation</p>
-                          <span className="alloCation">
-                            {data_obj.users ? data_obj.users.length : "--"}
-                          </span>
+                          <div>
+                            <p>Allocation</p>
+                            <span className="alloCation">
+                              {data_obj.users ? data_obj.users.length : "--"}
+                            </span>
+                          </div>
                         </Grid>
                         <Grid
                           item
-                          md={3}
                           xs={6}
                           style={{ "text-align": "right" }}
                         >
-                          <p>Created By</p>
-                          <span className="CreatedBy">
-                            {data_obj.createdBy ? data_obj.createdBy : "--"}
-                          </span>
+                          <div>
+                            <p>Created By</p>
+                            <span className="CreatedBy">
+                              {data_obj.createdBy ? data_obj.createdBy : "--"}
+                            </span>
+                          </div>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -544,6 +556,7 @@ export default function ManageRoles() {
       ) : (
         false
       )}
+      <AddUser openPopUp={addUserModalOpen} onCloseModal={(e) => setAddUserModalOpen(false)} />
     </div>
   );
 }

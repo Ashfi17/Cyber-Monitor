@@ -27,13 +27,18 @@ export default function AWSMetaData() {
               variant="h6"
               style={{ color: "#262C49", fontWeight: "bold", fontSize: 14 }}
             >
-              AWS Metadata
+              Attributes
             </Typography>
             <Grid container spacing={3}>
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{ color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
+                  style={{
+                    color: "rgb(188 191 202)",
+                    fontWeight: "bold",
+                    fontSize: 14,
+                    padding: "5px",
+                  }}
                 >
                   Scheme
                 </Typography>
@@ -46,7 +51,12 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
+                  style={{
+                    color: "rgb(188 191 202)",
+                    fontWeight: "bold",
+                    fontSize: 14,
+                    padding: "5px",
+                  }}
                 >
                   Canonicalhostedzoneid
                 </Typography>
@@ -59,7 +69,12 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
+                  style={{
+                    color: "rgb(188 191 202)",
+                    fontWeight: "bold",
+                    fontSize: 14,
+                    padding: "5px",
+                  }}
                 >
                   _cloudType
                 </Typography>
@@ -74,7 +89,12 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
+                  style={{
+                    color: "rgb(188 191 202)",
+                    fontWeight: "bold",
+                    fontSize: 14,
+                    padding: "5px",
+                  }}
                 >
                   Type
                 </Typography>
@@ -87,7 +107,12 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
+                  style={{
+                    color: "rgb(188 191 202)",
+                    fontWeight: "bold",
+                    fontSize: 14,
+                    padding: "5px",
+                  }}
                 >
                   Accesslog
                 </Typography>
@@ -100,7 +125,12 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
+                  style={{
+                    color: "rgb(188 191 202)",
+                    fontWeight: "bold",
+                    fontSize: 14,
+                    padding: "5px",
+                  }}
                 >
                   Account ID
                 </Typography>
@@ -115,7 +145,12 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
+                  style={{
+                    color: "rgb(188 191 202)",
+                    fontWeight: "bold",
+                    fontSize: 14,
+                    padding: "5px",
+                  }}
                 >
                   Load Balancer Name
                 </Typography>
@@ -133,7 +168,12 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
+                  style={{
+                    color: "rgb(188 191 202)",
+                    fontWeight: "bold",
+                    fontSize: 14,
+                    padding: "5px",
+                  }}
                 >
                   Dnsname
                 </Typography>
@@ -151,7 +191,12 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
+                  style={{
+                    color: "rgb(188 191 202)",
+                    fontWeight: "bold",
+                    fontSize: 14,
+                    padding: "5px",
+                  }}
                 >
                   Loadbalancerarn
                 </Typography>

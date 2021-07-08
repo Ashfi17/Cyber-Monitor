@@ -128,7 +128,7 @@ export default function OmniSearch(props) {
   }; */
 
   const onClickPageChange = () => {
-    props.history.push("/asset-dashboard");
+    props.history.push("/asset-list");
   };
   return (
     <div>

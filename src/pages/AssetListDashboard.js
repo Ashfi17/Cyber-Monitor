@@ -69,14 +69,8 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    classes,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
+  const { classes, order, orderBy, numSelected, rowCount, onRequestSort } =
+    props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -125,7 +119,7 @@ export default function AssetList(props) {
     },
     paperDetails: {
       padding: theme.spacing(2),
-      textAlign: 'left',
+      textAlign: "left",
       color: theme.palette.text.secondary,
     },
     root: {

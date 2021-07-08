@@ -19,6 +19,7 @@ import PolicyCompliance from './pages/PolicyCompliance';
 import PolicyViolationsDetails from './pages/PolicyViolationsDetails';
 import OmniSearch from './pages/OmniSearch';
 import NoMatchPage from './pages/NotFound';
+import GuardedRoute from './GuardedRoute';
 import { appContext } from "./App";
 
 const Routers = (props) => {
@@ -32,7 +33,7 @@ const Routers = (props) => {
         }
       }
     }
-  }, []);
+  }, [authUser]);
 
   return (
     <BrowserRouter>
@@ -49,18 +50,15 @@ const Routers = (props) => {
           <Route exact path='/pl-compliance' component={PolicyCompliance} />
           <Route exact path='/pl-violations-details' component={PolicyViolationsDetails} />
           <Route exact path='/omni-search' component={OmniSearch} />
+
+          <GuardedRoute path='/manage-policy' component={ManagePolicy} auth={loggedInUserAdminIs} />
+          <GuardedRoute path='/manage-rules' component={ManageRules} auth={loggedInUserAdminIs} />
+          <GuardedRoute path='/manage-roles' component={ManageRoles} auth={loggedInUserAdminIs} />
+          <GuardedRoute path='/manage-target-type' component={ManageTargetType} auth={loggedInUserAdminIs} />
+          <GuardedRoute path='/manage-domain' component={ManageDomain} auth={loggedInUserAdminIs} />
+          <GuardedRoute path='/system-management' component={SystemManagement} auth={loggedInUserAdminIs} />
           <Route component={NoMatchPage} />
         </Switch>
-        {loggedInUserAdminIs &&
-          <Switch>
-            <Route exact path='/manage-policy' component={ManagePolicy} />
-            <Route exact path='/manage-rules' component={ManageRules} />
-            <Route exact path='/manage-roles' component={ManageRoles} />
-            <Route exact path='/manage-target-type' component={ManageTargetType} />
-            <Route exact path='/manage-domain' component={ManageDomain} />
-            <Route exact path='/system-management' component={SystemManagement} />
-          </Switch>
-        }
       </div>
     </BrowserRouter>
   );

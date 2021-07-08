@@ -1,5 +1,5 @@
 import axios from "axios";
-import setAuthorizationToken from './setAuthorizationToken';
+import setAuthorizationToken from "./setAuthorizationToken";
 
 const localUrl = "/admin/";
 const localAuthUser = localStorage.getItem("currentUserLoginDetails");
@@ -102,6 +102,23 @@ export const createRole = (values) => {
       });
   });
 };
+
+export const addNewUser = (values) => {
+  const url = `auth/user/signup`;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, values)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: "Error" });
+      });
+  });
+};
+
 export const editRole = (values) => {
   const url = `${localUrl}roles/update`;
   return new Promise((resolve, reject) => {

@@ -13,6 +13,7 @@ import Chart from "react-apexcharts";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { getOverallCompliance } from "../../actions/complianceActions";
+import { getAssetByClasChartData } from "../../actions/assetsActions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,73 +32,86 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-
+const dummyChartOptions = {
+  chart: {
+    type: "bar",
+    stacked: true,
+    toolbar: {
+      show: true,
+    },
+    zoom: {
+      enabled: true,
+    },
+  },
+  responsive: [
+    {
+      options: {
+        legend: {
+          position: "bottom",
+          offsetX: 0,
+          offsetY: 0,
+        },
+      },
+    },
+  ],
+  plotOptions: {
+    bar: {
+      horizontal: false,
+    },
+  },
+  xaxis: {
+    categories: [],
+  },
+  legend: {
+    position: "right",
+    offsetY: 40,
+  },
+  fill: {
+    opacity: 1,
+  },
+};
+const dummyChartData = [
+  {
+    name: "Pass",
+    data: [],
+  },
+  {
+    name: "Fail",
+    data: [],
+  },
+];
 const AssetByClassification = (props) => {
   const classes = useStyles();
   const [age, setAge] = React.useState("All");
+  const [chartOptions, setChartOptions] = React.useState(dummyChartOptions);
+  const [chartData, setChartData] = React.useState(dummyChartData);
+
+  useEffect(() => {
+    getAssetByClasChartData().then((resp) => {
+      if (resp.data.length > 0) {
+        console.log("resp", resp);
+        var allData = resp.data;
+        for (let x = 0; x < allData.length; x++) {
+          const elementObj = allData[x];
+          dummyChartData[0].data.push(elementObj.compliant);
+          dummyChartData[1].data.push(elementObj.nonCompliant);
+          dummyChartOptions.xaxis.categories.push(elementObj.key);
+        }
+        setChartData(dummyChartData);
+        setChartOptions(dummyChartOptions);
+      } else {
+
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, []);
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-  const chartData = [
-    {
-      name: "Pass",
-      data: [44, 55, 41, 67, 22, 43],
-    },
-    {
-      name: "Fail",
-      data: [13, 23, 20, 8, 13, 27],
-    },
-  ];
 
-  const chartOptions = {
-    chart: {
-      type: "bar",
-      height: 350,
-      stacked: true,
-      toolbar: {
-        show: true,
-      },
-      zoom: {
-        enabled: false,
-      },
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          legend: {
-            position: "bottom",
-            offsetX: -10,
-            offsetY: 0,
-          },
-        },
-      },
-    ],
-    plotOptions: {
-      bar: {
-        borderRadius: 8,
-        horizontal: false,
-      },
-    },
-    xaxis: {
-      categories: [
-        "VPC",
-        "Targetgroup",
-        "Subnet",
-        "Snapshot",
-        "Sg",
-        "Reservedi...",
-      ],
-    },
-    legend: {
-      position: "right",
-      offsetY: 40,
-    },
-    fill: {
-      opacity: 1,
-    },
-  };
+
 
   return (
     <Paper className={classes.paper} elevation={0}>
@@ -133,12 +147,15 @@ const AssetByClassification = (props) => {
             </FormControl>
           </Grid>
         </Grid>
-        <Chart
-          options={chartOptions}
-          series={chartData}
-          type="bar"
-          height={400}
-        />
+        <Grid className="assetClassifiChartBox">
+          <Chart
+            options={chartOptions}
+            series={chartData}
+            type="bar"
+            height={400}
+            width={2000}
+          />
+        </Grid>
       </div>
     </Paper>
   );

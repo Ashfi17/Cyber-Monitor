@@ -160,3 +160,19 @@ export const getAllAssetDataWithFilter = (searchtext, filterObj) => {
       });
   });
 };
+
+export const getAssetByClasChartData = () => {
+  const url = `${localUrl}/count/issues?ag=aws`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: "Error" });
+      });
+  });
+};

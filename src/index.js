@@ -1,17 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import "toastr/build/toastr.min.css";
+import "./index.css";
+import App from "./App";
 import axios from "axios";
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from "./reportWebVitals";
 
-axios.defaults.baseURL = 'http://pacbot-2030676945.us-east-2.elb.amazonaws.com/api/';
+axios.defaults.baseURL =
+  "http://pacbot-2030676945.us-east-2.elb.amazonaws.com/api/";
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

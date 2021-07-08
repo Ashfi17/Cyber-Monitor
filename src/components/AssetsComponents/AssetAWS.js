@@ -51,7 +51,7 @@ const AssetInvestory = (props) => {
     if (props && props.awsAppMin.length > 0) {
       setMinimum(props.awsAppMin);
       const obj1 = {};
-      obj1.name = 'Minimum';
+      obj1.name = "Minimum";
       obj1.data = props.awsAppMin;
       dataArray.push(obj1);
     } else {
@@ -60,40 +60,40 @@ const AssetInvestory = (props) => {
     if (props && props.awsAppMax.length > 0) {
       setMaximum(props.awsAppMax);
       const obj2 = {};
-      obj2.name = 'Minimum';
+      obj2.name = "Minimum";
       obj2.data = props.awsAppMax;
       dataArray.push(obj2);
     } else {
       setMaximum([]);
     }
     console.log("dataArray", dataArray);
-  }, [props])
+  }, [props]);
 
   const dataSeries = [
     {
-      name: 'Minimum',
-      data: minData
+      name: "Minimum",
+      data: minData,
     },
     {
-      name: 'Maximum',
-      data: maxData
-    }
+      name: "Maximum",
+      data: maxData,
+    },
   ];
   const dataOptions = {
     chart: {
       height: 350,
-      type: 'line',
+      type: "line",
       zoom: {
-        enabled: false
+        enabled: false,
       },
       animations: {
-        enabled: false
-      }
+        enabled: false,
+      },
     },
-    colors: ['#26C76E', '#E46666'],
+    colors: ["#26C76E", "#E46666"],
     stroke: {
       width: [5, 5, 4],
-      curve: 'smooth'
+      curve: "smooth",
     },
     // labels: [],
     xaxis: {
@@ -101,7 +101,7 @@ const AssetInvestory = (props) => {
     },
     yaxis: {
       min: 0,
-      max: 100
+      max: 100,
     },
   };
 
@@ -118,9 +118,11 @@ const AssetInvestory = (props) => {
             type="line"
             height={400}
           />
-          {datesData.length == 0 &&
-            <div className="noDataErrorMsg">Doesn't look like any data is available</div>
-          }
+          {datesData.length == 0 && (
+            <div className="noDataErrorMsg">
+              Doesn't look like any data is available
+            </div>
+          )}
         </Grid>
       </Grid>
     </Paper>

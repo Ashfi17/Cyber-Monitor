@@ -15,6 +15,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+#toast-container>div {
+  box-shadow: 0 0 12px #6c6c6c !important;
+  opacity: 1;
+  cursor: pointer;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -602,6 +608,10 @@ p {
   letter-spacing: 0px;
   color: #262C49;
   opacity: 0.5;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }
 
 .alloCation {
@@ -610,6 +620,7 @@ p {
   color: #7569EE;
   display: inline-block;
   padding: 6px 15px;
+  overflow: hidden;
 }
 
 .CreatedBy {
@@ -619,7 +630,7 @@ p {
   padding: 6px 15px;
   border-radius: 6px;
   min-width: 30px;
-  max-width: 80px;
+  max-width: 150px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -808,6 +819,14 @@ input:focus {
   color: #e46666;
 }
 
+.assetClassifiChartBox {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.assetClassifiChartBox::-webkit-scrollbar {
+  width: 0;
+}
 
 /* ================================ */
 .policyViolatedInfo {
