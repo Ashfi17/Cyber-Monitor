@@ -15,48 +15,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AWSMetaData() {
+export default function AWSMetaData(props) {
+  const { assetAttributesList } = props;
   const classes = useStyles();
+  console.log("assetAttributesList", assetAttributesList);
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Paper className={classes.paper}>
+          <div className="customPaper" style={{ padding: "15px" }}>
             <Typography
               variant="h6"
-              style={{ color: "#262C49", fontWeight: "bold", fontSize: 14 }}
+              style={{
+                color: "#262C49",
+                fontWeight: "bold",
+                fontSize: 14,
+                marginBottom: "30px",
+              }}
             >
               Attributes
             </Typography>
             <Grid container spacing={3}>
-              <Grid item xs={4}>
+              {assetAttributesList.map((row, index) => {
+                return (
+                  <Grid item xs={4} key={index}>
+                    <Typography
+                      variant="h6"
+                      style={{
+                        color: "rgb(188 191 202)",
+                        fontWeight: "bold",
+                        fontSize: 14,
+                        padding: "5px 0",
+                      }}
+                    >
+                      {row.name}
+                    </Typography>
+                    <Typography className="aWSMetadata">{row.value}</Typography>
+                  </Grid>
+                );
+              })}
+              {/* <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{
-                    color: "rgb(188 191 202)",
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    padding: "5px",
-                  }}
-                >
-                  Scheme
-                </Typography>
-                <Typography
-                  style={{ color: "#282733", fontWeight: "bold", fontSize: 14 }}
-                >
-                  Internet-facing
-                </Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography
-                  variant="h6"
-                  style={{
-                    color: "rgb(188 191 202)",
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    padding: "5px",
-                  }}
+                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
                 >
                   Canonicalhostedzoneid
                 </Typography>
@@ -69,12 +71,7 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{
-                    color: "rgb(188 191 202)",
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    padding: "5px",
-                  }}
+                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
                 >
                   _cloudType
                 </Typography>
@@ -83,18 +80,13 @@ export default function AWSMetaData() {
                 >
                   AWS
                 </Typography>
-              </Grid>
+              </Grid> */}
             </Grid>
-            <Grid container spacing={3}>
+            {/* <Grid container spacing={3}>
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{
-                    color: "rgb(188 191 202)",
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    padding: "5px",
-                  }}
+                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
                 >
                   Type
                 </Typography>
@@ -107,12 +99,7 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{
-                    color: "rgb(188 191 202)",
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    padding: "5px",
-                  }}
+                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
                 >
                   Accesslog
                 </Typography>
@@ -125,12 +112,7 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{
-                    color: "rgb(188 191 202)",
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    padding: "5px",
-                  }}
+                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
                 >
                   Account ID
                 </Typography>
@@ -145,12 +127,7 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{
-                    color: "rgb(188 191 202)",
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    padding: "5px",
-                  }}
+                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
                 >
                   Load Balancer Name
                 </Typography>
@@ -168,12 +145,7 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{
-                    color: "rgb(188 191 202)",
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    padding: "5px",
-                  }}
+                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
                 >
                   Dnsname
                 </Typography>
@@ -191,12 +163,7 @@ export default function AWSMetaData() {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  style={{
-                    color: "rgb(188 191 202)",
-                    fontWeight: "bold",
-                    fontSize: 14,
-                    padding: "5px",
-                  }}
+                  style={{  color: 'rgb(188 191 202)', fontWeight: "bold", fontSize: 14, padding: "5px" }}
                 >
                   Loadbalancerarn
                 </Typography>
@@ -206,8 +173,8 @@ export default function AWSMetaData() {
                   Arn:aws:elasticloadbalan
                 </Typography>
               </Grid>
-            </Grid>
-          </Paper>
+            </Grid> */}
+          </div>
         </Grid>
       </Grid>
     </div>

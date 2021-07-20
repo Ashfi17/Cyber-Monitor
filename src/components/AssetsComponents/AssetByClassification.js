@@ -148,13 +148,15 @@ const AssetByClassification = (props) => {
           </Grid>
         </Grid>
         <Grid className="assetClassifiChartBox">
-          <Chart
-            options={chartOptions}
-            series={chartData}
-            type="bar"
-            height={400}
-            width={2000}
-          />
+          {chartData[0].data.length > 0 &&
+            <Chart
+              options={chartOptions}
+              series={chartData}
+              type="bar"
+              height={400}
+              width={2000}
+            />
+          }
         </Grid>
       </div>
     </Paper>

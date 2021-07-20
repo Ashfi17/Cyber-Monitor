@@ -129,7 +129,16 @@ const DrawerMenu = (props) => {
 
   const assetListTableRedirection = () => {
     localStorage.removeItem("assetDataForFilter");
+    localStorage.removeItem("searchedAsstListPgeFilterObjs");
     props.history.push("/assetlist-table");
+  };
+
+  const omniSearchRedirection = () => {
+    localStorage.removeItem("omniSelectedAsset");
+    localStorage.removeItem("omniSearchingTxt");
+    localStorage.removeItem("omniSelObj");
+    localStorage.removeItem("omniFilterObj");
+    props.history.push("/omni-search");
   };
 
   return (
@@ -318,7 +327,7 @@ const DrawerMenu = (props) => {
 
           <ListItem
             button
-            onClick={(e) => props.history.push("/omni-search")}
+            onClick={(e) => omniSearchRedirection()}
             className={
               currentLocation == "/omni-search" ? classes.selecteditem : ""
             }

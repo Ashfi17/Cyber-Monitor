@@ -215,10 +215,6 @@ export default function AssetDashboard(props) {
       });
   };
 
-  const onClickPageChange = () => {
-    props.history.push("/assetlist-table");
-  };
-
   const backFun = () => {
     props.history.goBack();
   };
@@ -298,7 +294,6 @@ export default function AssetDashboard(props) {
               overallData={overallData}
               awsAppType={awsAppType}
               countByApplication={countByApplication}
-              onClickPageChange={onClickPageChange}
             />
           </Grid>
 

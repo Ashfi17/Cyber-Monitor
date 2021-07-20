@@ -176,8 +176,6 @@ const PolicyCompilance = (props) => {
         selected.slice(selectedIndex + 1)
       );
     }
-    console.log(newSelected, "newSelected");
-    // setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {

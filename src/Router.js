@@ -19,14 +19,17 @@ import PolicyCompliance from './pages/PolicyCompliance';
 import PolicyViolationsDetails from './pages/PolicyViolationsDetails';
 import OmniSearch from './pages/OmniSearch';
 import NoMatchPage from './pages/NotFound';
-import GuardedRoute from './GuardedRoute';
+import AdminGuardedRoute from './AdminGuardedRoute';
+import UserGuardedRoute from './UserGuardedRoute';
 import { appContext } from "./App";
 
 const Routers = (props) => {
   const { authUser, setAuthUser } = useContext(appContext);
   const [loggedInUserAdminIs, setAdminIs] = React.useState(false);
+  const [loggedInUserIs, setUserInIs] = React.useState(false);
   useEffect(() => {
     if (authUser) {
+      setUserInIs(true);
       if (authUser.userInfo.userRoles.length > 1) {
         if (authUser.userInfo.userRoles[1] == "ROLE_ADMIN") {
           setAdminIs(true);
@@ -41,22 +44,22 @@ const Routers = (props) => {
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/login' component={Login} />
-          <Route exact path="/home-page" component={Dashboard} />
-          <Route exact path='/asset-dashboard' component={AssetDashboard} />
-          <Route exact path='/asset-list' component={AssetList} />
-          <Route exact path='/policyknowledge' component={PolicyKnowledge} />
-          <Route exact path='/assetlist-table' component={AssetListTable} />
-          <Route exact path='/tagging-compliance' component={TaggingCompliance} />
-          <Route exact path='/pl-compliance' component={PolicyCompliance} />
-          <Route exact path='/pl-violations-details' component={PolicyViolationsDetails} />
-          <Route exact path='/omni-search' component={OmniSearch} />
+          <UserGuardedRoute path="/home-page" component={Dashboard} auth={loggedInUserIs} />
+          <UserGuardedRoute path='/asset-dashboard' component={AssetDashboard} auth={loggedInUserIs} />
+          <UserGuardedRoute path='/asset-list' component={AssetList} auth={loggedInUserIs} />
+          <UserGuardedRoute path='/policyknowledge' component={PolicyKnowledge} auth={loggedInUserIs} />
+          <UserGuardedRoute path='/assetlist-table' component={AssetListTable} auth={loggedInUserIs} />
+          <UserGuardedRoute path='/tagging-compliance' component={TaggingCompliance} auth={loggedInUserIs} />
+          <UserGuardedRoute path='/pl-compliance' component={PolicyCompliance} auth={loggedInUserIs} />
+          <UserGuardedRoute path='/pl-violations-details' component={PolicyViolationsDetails} auth={loggedInUserIs} />
+          <UserGuardedRoute path='/omni-search' component={OmniSearch} auth={loggedInUserIs} />
 
-          <GuardedRoute path='/manage-policy' component={ManagePolicy} auth={loggedInUserAdminIs} />
-          <GuardedRoute path='/manage-rules' component={ManageRules} auth={loggedInUserAdminIs} />
-          <GuardedRoute path='/manage-roles' component={ManageRoles} auth={loggedInUserAdminIs} />
-          <GuardedRoute path='/manage-target-type' component={ManageTargetType} auth={loggedInUserAdminIs} />
-          <GuardedRoute path='/manage-domain' component={ManageDomain} auth={loggedInUserAdminIs} />
-          <GuardedRoute path='/system-management' component={SystemManagement} auth={loggedInUserAdminIs} />
+          <AdminGuardedRoute path='/manage-policy' component={ManagePolicy} auth={loggedInUserAdminIs} />
+          <AdminGuardedRoute path='/manage-rules' component={ManageRules} auth={loggedInUserAdminIs} />
+          <AdminGuardedRoute path='/manage-roles' component={ManageRoles} auth={loggedInUserAdminIs} />
+          <AdminGuardedRoute path='/manage-target-type' component={ManageTargetType} auth={loggedInUserAdminIs} />
+          <AdminGuardedRoute path='/manage-domain' component={ManageDomain} auth={loggedInUserAdminIs} />
+          <AdminGuardedRoute path='/system-management' component={SystemManagement} auth={loggedInUserAdminIs} />
           <Route component={NoMatchPage} />
         </Switch>
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Divider } from "@material-ui/core";
+import { Grid, Typography, Divider, Button } from "@material-ui/core";
 import LayoutContainer from "../components/reusableComponent/LayoutContainer";
 import AssetListDetails from "../components/AssetList/AassetListDetails";
 import AssociatedPolicies from "../components/AssetList/AssociatedPolicies";
@@ -18,8 +18,18 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
-import { getTargetType } from "../actions/assetsActions";
-import { getAssociatedPolicies } from "../actions/complianceActions";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import {
+  getTargetType,
+  getAssetTagsData,
+  getAssetSummaryData,
+} from "../actions/assetsActions";
+import backIcon from "../assets/images/header/back.svg";
+import {
+  getAssociatedPolicies,
+  getAssociatedPoliciesTableData,
+  getPolicyviolationsSummary,
+} from "../actions/complianceActions";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -121,6 +131,8 @@ export default function AssetList(props) {
       padding: theme.spacing(2),
       textAlign: "left",
       color: theme.palette.text.secondary,
+      boxShadow: "0px 3px 6px #2c28281c",
+      borderRadius: "10px",
     },
     root: {
       width: "100%",
@@ -165,10 +177,30 @@ export default function AssetList(props) {
       props.location.state &&
       props.location.state.rowData
     ) {
-      setSelectedRowData(props.location.state.rowData);
+      // setSelectedRowData(props.location.state.rowData);
       getAssociatedPolicies(props.location.state.rowData)
         .then((respo) => {
           setAssociatedPolicy(respo);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    var omni_search_val = localStorage.getItem("omniSearchObj");
+    if (omni_search_val) {
+      var omniSearchObj = JSON.parse(omni_search_val);
+      let newId = omniSearchObj._id.replace(/\//g, "%2F");
+      setResourceIdForView(omniSearchObj._id);
+      setResourceIdUrl(omniSearchObj._entitytype + "/" + omniSearchObj._id);
+      getAssotTableData(omniSearchObj._entitytype + "/" + newId);
+
+      getAssetSummaryData(omniSearchObj._id)
+        .then((resp) => {
+          console.log("resp", resp);
+          setSelectedRowData(resp.attributes[2]);
         })
         .catch((error) => {
           console.log(error);
@@ -182,6 +214,14 @@ export default function AssetList(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [resourceIdForView, setResourceIdForView] = React.useState("");
+  const [resourceIdUrl, setResourceIdUrl] = React.useState("");
+  const [assetSummaryData, setAssetSummaryData] = React.useState([]);
+  const [overallResponce, setOverallResponce] = React.useState({});
+  const [assetTagsList, setAssetTagsList] = React.useState([]);
+  const [assetAttributesList, setAssetAttributesList] = React.useState([]);
+  const [state, setState] = React.useState({ right: false });
+  const [selectedPolicyObj, setSelectedPolicyObj] = useState({});
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -207,24 +247,318 @@ export default function AssetList(props) {
       associatedPolicy && associatedPolicy.length - page * rowsPerPage
     );
 
+  useEffect(() => {
+    var omni_search_val = localStorage.getItem("omniSearchObj");
+    if (omni_search_val) {
+      var omniSearchObj = JSON.parse(omni_search_val);
+      let newId = omniSearchObj._id.replace(/\//g, "%2F");
+      setResourceIdForView(omniSearchObj._id);
+      setResourceIdUrl(omniSearchObj._entitytype + "/" + omniSearchObj._id);
+      getAssotTableData(omniSearchObj._entitytype + "/" + newId);
+    }
+  }, []);
+
+  const getAssotTableData = (srcUrl) => {
+    getAssociatedPoliciesTableData(srcUrl)
+      .then((respo) => {
+        setAssociatedPolicy(respo.response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    getPolicyviolationsSummary(srcUrl)
+      .then((resp) => {
+        if (resp) {
+          setOverallResponce(resp);
+          setAssetSummaryData(resp.severityInfo);
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    getAssetTagsData(srcUrl)
+      .then((respo) => {
+        var tags_obj = respo.tags;
+        var tags_arr = [];
+        for (var property in tags_obj) {
+          var new_obj = {
+            tabName: property,
+            value: tags_obj[property],
+          };
+          tags_arr.push(new_obj);
+        }
+        setAssetTagsList(tags_arr);
+        setAssetAttributesList(respo.attributes);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const list = (anchor) => (
+    <div style={{ width: 455, padding: 15 }} role="presentation">
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <Typography
+            style={{
+              padding: "7px",
+              fontWeight: "bold",
+            }}
+          >
+            Additional Details
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography
+            style={{
+              cursor: "pointer",
+              float: "right",
+              padding: "7px",
+              fontWeight: "bold",
+            }}
+            onClick={toggleDrawer(anchor, false, {})}
+          >
+            X
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography
+            style={{
+              padding: "7px",
+              color: "#b3b0af",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            Policy Name
+          </Typography>
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginLeft: "10px",
+            }}
+          >
+            {selectedPolicyObj.policyName}
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <Typography
+            style={{
+              padding: "7px",
+              color: "#b3b0af",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            Frequency
+          </Typography>
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginLeft: "10px",
+              wordBreak: "break-all",
+              display: "inline-block",
+            }}
+          >
+            {selectedPolicyObj.frequency}
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography
+            style={{
+              padding: "7px",
+              color: "#b3b0af",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            Severity
+          </Typography>
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginLeft: "10px",
+              wordBreak: "break-all",
+              display: "inline-block",
+            }}
+          >
+            {selectedPolicyObj.severity}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <Typography
+            style={{
+              padding: "7px",
+              color: "#b3b0af",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            Last Scanned
+          </Typography>
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginLeft: "10px",
+              wordBreak: "break-all",
+              display: "inline-block",
+            }}
+          >
+            {selectedPolicyObj.lastScan}
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography
+            style={{
+              padding: "7px",
+              color: "#b3b0af",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            Issue ID
+          </Typography>
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginLeft: "10px",
+              wordBreak: "break-all",
+              display: "inline-block",
+            }}
+          >
+            {selectedPolicyObj.issueId}
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography
+            style={{
+              padding: "7px",
+              color: "#b3b0af",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            ScanHistory
+          </Typography>
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginLeft: "10px",
+            }}
+          >
+            {selectedPolicyObj.scanHistory}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography
+            style={{
+              padding: "7px",
+              color: "#b3b0af",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            Rule Id
+          </Typography>
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginLeft: "10px",
+            }}
+          >
+            {selectedPolicyObj.ruleId}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography
+            style={{
+              padding: "7px",
+              color: "#b3b0af",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            PolicyId
+          </Typography>
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginLeft: "10px",
+            }}
+          >
+            {selectedPolicyObj.policyId}
+          </Typography>
+        </Grid>
+      </Grid>
+    </div>
+  );
+
+  const toggleDrawer = (anchor, open, dataObj) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setState({ ...state, [anchor]: open });
+    setSelectedPolicyObj(dataObj);
+  };
+
+  const failClickEvent = (e, dataObj) => {
+    e.stopPropagation();
+    dataObj.IssueId = dataObj.issueId;
+    dataObj.ResourceId = resourceIdForView;
+    localStorage.setItem("plcyViolParams", JSON.stringify(dataObj));
+    props.history.push("/pl-violations-details");
+  };
+
   return (
     <div>
-      <LayoutContainer pageName="Asset List">
+      <LayoutContainer pageName="Asset Detail">
+        <Button className="backBtnStl" onClick={() => props.history.goBack()}>
+          <img src={backIcon} />
+        </Button>
         <Grid container spacing={3} style={{ marginTop: 20 }}>
           <Grid item xs={12}>
             <div className={classes.rootDetails}>
               <Grid container spacing={3}>
                 <Grid item xs={3}>
                   <Paper className={classes.paperDetails}>
-                    <Typography
-                      variant="h6"
-                      style={{
-                        color: "#262C49",
-                        fontWeight: "bold",
-                        fontSize: 14,
-                      }}
-                    >
-                      {selectedRowData._resourceid}
+                    <Typography variant="h6" className="nowrapCustom">
+                      {resourceIdForView}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -244,7 +578,7 @@ export default function AssetList(props) {
                         fontSize: 14,
                       }}
                     >
-                      98 %
+                      {overallResponce.compliance} %
                     </Typography>
                     <Typography
                       variant="h6"
@@ -254,26 +588,28 @@ export default function AssetList(props) {
                     </Typography>
                   </Paper>
                 </Grid>
-                <Grid item xs={3}>
-                  <Paper className={classes.paperDetails}>
-                    <Typography
-                      variant="h6"
-                      style={{
-                        color: "#262C49",
-                        fontWeight: "bold",
-                        fontSize: 14,
-                      }}
-                    >
-                      {selectedRowData.state}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      style={{ color: "#262C49", fontSize: 12 }}
-                    >
-                      Instance State
-                    </Typography>
-                  </Paper>
-                </Grid>
+                {selectedRowData.value && (
+                  <Grid item xs={3}>
+                    <Paper className={classes.paperDetails}>
+                      <Typography
+                        variant="h6"
+                        style={{
+                          color: "#262C49",
+                          fontWeight: "bold",
+                          fontSize: 14,
+                        }}
+                      >
+                        {selectedRowData.value}
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        style={{ color: "#262C49", fontSize: 12 }}
+                      >
+                        Instance State
+                      </Typography>
+                    </Paper>
+                  </Grid>
+                )}
                 <Grid item xs={3}>
                   <Paper className={classes.paperDetails}>
                     <Typography
@@ -313,8 +649,9 @@ export default function AssetList(props) {
         <Grid container spacing={3} style={{ marginTop: 20 }}>
           <Grid item xs={8}>
             <div className={classes.root}>
-              <Paper className={classes.paper}>
+              <div className="customPaper tagesAss">
                 <TableContainer>
+                  <p style={{ padding: "10px 15px 0" }}>{resourceIdUrl}</p>
                   <Table
                     className={classes.table}
                     aria-labelledby="tableTitle"
@@ -351,6 +688,8 @@ export default function AssetList(props) {
                               tabIndex={-1}
                               key={row.policyName}
                               selected={isItemSelected}
+                              style={{ cursor: "pointer" }}
+                              onClick={toggleDrawer("right", true, row)}
                             >
                               <TableCell align="left">
                                 {row.policyName}
@@ -359,7 +698,12 @@ export default function AssetList(props) {
                                 {row.lastScan === "Pass" ? (
                                   <div style={{ color: "#26C76E" }}>Pass</div>
                                 ) : (
-                                  <div style={{ color: "#E46666" }}>Fail</div>
+                                  <div
+                                    style={{ color: "#E46666" }}
+                                    onClick={(e) => failClickEvent(e, row)}
+                                  >
+                                    Fail
+                                  </div>
                                 )}
                               </TableCell>
                               <TableCell align="left">
@@ -369,7 +713,7 @@ export default function AssetList(props) {
                           );
                         })}
                       {emptyRows > 0 && (
-                        <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableRow>
                           <TableCell colSpan={6} />
                         </TableRow>
                       )}
@@ -385,25 +729,25 @@ export default function AssetList(props) {
                   onChangePage={handleChangePage}
                   onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
-              </Paper>
+              </div>
             </div>
           </Grid>
           <Grid item xs={4} direction="column">
-            <Grid
+            {/* <Grid
               container
               direction="column"
               justify="center"
               alignItems="center"
             >
               <AWSNotification />
-            </Grid>
+            </Grid> */}
             <Grid
               container
               direction="column"
               justify="center"
               alignItems="center"
             >
-              <AssetTags />
+              <AssetTags assetTagsList={assetTagsList} />
             </Grid>
           </Grid>
           {/* <Grid item xs={3} direction="column">
@@ -412,15 +756,25 @@ export default function AssetList(props) {
         </Grid>
         <Grid container spacing={3} style={{ marginTop: 20 }}>
           <Grid item xs={12}>
-            <AssetSummary />
+            <AssetSummary assetSummaryData={assetSummaryData} />
           </Grid>
         </Grid>
         <Grid container spacing={3} style={{ marginTop: 20 }}>
           <Grid item xs={12}>
-            <AWSMetaData />
+            {assetAttributesList && (
+              <AWSMetaData assetAttributesList={assetAttributesList} />
+            )}
           </Grid>
         </Grid>
       </LayoutContainer>
+      <SwipeableDrawer
+        anchor={"right"}
+        open={state["right"]}
+        onClose={toggleDrawer("right", false, {})}
+        onOpen={toggleDrawer("right", true, {})}
+      >
+        {list("right")}
+      </SwipeableDrawer>
     </div>
   );
 }

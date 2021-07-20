@@ -39,7 +39,7 @@ p {
 
 ::-webkit-scrollbar {
   width: 5px;
-  height: 8px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -48,12 +48,42 @@ p {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 40px #7569ee;
-  box-shadow: inset 0 0 40px #7569ee;
+  -webkit-box-shadow: inset 0 0 40px #bcbcbcb5;
+  box-shadow: inset 0 0 40px #bcbcbcb5
 }
+
 
 .MuiButton-root.backBtnStl {
   padding: 0;
+  background-color: transparent;
+  min-width: 0;
+  transition: .3s all ease;
+  -webkit-transition: .3s all ease;
+  -moz-transition: .3s all ease;
+  -ms-transition: .3s all ease;
+  -o-transition: .3s all ease;
+}
+
+.policyviolationSummery {
+  position: relative;
+}
+
+.policyviolationSummery .apexcharts-canvas {
+  margin: 0 auto;
+}
+
+.MuiSelect-select:focus {
+  background-color: transparent !important;
+}
+
+.MuiButton-root.backBtnStl:hover {
+
+  background-color: transparent;
+  transform: translateX(-5px);
+  -webkit-transform: translateX(-5px);
+  -moz-transform: translateX(-5px);
+  -ms-transform: translateX(-5px);
+  -o-transform: translateX(-5px);
 }
 
 .MuiButton-root.backBtnStl img {
@@ -122,6 +152,120 @@ p {
 
 .logoSection img {
   cursor: pointer;
+}
+
+.customPaper {
+  box-shadow: 0px 3px 6px #2c28281c;
+  background-color: #ffffff;
+  border-radius: 10px;
+  transition: .5s all linear;
+  -webkit-transition: .5s all linear;
+  -moz-transition: .5s all linear;
+  -ms-transition: .5s all linear;
+  -o-transition: .5s all linear;
+}
+
+.nowrapCustom {
+
+  font-weight: bold;
+  font-size: 14px !important;
+  color: #262C49;
+  word-break: break-word;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  white-space: nowrap;
+
+}
+
+.customPaper thead.MuiTableHead-root .MuiTableCell-alignLeft {
+  white-space: nowrap;
+}
+
+.getFilteringData {
+  display: flex;
+  padding: 15px 15px 0;
+}
+
+.getFilteringData .taggedFilter {
+  font-size: 0.83em;
+  text-align: left;
+  color: #7569EE;
+  padding: 0.6em 2.75em 0.7em 1em;
+  margin: 0em 0.9em 0 0;
+  border-radius: 1.3em;
+  border: solid 1px #7569EE;
+  position: relative;
+  max-width: 24em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.right-close-wrap {
+  top: 0px;
+  bottom: 0px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: #7569EE;
+  border-radius: 1.2em;
+  cursor: pointer;
+  position: absolute;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.padding16 {
+  padding: 15px;
+}
+
+.padding16 p:first-child {
+  color: #EDEDF2;
+  text-align: right;
+}
+
+.totalTag {
+  min-height: 387.4px;
+}
+
+.noDataAvailable {
+  color: #a0a0a0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.aWSMetadata {
+  color: rgb(40, 39, 51);
+  font-weight: bold;
+  font-size: 14px;
+  word-break: break-word;
+  letter-spacing: 0px;
+  color: #262C49;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.tagesAss {
+  background-color: #fff;
+  width: 100%;
+  padding: 16px;
+  box-shadow: 0px 3px 6px #2c28281c;
+  border-radius: 10px;
+  min-height: 331.96px;
+  position: relative;
+
 }
 
 .login-btn {
@@ -754,6 +898,7 @@ input:focus {
 .overallCompncTrendComp {
   padding: 15px 22px;
   margin-top: 25px;
+  min-height: 337.4px;
 }
 
 .overallCompncTrendComp h6 {
@@ -1038,13 +1183,60 @@ input:focus {
 
 
 .tabletShape {
-  height: 200px;
+  position: relative;
+  height: 230px;
+  min-height: 230px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 2px solid #D8DCE9;
   border-radius: 15px;
   margin: 15px 10px 20px !important;
   display: inline-block;
   width: 15%;
+
+}
+
+.tabletShape:hover {
+  box-shadow: 0px 3px 6px #2c28281c;
+  transition: .3s ease all;
+  -webkit-transition: .3s ease all;
+  -moz-transition: .3s ease all;
+  -ms-transition: .3s ease all;
+  -o-transition: .3s ease all;
+}
+
+.taggingText,
+.untaggingText {
+  font: normal normal 12px/18px Poppins !important;
+  letter-spacing: 0px;
+  color: #282733;
+  opacity: 0.5;
+}
+
+.tagsName {
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+  text-transform: uppercase;
+}
+
+.taggingText {
+  font: normal normal 600 12px/24px Poppins;
+  letter-spacing: 0px;
+  color: #26C76E !important;
+}
+
+.untaggedData {
+  font: normal normal 600 12px/24px Poppins;
+  letter-spacing: 0px;
+  color: #E46666;
+}
+
+.overallComplianceProgress {
+  margin: 15px 0;
+}
+
+.overallComplianceProgress .MuiLinearProgress-colorPrimary {
+  background-color: #E46666;
 }
 
 /* =================================== */

@@ -351,3 +351,101 @@ export const getPolicyViolationReason = (getTargetIssId) => {
       });
   });
 };
+
+export const getTaggingComplianceTrend = () => {
+  // const token = '955589a2-dd91-4dec-a8e6-07383c41c8f9'
+  const url = `${localUrl}/trend/compliance/tagging`;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, { ag: "aws", from: "2021-06-08", filters: {} })
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data.response);
+        }
+      })
+      .catch((error) => {
+        reject({ message: 'Error' });
+      });
+  });
+};
+
+export const getAssociatedPoliciesTableData = (paramUrl) => {
+  const url = `${localUrl}/policyevaluations/aws/${paramUrl}?from=0&size=10`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: "Error" });
+      });
+  });
+};
+
+export const getPolicyviolationsSummary = (paramUrl) => {
+  const url = `${localUrl}/policyviolations/summary/aws/${paramUrl}`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: "Error" });
+      });
+  });
+};
+
+export const getTotalTagCompliance = () => {
+  const url = `${localUrl}/tagging/compliance?ag=aws`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: "Error" });
+      });
+  });
+};
+export const fetchTaggingSummaryByTargetType = () => {
+  // const token = '955589a2-dd91-4dec-a8e6-07383c41c8f9'
+  const url = `${localUrl}/tagging/summarybytargettype`;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, { ag: "aws", filters: {} })
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data.response);
+        }
+      })
+      .catch((error) => {
+        reject({ message: 'Error' });
+      });
+  });
+};
+
+
+export const getFilterTags = (getTargetType) => {
+  const url = `${localUrl}/filters/${getTargetType}?ag=aws&domain=Infra%20%26%20Platforms`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: 'Error' });
+      });
+  });
+};

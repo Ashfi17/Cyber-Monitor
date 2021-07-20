@@ -10,6 +10,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
+import { Button } from "@material-ui/core";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import backIcon from "../../assets/images/header/back.svg";
 import {
   Paper,
   Chip,
@@ -23,7 +26,7 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import LayoutContainer from "../reusableComponent/LayoutContainer";
 // import AssetList from '../../components/AssetList/AssetList'
-import { postFiltersApi } from "../../actions/complianceActions";
+import { postFiltersApi, getFilterTags } from "../../actions/complianceActions";
 import { getAssets, getTaggableData } from "../../actions/assetsActions";
 
 function descendingComparator(a, b, orderBy) {
@@ -159,14 +162,8 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    classes,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
+  const { classes, order, orderBy, numSelected, rowCount, onRequestSort } =
+    props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -265,19 +262,21 @@ const AssetListTable = (props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [tableData, setTableData] = useState([]);
   const [uniqueList, setUniqueAssetList] = useState([]);
+  const [filterTagsList, setFilterTagsList] = useState([]);
+  const [filteredElementsList, setFilteredElementsList] = useState([]);
   const [searchKey, setSearchKey] = useState("");
   const [assetType, setAssetType] = useState("All");
   const [category, setCategory] = useState("All");
   const [assetDataFilterObj, setAssetDataFilterObj] = useState({});
-  // const [selectedRowData, setSelectedRowData] = useState({})
+  const [state, setState] = React.useState({ right: false });
+  const [selectedPolicyObj, setSelectedPolicyObj] = useState({});
 
   useEffect(() => {
     postFiltersApi("blank")
       .then((resp) => {
         let arrayData = [];
-        console.log("respresp", resp);
         resp.response.map((data) => {
-          arrayData.push(data.optionName);
+          arrayData.push(data.optionName.trim());
         });
         const uniqueArray = arrayData.filter((v, i, a) => a.indexOf(v) === i);
         setUniqueAssetList(uniqueArray);
@@ -288,30 +287,48 @@ const AssetListTable = (props) => {
   }, []);
 
   useEffect(() => {
-    const searchKey = "";
-    var asset_data_filter_obj = JSON.parse(
-      localStorage.getItem("assetDataForFilter")
+    var user_srchd_filter_obj_str = localStorage.getItem(
+      "searchedAsstListPgeFilterObjs"
     );
-    if (asset_data_filter_obj) {
+    if (user_srchd_filter_obj_str) {
+      let usersFilterArr = JSON.parse(user_srchd_filter_obj_str);
+      setFilteredElementsList(usersFilterArr);
+      dataModifyForApi(usersFilterArr);
+      return false;
+    }
+    var asset_data_filter_obj_str = localStorage.getItem("assetDataForFilter");
+    if (asset_data_filter_obj_str) {
+      let assetFilterObj = JSON.parse(asset_data_filter_obj_str);
+      var filterObj = assetFilterObj.data;
+      var new_arr = [];
+      for (var property in filterObj) {
+        var new_obj = {
+          name: property,
+          value: filterObj[property],
+        };
+        new_arr.push(new_obj);
+      }
+      /* if (assetFilterObj.data.tagged) {
+        new_arr.push({
+          name: "tagged",
+          value: assetFilterObj.data.tagged
+        });
+      }
+      if (assetFilterObj.data.name) {
+        new_arr.push({
+          name: "asset type",
+          value: assetFilterObj.data.name
+        });
+      } */
+      setFilteredElementsList(new_arr);
+      fetchTaggableDataList(filterObj);
+    } else {
+      fetchTaggableDataList({});
+    }
+    /* if (asset_data_filter_obj) {
       setAssetDataFilterObj(asset_data_filter_obj);
       if (asset_data_filter_obj.type == "taggable") {
-        var searchData = asset_data_filter_obj.data;
-
-        getTaggableData("", searchData)
-          .then((respo) => {
-            // arrayData = [];
-            if (respo) {
-              /* respo.map((data) => {
-                arrayData.push(data._entitytype);
-              });
-              const uniqueArray = arrayData.filter((v, i, a) => a.indexOf(v) === i);
-              setUniqueAssetList(uniqueArray); */
-              setTableData(respo);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        
       } else {
         var filterObj = asset_data_filter_obj.data;
         getAssets(searchKey, filterObj)
@@ -329,17 +346,27 @@ const AssetListTable = (props) => {
       var filterObj = {
         domain: "Infra & Platforms",
       };
-      getAssets(searchKey, filterObj)
-        .then((respo) => {
-          if (respo) {
-            setTableData(respo);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+      getAssets(searchKey, filterObj).then((respo) => {
+        if (respo) {
+          setTableData(respo);
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+    } */
   }, []);
+
+  const fetchTaggableDataList = (property) => {
+    getTaggableData(property)
+      .then((respo) => {
+        if (respo) {
+          setTableData(respo);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -347,9 +374,9 @@ const AssetListTable = (props) => {
     setOrderBy(property);
   };
 
-  const handleClick = (row) => {
+  const handleClick = (e, row) => {
+    e.stopPropagation();
     if (row) {
-      // setSelectedRowData(row)
       props.history.push(`/asset-list`, {
         rowData: row,
       });
@@ -365,9 +392,58 @@ const AssetListTable = (props) => {
     setPage(0);
   };
 
+  const removeSelectedItem = (index) => {
+    const temp_arr = [...filteredElementsList];
+    temp_arr.splice(index, 1);
+    setFilteredElementsList(temp_arr);
+    dataModifyForApi(temp_arr);
+  };
+
+  const removeAllSelectedItems = () => {
+    localStorage.removeItem("assetDataForFilter");
+    localStorage.removeItem("searchedAsstListPgeFilterObjs");
+    setFilteredElementsList([]);
+    dataModifyForApi([]);
+  };
+
   const handleSearchResults = (e) => {
     setSearchKey(e.target.value);
     var filterObj = {};
+    filterObj[assetType.toLowerCase()] = e.target.value;
+    const temp_arr = [...filteredElementsList];
+    let passLoopIs = true;
+    for (let j = 0; j < temp_arr.length; j++) {
+      const element = temp_arr[j];
+      if (element.name.toLowerCase() == assetType.toLowerCase()) {
+        temp_arr[j].value = e.target.value;
+        passLoopIs = false;
+        break;
+      }
+    }
+
+    if (passLoopIs) {
+      if (assetType.toLowerCase() == "resource type") {
+        for (let x = 0; x < temp_arr.length; x++) {
+          const element = temp_arr[x];
+          if (element.name == "asset type") {
+            temp_arr.splice(x);
+          }
+        }
+      }
+      temp_arr.push({
+        name: assetType.toLowerCase(),
+        value: e.target.value,
+      });
+    }
+    localStorage.removeItem("assetDataForFilter");
+    localStorage.setItem(
+      "searchedAsstListPgeFilterObjs",
+      JSON.stringify(temp_arr)
+    );
+    setFilteredElementsList(temp_arr);
+    dataModifyForApi(temp_arr);
+    // fetchTaggableDataList(filterObj);
+    /* var filterObj = {};
     if (assetDataFilterObj?.type == "taggable") {
       filterObj = assetDataFilterObj.data;
       getTaggableData(e.target.value, filterObj)
@@ -381,22 +457,45 @@ const AssetListTable = (props) => {
         });
     } else {
       filterObj = assetDataFilterObj.data;
-      getAssets(e.target.value, filterObj).then((resp) => {
-        setTableData(resp);
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
+      getAssets(e.target.value, filterObj)
+        .then((resp) => {
+          setTableData(resp);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } */
+  };
 
+  const dataModifyForApi = (getArrList) => {
+    var filterObj = {};
+    for (let e = 0; e < getArrList.length; e++) {
+      const element = getArrList[e];
+      var name = element.name;
+      if (name == "asset type" || name == "resource type") {
+        name = "resourceType";
+      }
+      filterObj[name] = element.value;
+    }
+    fetchTaggableDataList(filterObj);
   };
 
   const handleChangeAssetType = (e) => {
-    setSearchKey(e.target.value);
     setAssetType(e.target.value);
-    var filterObj = { domain: "Infra & Platforms" };
-    getAssets(e.target.value, filterObj)
+    var sendParam = e.target.value.toLowerCase();
+    if (sendParam == "resource type") {
+      sendParam = "targettype";
+    }
+    getFilterTags(sendParam)
       .then((resp) => {
-        setTableData(resp);
+        if (resp) {
+          let arrayData = [];
+          resp.response.map((data) => {
+            arrayData.push(data.name);
+          });
+          const uniqueArray = arrayData.filter((v, i, a) => a.indexOf(v) === i);
+          setFilterTagsList(uniqueArray);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -409,9 +508,105 @@ const AssetListTable = (props) => {
     rowsPerPage -
     Math.min(rowsPerPage, tableData && tableData.length - page * rowsPerPage);
 
+  const list = (anchor) => (
+    <div style={{ width: 455, padding: 15 }} role="presentation">
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <Typography
+            style={{
+              padding: "7px",
+              fontWeight: "bold",
+            }}
+          >
+            Additional Details
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography
+            style={{
+              cursor: "pointer",
+              float: "right",
+              padding: "7px",
+              fontWeight: "bold",
+            }}
+            onClick={toggleDrawer(anchor, false, {})}
+          >
+            X
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <Typography
+            style={{
+              padding: "7px",
+              color: "#b3b0af",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            Resource ID
+          </Typography>
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginLeft: "10px",
+            }}
+          >
+            {selectedPolicyObj._resourceid}
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography
+            style={{
+              padding: "7px",
+              color: "#b3b0af",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            Monitoring State
+          </Typography>
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginLeft: "10px",
+            }}
+          >
+            {selectedPolicyObj.monitoringstate}
+          </Typography>
+        </Grid>
+      </Grid>
+    </div>
+  );
+
+  const toggleDrawer = (anchor, open, dataObj) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setState({ ...state, [anchor]: open });
+    setSelectedPolicyObj(dataObj);
+  };
+
   return (
     <div className={classes.root}>
       <LayoutContainer pageName="Asset List">
+        <Button
+          className="backBtnStl"
+          style={{ marginBottom: "10px" }}
+          onClick={() => props.history.goBack()}
+        >
+          <img src={backIcon} />
+        </Button>
         <Grid
           container
           style={{ paddingBottom: "40px" }}
@@ -435,7 +630,7 @@ const AssetListTable = (props) => {
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      value={assetType}
+                      // value={assetType}
                       onChange={(e) => handleChangeAssetType(e)}
                       className={classes.select}
                       style={{
@@ -446,8 +641,10 @@ const AssetListTable = (props) => {
                       }}
                     >
                       <MenuItem value={"All"}>All</MenuItem>
-                      {uniqueList.map((data) => (
-                        <MenuItem value={data}>{data}</MenuItem>
+                      {uniqueList.map((data, index) => (
+                        <MenuItem key={index} value={data}>
+                          {data}
+                        </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
@@ -485,9 +682,40 @@ const AssetListTable = (props) => {
                   </Paper>
                 </Typography>
               </Grid> */}
-          <Grid item classes="searchForAssetList">
+          <Grid item className="searchForAssetList">
             <Typography className={classes.paper3}>
-              <Paper
+              <FormControl
+                variant="outlined"
+                style={{
+                  width: "164px",
+                  height: 0,
+                  maxHeight: "197px",
+                }}
+              >
+                <Select
+                  labelId="demo-simple-select-outlined2-label"
+                  id="demo-simple-select-outlined2"
+                  value=""
+                  onChange={(e) => handleSearchResults(e)}
+                  className={classes.select}
+                  style={{
+                    height: "40px",
+                    top: "-10px",
+                    width: "172px",
+                    maxHeight: "197px",
+                  }}
+                >
+                  <MenuItem value="" disabled>
+                    Select Tag
+                  </MenuItem>
+                  {filterTagsList.map((data, index) => (
+                    <MenuItem key={index} value={data}>
+                      {data}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {/* <Paper
                 style={{
                   border: "1px solid #7569EE80",
                   borderRadius: "8px",
@@ -509,12 +737,37 @@ const AssetListTable = (props) => {
                   inputProps={{ "aria-label": "search google maps" }}
                   onChange={(e) => handleSearchResults(e)}
                 />
-              </Paper>
+              </Paper> */}
             </Typography>
           </Grid>
         </Grid>
 
-        <Paper className={classes.paper}>
+        <div className="customPaper">
+          <div className="getFilteringData">
+            {filteredElementsList.map((data, index) => (
+              <div className="taggedFilter" key={index}>
+                {data.name}: {data.value}
+                <button
+                  className="right-close-wrap"
+                  onClick={() => removeSelectedItem(index)}
+                >
+                  X
+                </button>
+              </div>
+            ))}
+            {/* <div className="taggedFilter">
+                Asset Type: {assetDataFilterObj.type}
+                <div className="right-close-wrap">X</div>
+              </div> */}
+            {filteredElementsList.length > 0 && (
+              <button
+                className="taggedFilter"
+                onClick={() => removeAllSelectedItems()}
+              >
+                CLEAR ALL
+              </button>
+            )}
+          </div>
           <TableContainer>
             <Table
               className={classes.table}
@@ -537,19 +790,21 @@ const AssetListTable = (props) => {
                   .map((row, index) => {
                     const isItemSelected = isSelected(row._resourceid);
                     const labelId = `enhanced-table-checkbox-${index}`;
-
                     return (
                       <TableRow
                         hover
-                        onClick={() => handleClick(row)}
+                        onClick={toggleDrawer("right", true, row)}
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
-                        key={row._resourceid}
+                        key={index}
                         selected={isItemSelected}
                         style={{ cursor: "pointer" }}
                       >
-                        <TableCell align="left">
+                        <TableCell
+                          align="left"
+                          onClick={(e) => handleClick(e, row)}
+                        >
                           {row._resourceid ? row._resourceid : "No Data"}
                         </TableCell>
                         <TableCell align="left">
@@ -650,8 +905,16 @@ const AssetListTable = (props) => {
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
           />
-        </Paper>
+        </div>
       </LayoutContainer>
+      <SwipeableDrawer
+        anchor={"right"}
+        open={state["right"]}
+        onClose={toggleDrawer("right", false, {})}
+        onOpen={toggleDrawer("right", true, {})}
+      >
+        {list("right")}
+      </SwipeableDrawer>
       {/* <AssetList
 				rowData={selectedRowData}
 			/> */}

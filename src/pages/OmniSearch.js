@@ -39,16 +39,81 @@ export default function OmniSearch(props) {
       .then((resp) => {
         setSearchAssetList(resp);
         setSelectedAsset(resp[0]);
+        onloadEvent();
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
+  const onloadEvent = () => {
+    let obj = localStorage.getItem("omniSelObj");
+    let filterObj = localStorage.getItem("omniFilterObj");
+    let searchingTxt = localStorage.getItem("omniSearchingTxt");
+    let selected_asset = localStorage.getItem("omniSelectedAsset");
+    if (searchingTxt && filterObj && obj) {
+      setSearchingTxt(searchingTxt);
+      setSelectedAsset(selected_asset);
+      let filter_obj = JSON.parse(filterObj);
+      setCheckboxListObj(filter_obj);
+      let selCheckObj = JSON.parse(obj);
+      setSlctdAsstType(selCheckObj.name);
+      getAllAssetDataWithFilter(searchingTxt, filter_obj)
+        .then((resp) => {
+          setFilteredResults(resp.results);
+          setSecViewName("data");
+        })
+        .catch((error) => {
+          console.log(error);
+          setSecViewName("error");
+        });
+    } else {
+      if (searchingTxt) {
+        setSearchingTxt(searchingTxt);
+        setSelectedAsset(selected_asset);
+        setSecViewName("loader");
+        setSlctdAsstType("");
+        var filter_obj = {
+          groupBy: {
+            type: "searchFilterAttributeGroup",
+            name: "Group",
+            values: [
+              {
+                type: "searchFilterAttribute",
+                name: selected_asset,
+                applied: true,
+              },
+            ],
+          },
+        };
+        getAllAssetDataWithFilter(searchingTxt, filter_obj)
+          .then((resp) => {
+            console.log("resp", resp);
+            if (resp) {
+              setFilteredResults(resp.results);
+              setCheckboxListObj(resp.filter);
+              setSecViewName("data");
+            } else {
+              setCheckboxListObj({});
+              setSecViewName("error");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            setCheckboxListObj({});
+            setSecViewName("error");
+          });
+      }
+    }
+  };
+
   const searchFunOfAsst = (event) => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     setSecViewName("loader");
     setSlctdAsstType("");
+    localStorage.setItem("omniSelectedAsset", selectedAsset);
     var filter_obj = {
       groupBy: {
         type: "searchFilterAttributeGroup",
@@ -62,6 +127,7 @@ export default function OmniSearch(props) {
         ],
       },
     };
+    localStorage.setItem("omniSearchingTxt", searchingTxt);
     getAllAssetDataWithFilter(searchingTxt, filter_obj)
       .then((resp) => {
         console.log("resp", resp);
@@ -97,6 +163,8 @@ export default function OmniSearch(props) {
       }
     }
     console.log("filter_obj", filter_obj);
+    localStorage.setItem("omniSelObj", JSON.stringify(obj));
+    localStorage.setItem("omniFilterObj", JSON.stringify(filter_obj));
     getAllAssetDataWithFilter(searchingTxt, filter_obj)
       .then((resp) => {
         setFilteredResults(resp.results);
@@ -127,7 +195,8 @@ export default function OmniSearch(props) {
     });
   }; */
 
-  const onClickPageChange = () => {
+  const onClickPageChange = (params) => {
+    localStorage.setItem("omniSearchObj", JSON.stringify(params));
     props.history.push("/asset-list");
   };
   return (
@@ -149,6 +218,7 @@ export default function OmniSearch(props) {
                     id="outlined-basic"
                     label="Search"
                     variant="outlined"
+                    value={searchingTxt}
                     onChange={(event) => {
                       setSearchingTxt(event.target.value);
                     }}
@@ -158,6 +228,7 @@ export default function OmniSearch(props) {
                   <select
                     name="setSelectedAsset"
                     id="selectOneVel"
+                    value={selectedAsset}
                     onChange={(event) => {
                       setSelectedAsset(event.target.value);
                     }}
@@ -234,7 +305,7 @@ export default function OmniSearch(props) {
                       <Grid key={index} item md={4} sm={12}>
                         <div
                           className="filteringResults"
-                          onClick={onClickPageChange}
+                          onClick={() => onClickPageChange(snglObj)}
                         >
                           <Grid container spacing={3} alignItems="center">
                             <Grid item md={7} sm={12}>
@@ -242,10 +313,10 @@ export default function OmniSearch(props) {
                                 <p>Resource Id</p>
                                 <h6>{snglObj._id}</h6>
                               </div>
-                              <div className="filteringData">
+                              {/* <div className="filteringData">
                                 <p>Resource Id</p>
                                 <h6>{snglObj._id}</h6>
-                              </div>
+                              </div> */}
                               <div className="filteringDataBox">
                                 <span>{snglObj.searchCategory}</span>
                               </div>

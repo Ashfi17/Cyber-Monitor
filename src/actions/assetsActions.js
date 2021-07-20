@@ -1,5 +1,5 @@
 import axios from "axios";
-import setAuthorizationToken from './setAuthorizationToken';
+import setAuthorizationToken from "./setAuthorizationToken";
 
 const localUrl = "/asset/v1";
 const localAuthUser = localStorage.getItem("currentUserLoginDetails");
@@ -96,7 +96,7 @@ export const getMaxMin = (selectedType) => {
   });
 };
 
-export const getTaggableData = (searchtext, searchKey) => {
+export const getTaggableData = (searchKey) => {
   const url = `${localUrl}/list/assets/taggable`;
   return new Promise((resolve, reject) => {
     axios
@@ -104,7 +104,7 @@ export const getTaggableData = (searchtext, searchKey) => {
         ag: "aws",
         filter: searchKey,
         from: 0,
-        searchtext: searchtext,
+        searchtext: "",
         size: 25,
       })
       .then((result) => {
@@ -120,7 +120,7 @@ export const getTaggableData = (searchtext, searchKey) => {
 };
 
 export const getCategoriesForOmni = () => {
-  const url = `${localUrl}/search/categories?domain=${"Infra \& Platforms"}`;
+  const url = `${localUrl}/search/categories?domain=${"Infra & Platforms"}`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -147,7 +147,7 @@ export const getAllAssetDataWithFilter = (searchtext, filterObj) => {
         searchText: searchtext,
         size: 50,
         includeAllAssets: false,
-        filter: filterObj
+        filter: filterObj,
       })
       .then((result) => {
         if (result) {
@@ -163,6 +163,38 @@ export const getAllAssetDataWithFilter = (searchtext, filterObj) => {
 
 export const getAssetByClasChartData = () => {
   const url = `${localUrl}/count/issues?ag=aws`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: "Error" });
+      });
+  });
+};
+
+export const getAssetTagsData = (paramUrl) => {
+  const url = `${localUrl}/aws/${paramUrl}/details`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: "Error" });
+      });
+  });
+};
+
+export const getAssetSummaryData = (paramUrl) => {
+  const url = `${localUrl}/aws/ec2/${paramUrl}/summary`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)

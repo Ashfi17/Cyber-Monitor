@@ -5,10 +5,10 @@ import {
   Typography,
   Grid,
   Divider,
-  Chip 
+  Chip,
 } from "@material-ui/core";
 import Chart from "react-apexcharts";
-import MinimizeIcon from '@material-ui/icons/Minimize';
+import MinimizeIcon from "@material-ui/icons/Minimize";
 // import { getCompliance } from '../actions/complianceActions'
 
 const useStyles = makeStyles((theme) => ({
@@ -36,83 +36,43 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   root: {
-    display: 'flex',
-    justifyContent: 'left',
-    flexWrap: 'wrap',
-    '& > *': {
+    display: "flex",
+    justifyContent: "left",
+    flexWrap: "wrap",
+    "& > *": {
       margin: theme.spacing(0.5),
     },
-  }
+  },
 }));
 
 const AssetInvestory = (props) => {
-
-const classes = useStyles();
-
-const dataSeries = [
-    {
-        name: 'Open',
-        data: [10]
-      }, {
-        name: 'Closed',
-        data: [5]
-      }, {
-        name: 'Upcomming',
-        data: [2]
-      }
-  ]
-  const dataOptions = {
-    chart: {
-      type: 'bar',
-    //   height: 50,
-      stacked: true,
-      stackType: '10%'
-    },
-    plotOptions: {
-      bar: {
-        horizontal: true,
-      },
-    },
-    // stroke: {
-    //   width: 1,
-    //   colors: ['#fff']
-    // },
-    xaxis: {
-      categories: [],
-      show: false,
-    },
-    yaxis: {
-        categories: [],
-        show: false
-    },
-    fill: {
-      opacity: 1
-    
-    },
-    legend: {
-      position: 'top',
-      horizontalAlign: 'left',
-      offsetX: 40
-    }
-  }
+  const { assetTagsList } = props;
+  const classes = useStyles();
 
   return (
-    <Paper className={classes.paper} elevation={0}>
+    <div className="tagesAss" elevation={0}>
       <Typography variant="h6" style={{ fontWeight: "bold", fontSize: 14 }}>
-       Tags
+        Tags
       </Typography>
       <Grid container spacing={2} style={{ marginTop: 6, marginBottom: 6 }}>
         <Grid item xs={12}>
-        <div className={classes.root}>
-        <Chip label="Name: Firestorm-web-1a" />
-        <Chip label="Environment: Production" />
+          <div className={classes.root}>
+            {assetTagsList.map((row, index) => {
+              return (
+                <Chip label={row.tabName + ": " + row.value} key={index} />
+              );
+            })}
+            {assetTagsList.length == 0 && (
+              <p className="noDataAvailable">No Tags for this Resource ID</p>
+            )}
+            {/* <Chip label="Environment: Production" />
         <Chip label="Application: Firestorm" />
         <Chip label="Role: Web" />
-        <Chip label="Owner: xxxxx@T-Mobile.com" />
-        </div>
+        <Chip label="Owner: xxxxx@T-Mobile.com" /> */}
+          </div>
         </Grid>
       </Grid>
-    </Paper>
+    </div>
   );
 };
 

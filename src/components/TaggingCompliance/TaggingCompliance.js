@@ -1,12 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Chart from "react-apexcharts";
 import LayoutContainer from "../reusableComponent/LayoutContainer";
 import Paper from "@material-ui/core/Paper";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Button } from "@material-ui/core";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import { getComplianceTagging } from "../../actions/complianceActions";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import backIcon from "../../assets/images/header/back.svg";
+import {
+  getComplianceTagging,
+  getTaggingComplianceTrend,
+  getTotalTagCompliance,
+  fetchTaggingSummaryByTargetType,
+} from "../../actions/complianceActions";
 // import icon from '../../assets/OverallCompilancetrend/'
+const BorderLinearProgress = withStyles((theme) => ({
+  root: {
+    height: "5px",
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: "#26C76E",
+  },
+}))(LinearProgress);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,100 +62,71 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const trendSeriesTemp = [
+  {
+    name: "Fail",
+    color: "#26C76E",
+    data: [],
+  },
+];
+const trendOptionsTemp = {
+  chart: {
+    height: 350,
+    type: "line",
+    zoom: {
+      enabled: false,
+    },
+    animations: {
+      enabled: false,
+    },
+    toolbar: {
+      show: true,
+    },
+  },
+  colors: ["#7569EE", "#26C76E", "#E46666"],
+  dataLabels: {
+    enabled: true,
+  },
+  stroke: {
+    curve: "smooth",
+  },
+  grid: {
+    borderColor: "#e7e7e7",
+    row: {
+      colors: ["#f3f3f3", "transparent"],
+      opacity: 0.5,
+    },
+  },
+  markers: {
+    size: 1,
+  },
+  xaxis: {
+    categories: [],
+  },
+  yaxis: {
+    min: 50,
+    max: 100,
+  },
+  legend: {
+    position: "top",
+    horizontalAlign: "right",
+    floating: true,
+    offsetY: -25,
+    offsetX: -5,
+  },
+};
+
 export default function CenteredGrid(props) {
   const classes = useStyles();
   const [taggingCountDetails, setTaggingCountDetails] = useState({
     output: { assets: 0, untagged: 0, tagged: 0, compliance: 0 },
   });
+  const [trendSeries, setTrendSeries] = useState(trendSeriesTemp);
+  const [trendOptions, setTrendOptions] = useState(trendOptionsTemp);
+  const [unTaggedList, setUnTaggedList] = useState([]);
+  const [chartSeries, setChartSeries] = useState([]);
+  const [gridDataList, setGridDataList] = useState([]);
 
-  const gridData = [
-    {
-      icon: "../../assets/OverallCompilancetrend/vpc.svg",
-      name: "Subnet",
-      tagging: 0,
-      untagging: 55,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/sg.svg",
-      name: "SG",
-      tagging: 1,
-      untagging: 26,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/vpc.svg",
-      name: "VPC",
-      tagging: 0,
-      untagging: 18,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/volume.svg",
-      name: "Volume",
-      tagging: 0,
-      untagging: 5,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/ec2.svg",
-      name: "EC2",
-      tagging: 1,
-      untagging: 3,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/kms.svg",
-      name: "KMS",
-      tagging: 0,
-      untagging: 3,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/appelb.svg",
-      name: "APPELB",
-      tagging: 0,
-      untagging: 1,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/snapshot.svg",
-      name: "SNAPSHOT",
-      tagging: 0,
-      untagging: 1,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/vpngateway.svg",
-      name: "VPNGATEWAY",
-      tagging: 0,
-      untagging: 1,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/asg.svg",
-      name: "ASG",
-      tagging: 1,
-      untagging: 0,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/lambda.svg",
-      name: "LAMBDA",
-      tagging: 2,
-      untagging: 0,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/rdsdb.svg",
-      name: "RDSDB",
-      tagging: 1,
-      untagging: 0,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/s3.svg",
-      name: "S3",
-      tagging: 1,
-      untagging: 0,
-    },
-    {
-      icon: "../../assets/OverallCompilancetrend/elasticsearch.svg",
-      name: "ELASTICSEARCH",
-      tagging: 1,
-      untagging: 0,
-    },
-  ];
-
-  const chartSeries = [55, 67];
   const chartOptions = {
     chart: {
       height: 200,
@@ -152,9 +144,6 @@ export default function CenteredGrid(props) {
           total: {
             show: true,
             label: "Overall",
-            formatter: function (val) {
-              return 63;
-            },
           },
         },
       },
@@ -164,68 +153,6 @@ export default function CenteredGrid(props) {
     },
     labels: ["Application", "Environment"],
     color: ["#F7A844", "#7569EE"],
-  };
-
-  const trendSeries = [
-    {
-      name: "Fail",
-      color: "#26C76E",
-      data: [50, 95, 65],
-    },
-  ];
-  const trendOptions = {
-    chart: {
-      height: 350,
-      type: "line",
-      zoom: {
-        enabled: false,
-      },
-      animations: {
-        enabled: false,
-      },
-      //   dropShadow: {
-      //     enabled: true,
-      //     color: '#000',
-      //     top: 18,
-      //     left: 7,
-      //     blur: 10,
-      //     opacity: 0.2
-      //   },
-      toolbar: {
-        show: true,
-      },
-    },
-    colors: ["#7569EE", "#26C76E", "#E46666"],
-    dataLabels: {
-      enabled: true,
-    },
-    stroke: {
-      curve: "smooth",
-    },
-    grid: {
-      borderColor: "#e7e7e7",
-      row: {
-        colors: ["#f3f3f3", "transparent"],
-        opacity: 0.5,
-      },
-    },
-    markers: {
-      size: 1,
-    },
-    xaxis: {
-      categories: ["Jan `21", "Feb `21", "Mar `21", "Apr `21"],
-    },
-    yaxis: {
-      min: 50,
-      max: 100,
-    },
-    legend: {
-      position: "top",
-      horizontalAlign: "right",
-      floating: true,
-      offsetY: -25,
-      offsetX: -5,
-    },
   };
 
   useEffect(() => {
@@ -238,12 +165,54 @@ export default function CenteredGrid(props) {
       .catch((error) => {
         console.log(error);
       });
+    getTotalTagCompliance()
+      .then((respo) => {
+        if (respo) {
+          setUnTaggedList(respo.response.untaggedList);
+          var chartDataArr = [];
+          respo.response.untaggedList.forEach((element) => {
+            chartDataArr.push(element.compliancePercentage);
+          });
+          setChartSeries(chartDataArr);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    getTaggingComplianceTrend()
+      .then((respo) => {
+        if (respo) {
+          for (let x = 0; x < respo.compliance_trend.length; x++) {
+            const element_obj = respo.compliance_trend[x];
+            trendSeriesTemp[0].data.push(element_obj.compliance);
+            trendOptionsTemp.xaxis.categories.push(element_obj.start_date);
+          }
+          setTrendSeries(trendSeriesTemp);
+          setTrendOptions(trendOptionsTemp);
+          // setTaggingCountDetails(respo);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    fetchTaggingSummaryByTargetType()
+      .then((respo) => {
+        if (respo) {
+          setGridDataList(respo);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
-  const redirectingToAssetListDash = (getParam) => {
+  const redirectingToAssetListDash = (getParam, obj) => {
     var storeObj = {
       type: "taggable",
-      data: { tagged: "false" },
+      data: {
+        tagged: "false",
+        resourceType: undefined,
+      },
     };
     if (getParam == "total") {
       storeObj.data = {};
@@ -252,7 +221,10 @@ export default function CenteredGrid(props) {
     } else {
       storeObj.data.tagged = "false";
     }
-    console.log("storeObj", storeObj);
+    if (obj) {
+      storeObj.data.resourceType = obj.name;
+    }
+    localStorage.removeItem("searchedAsstListPgeFilterObjs");
     localStorage.setItem("assetDataForFilter", JSON.stringify(storeObj));
     props.history.push("/assetlist-table");
   };
@@ -260,9 +232,12 @@ export default function CenteredGrid(props) {
   return (
     <div className={classes.root}>
       <LayoutContainer pageName="Tagging Compliance">
-        <Grid container spacing={3}>
+        {/* <Button className="backBtnStl" onClick={() => props.history.goBack()}>
+          <img src={backIcon} />
+        </Button> */}
+        <Grid container spacing={3} style={{ marginTop: "10px" }}>
           <Grid item md={3} xs={6}>
-            <Paper className={classes.paper}>
+            <div className="customPaper padding16">
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
               </Typography>
@@ -281,13 +256,13 @@ export default function CenteredGrid(props) {
                   Compliant
                 </Typography>
               </Typography>
-            </Paper>
+            </div>
           </Grid>
           <Grid item md={3} xs={6}>
-            <Paper
-              className={classes.paper}
+            <div
+              className="customPaper padding16"
               style={{ cursor: "pointer" }}
-              onClick={() => redirectingToAssetListDash("total")}
+              onClick={() => redirectingToAssetListDash("total", null)}
             >
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
@@ -307,13 +282,13 @@ export default function CenteredGrid(props) {
                   Total Assets
                 </Typography>
               </Typography>
-            </Paper>
+            </div>
           </Grid>
           <Grid item md={3} xs={6}>
-            <Paper
-              className={classes.paper}
+            <div
+              className="customPaper padding16"
               style={{ cursor: "pointer" }}
-              onClick={() => redirectingToAssetListDash("tagging")}
+              onClick={() => redirectingToAssetListDash("tagging", null)}
             >
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
@@ -333,13 +308,13 @@ export default function CenteredGrid(props) {
                   Tagging
                 </Typography>
               </Typography>
-            </Paper>
+            </div>
           </Grid>
           <Grid item md={3} xs={6}>
-            <Paper
-              className={classes.paper}
+            <div
+              className="customPaper padding16"
               style={{ cursor: "pointer" }}
-              onClick={() => redirectingToAssetListDash("untagging")}
+              onClick={() => redirectingToAssetListDash("untagging", null)}
             >
               <Typography className={classes.helpOutline}>
                 <HelpOutlineIcon />
@@ -359,12 +334,12 @@ export default function CenteredGrid(props) {
                   Untagged
                 </Typography>
               </Typography>
-            </Paper>
+            </div>
           </Grid>
         </Grid>
         <Grid container spacing={3}>
           <Grid item md={8} xs={12}>
-            <Paper className={classes.paper}>
+            <div className="customPaper padding16">
               <Typography
                 variant="h6"
                 style={{ color: "black", fontWeight: "bold", fontSize: 14 }}
@@ -377,18 +352,20 @@ export default function CenteredGrid(props) {
                 style={{ marginTop: 6, marginBottom: 6 }}
               >
                 <Grid item xs={12} style={{ height: "323px" }}>
-                  <Chart
-                    options={trendOptions}
-                    series={trendSeries}
-                    type="line"
-                    height={220}
-                  />
+                  {trendSeries[0].data.length > 0 && (
+                    <Chart
+                      options={trendOptions}
+                      series={trendSeries}
+                      type="line"
+                      height={220}
+                    />
+                  )}
                 </Grid>
               </Grid>
-            </Paper>
+            </div>
           </Grid>
           <Grid item md={4} xs={12}>
-            <Paper className={classes.paper}>
+            <div className="customPaper padding16  totalTag ">
               <Typography>
                 <Typography
                   variant="h6"
@@ -396,12 +373,14 @@ export default function CenteredGrid(props) {
                 >
                   Total Tag Compliance
                 </Typography>
-                <Chart
-                  options={chartOptions}
-                  series={chartSeries}
-                  type="radialBar"
-                  height={260}
-                />
+                {chartSeries.length > 0 && (
+                  <Chart
+                    options={chartOptions}
+                    series={chartSeries}
+                    type="radialBar"
+                    height={260}
+                  />
+                )}
                 <Grid container spacing={3}>
                   <Grid item xs={4}>
                     <Typography style={{ color: "black" }}>TagName</Typography>
@@ -413,42 +392,35 @@ export default function CenteredGrid(props) {
                     <Typography style={{ color: "black" }}>Tagged</Typography>
                   </Grid>
                 </Grid>
-                <Grid container spacing={3}>
-                  <Grid item xs={4}>
-                    <div className={classes.legendContainer}>
-                      {/* <div
-                        className={classes.legendCircle}
-                        style={{ borderColor: "#26C76E" }}
-                      ></div> */}
-                      <Typography
-                        variant="caption"
-                        style={{ marginLeft: 8, color: "black" }}
-                      >
-                        Application
-                      </Typography>
-                    </div>
+                {unTaggedList.map((data, index) => (
+                  <Grid container spacing={3} key={index}>
+                    <Grid item xs={4}>
+                      <div className={classes.legendContainer}>
+                        <Typography
+                          variant="caption"
+                          style={{ marginLeft: 8, color: "black" }}
+                        >
+                          {data.name}
+                        </Typography>
+                      </div>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <div style={{ color: "black" }}>{data.untagged}</div>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <div style={{ color: "black" }}>{data.tagged}</div>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={4}>
-                    <div style={{ color: "black" }}>113</div>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <div style={{ color: "black" }}>08</div>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={3}>
+                ))}
+                {/* <Grid container spacing={3}>
                   <Grid item xs={4}>
                     <div
                       className={classes.legendContainer}
-                      // style={{ marginLeft: 12 }}
                     >
                       <Typography
                         variant="caption"
                         style={{ marginLeft: 8, color: "black" }}
                       >
-                        {/* <div
-                        className={classes.legendCircle}
-                        style={{ borderColor: "#7569EE" }}
-                      ></div> */}
                         Environment
                       </Typography>
                     </div>
@@ -459,12 +431,12 @@ export default function CenteredGrid(props) {
                   <Grid item xs={4}>
                     <div style={{ color: "black" }}>09</div>
                   </Grid>
-                </Grid>
+                </Grid> */}
               </Typography>
-            </Paper>
+            </div>
           </Grid>
         </Grid>
-        <Paper className="overallCompncTrendComp">
+        <div className="overallCompncTrendComp customPaper">
           <Typography
             variant="h6"
             style={{
@@ -476,8 +448,15 @@ export default function CenteredGrid(props) {
             Overall Compliance Trend
           </Typography>
           <Grid className="nowrapcontainer">
-            {gridData.map((data) => (
-              <Grid item md={2} sm={4} xs={6} className="tabletShape">
+            {gridDataList.map((data, index) => (
+              <Grid
+                item
+                md={2}
+                sm={4}
+                xs={6}
+                className="tabletShape"
+                key={index}
+              >
                 <ul
                   style={{
                     listStyle: "none",
@@ -490,39 +469,54 @@ export default function CenteredGrid(props) {
                       <img
                         src={require("../../assets/OverallCompilancetrend/vpc.svg")}
                       />
-                      <Typography
-                        style={{
-                          fontWeight: "bold",
-                          color: "#262C49",
-                        }}
-                      >
-                        {data.name}
-                      </Typography>
+                      <Typography className="tagsName">{data.name}</Typography>
                     </Typography>
+                    <div className="overallComplianceProgress">
+                      <BorderLinearProgress
+                        variant="determinate"
+                        value={data.tagged}
+                      />
+                    </div>
                     <Grid container spacing={1}>
                       <Grid item xs={6}>
-                        <Typography
-                          variant="h6"
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: 12,
-                          }}
-                        >
+                        <Typography variant="h6" className="taggingText">
                           Tagging
                         </Typography>
-                        <Typography>{data.tagging}</Typography>
+                        {data.tagged == 0 && (
+                          <Typography className="taggedData">
+                            {data.tagged}
+                          </Typography>
+                        )}
+                        {data.tagged > 0 && (
+                          <Typography
+                            className="taggedData"
+                            onClick={() =>
+                              redirectingToAssetListDash("tagging", data)
+                            }
+                          >
+                            {data.tagged}
+                          </Typography>
+                        )}
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography
-                          variant="h6"
-                          style={{
-                            fontWeight: "bold",
-                            fontSize: 12,
-                          }}
-                        >
+                        <Typography variant="h6" className="untaggingText">
                           Untagging
                         </Typography>
-                        <Typography>{data.untagging}</Typography>
+                        {data.untagged == 0 && (
+                          <Typography className="untaggedData">
+                            {data.untagged}
+                          </Typography>
+                        )}
+                        {data.untagged > 0 && (
+                          <Typography
+                            className="untaggedData"
+                            onClick={() =>
+                              redirectingToAssetListDash("untagging", data)
+                            }
+                          >
+                            {data.untagged}
+                          </Typography>
+                        )}
                       </Grid>
                     </Grid>
                   </li>
@@ -530,7 +524,7 @@ export default function CenteredGrid(props) {
               </Grid>
             ))}
           </Grid>
-        </Paper>
+        </div>
       </LayoutContainer>
     </div>
   );

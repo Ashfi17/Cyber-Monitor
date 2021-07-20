@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Divider } from "@material-ui/core";
+import { Grid, Typography, Divider, Button } from "@material-ui/core";
 import PropTypes from "prop-types";
 import LayoutContainer from "../components/reusableComponent/LayoutContainer";
 import Paper from "@material-ui/core/Paper";
@@ -16,6 +16,8 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import SecurityImg from "../assets/images/poly/Security.svg";
+import backIcon from "../assets/images/header/back.svg";
+
 import {
   getCount,
   getCountByApplication,
@@ -418,7 +420,14 @@ export default function PolicyViolationsDetails(props) {
   return (
     <div>
       <LayoutContainer pageName="Policy Violations">
-        <Paper className={classes.paper} elevation={0}>
+        <Button className="backBtnStl" onClick={() => props.history.goBack()}>
+          <img src={backIcon} />
+        </Button>
+        <Paper
+          className={classes.paper}
+          elevation={0}
+          style={{ marginTop: "10px" }}
+        >
           <Grid container spacing={3}>
             <Grid item xs={3}>
               <div className="compSecAlertCard">

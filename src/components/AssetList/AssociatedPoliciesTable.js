@@ -43,18 +43,18 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: true, disablePadding: false, label: <div style={{ fontWeight: "bold" }}>Policy Name</div>},
+  { id: 'name', numeric: true, disablePadding: false, label: <div style={{ fontWeight: "bold" }}>Policy Name</div> },
   { id: 'lastScanned', numeric: true, disablePadding: false, label: <div style={{ fontWeight: "bold" }}>Last Scanned</div> },
   { id: 'frequency', numeric: true, disablePadding: false, label: <div style={{ fontWeight: "bold" }}>Frequency</div> },
 ];
 
 const tableData = [
-    {name: 'Policy 1', lastScanned: 'Fail', frequency: 'Every 6 hours'},
-    {name: 'Policy 2', lastScanned: 'Pass', frequency: 'Every 4 hours'},
-    {name: 'Policy 3', lastScanned: 'Pass', frequency: 'Every 6 hours'},
-    {name: 'Policy 4', lastScanned: 'Fail', frequency: 'Every 3 hours'},
-    {name: 'Policy 5', lastScanned: 'Pass', frequency: 'Every 5 hours'},
-    {name: 'Policy 6', lastScanned: 'Fail', frequency: 'Every 1 hour'},
+  { name: 'Policy 1', lastScanned: 'Fail', frequency: 'Every 6 hours' },
+  { name: 'Policy 2', lastScanned: 'Pass', frequency: 'Every 4 hours' },
+  { name: 'Policy 3', lastScanned: 'Pass', frequency: 'Every 6 hours' },
+  { name: 'Policy 4', lastScanned: 'Fail', frequency: 'Every 3 hours' },
+  { name: 'Policy 5', lastScanned: 'Pass', frequency: 'Every 5 hours' },
+  { name: 'Policy 6', lastScanned: 'Fail', frequency: 'Every 1 hour' },
 ]
 
 function EnhancedTableHead(props) {
@@ -125,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PolicyCompilance = (props) => {
-//   const { tableData } = props;
+  //   const { tableData } = props;
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');

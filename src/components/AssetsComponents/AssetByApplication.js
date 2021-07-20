@@ -67,10 +67,9 @@ const AssetByApplication = (props) => {
         }
       };
     }
-
-    console.log("storeData", storeData);
+    localStorage.removeItem("searchedAsstListPgeFilterObjs");
     localStorage.setItem("assetDataForFilter", JSON.stringify(storeData));
-    props.onClickPageChange();
+    props.history.push("/assetlist-table");
   };
 
   return (
