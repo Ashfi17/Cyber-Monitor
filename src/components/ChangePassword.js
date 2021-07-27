@@ -8,7 +8,8 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
-import { changePassword } from "../actions/authActions";
+import { changePassword } from "../actions/UserActions";
+import toastr from "toastr";
 
 const styles = (theme) => ({
   fieldName: {
@@ -70,7 +71,7 @@ const DialogContent = withStyles((theme) => ({
 
 const initialState = {
   oldPassword: "",
-  newPassword: ""
+  newPassword: "",
 };
 
 export default function ChangePassword(props) {
@@ -81,7 +82,28 @@ export default function ChangePassword(props) {
     var userData = JSON.parse(localStorage.getItem("currentUserLoginDetails"));
     if (userData) {
       setUserId(userData.userInfo.userId);
-    } else { }
+    } else {
+    }
+  }, []);
+
+  useEffect(() => {
+    toastr.options = {
+      closeButton: false,
+      debug: false,
+      newestOnTop: false,
+      progressBar: false,
+      positionClass: "toast-top-right",
+      preventDuplicates: false,
+      onclick: null,
+      showDuration: "300",
+      hideDuration: "1000",
+      timeOut: "5000",
+      extendedTimeOut: "1000",
+      showEasing: "swing",
+      hideEasing: "linear",
+      showMethod: "fadeIn",
+      hideMethod: "fadeOut",
+    };
   }, []);
 
   const handleClose = () => {
@@ -96,22 +118,40 @@ export default function ChangePassword(props) {
   };
 
   const saveNewPassword = (e) => {
-    console.log(values, "setofValues");
     e.preventDefault();
-    var sendObj = {
-      userId: userId,
-      currentPassword: values.oldPassword,
-      newPassword: values.newPassword,
-    };
-    changePassword(sendObj).then((response) => {
-      if (response.data.success === true) {
-        console.log("response", response.data);
-      } else {
-        alert(response.data.message);
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+    if (values.oldPassword && values.newPassword) {
+      var sendObj = {
+        // userId: userId,
+        password: values.oldPassword,
+        newPassword: values.newPassword,
+      };
+      changePassword(sendObj)
+        .then((response) => {
+          console.log("response", response.status);
+          if (response.status === 200) {
+            toastr.success("Password Changed Successfully!");
+            handleClose();
+          } else {
+            toastr.error(response.data.message);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error) {
+            if (error.status == 400) {
+              toastr.error(error.data.message);
+            } else {
+              toastr.error(error.statusText);
+            }
+          } else {
+            toastr.error(
+              "Something went wrong, please try again after some time!"
+            );
+          }
+        });
+    } else {
+      toastr.error("All Fields are Mandatory.");
+    }
   };
 
   return (
@@ -133,8 +173,8 @@ export default function ChangePassword(props) {
             opacity: 1,
             fontWeight: 900,
           }}
-        >Change Password <br />
-          (<span>{userId}</span>)
+        >
+          Change Password <br />(<span>{userId}</span>)
         </DialogTitle>
         <DialogContent>
           <form onSubmit={(e) => saveNewPassword(e)}>
@@ -152,7 +192,7 @@ export default function ChangePassword(props) {
                 }}
               >
                 Old Password
-            </Typography>
+              </Typography>
               <input
                 type="password"
                 style={{
@@ -183,7 +223,7 @@ export default function ChangePassword(props) {
                 }}
               >
                 New Password
-            </Typography>
+              </Typography>
               <input
                 type="password"
                 style={{
@@ -213,12 +253,118 @@ export default function ChangePassword(props) {
                 "border-radius": "10px",
                 opacity: 1,
                 color: "white",
-              }} >
+              }}
+            >
               Submit
-          </Button>
+            </Button>
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* <Dialog
+        className="changePassModalBox"
+        onClose={props.onCloseModal}
+        aria-labelledby="customized-dialog-title"
+        open={props.openPopUp01}
+      >
+        <DialogTitle
+          id="customized-dialog-title"
+          onClose={props.onCloseModal}
+          style={{
+            "text-align": "center",
+            font: "normal normal bold 18px/51px Raleway",
+            "letter-spacing": "0px",
+            color: "#262C49",
+            opacity: 1,
+            fontWeight: 900,
+          }}
+        >
+          Change Password <br />(<span>{userId}</span>)
+        </DialogTitle>
+        <DialogContent>
+          <form onSubmit={(e) => saveNewPassword(e)}>
+            <Typography gutterBottom>
+              <Typography
+                style={{
+                  top: "111px",
+                  left: "650px",
+                  height: "16px",
+                  "text-align": "left",
+                  font: " normal normal bold 14px/51px Raleway",
+                  "letter-spacing": "0px",
+                  color: "#262C49",
+                  opacity: 0.5,
+                }}
+              >
+                Old Password
+              </Typography>
+              <input
+                type="password"
+                style={{
+                  marginTop: "23px",
+                  width: "100%",
+                  height: "40px",
+                  background: "#FFFFFF 0% 0% no-repeat padding-box",
+                  border: "1px solid #262C49",
+                  "border-radius": "8px",
+                  opacity: 1,
+                }}
+                // value={values.username}
+                name="oldPassword"
+                onChange={(e) => handleChange(e)}
+              />
+            </Typography>
+            <Typography gutterBottom>
+              <Typography
+                style={{
+                  top: "111px",
+                  left: "650px",
+                  height: "16px",
+                  "text-align": "left",
+                  font: " normal normal bold 14px/51px Raleway",
+                  "letter-spacing": "0px",
+                  color: "#262C49",
+                  opacity: 0.5,
+                }}
+              >
+                New Password
+              </Typography>
+              <input
+                type="password"
+                style={{
+                  marginTop: "23px",
+                  width: "100%",
+                  height: "40px",
+                  background: "#FFFFFF 0% 0% no-repeat padding-box",
+                  border: "1px solid #262C49",
+                  "border-radius": "8px",
+                  opacity: 1,
+                }}
+                // value={values.username}
+                name="newPassword"
+                onChange={(e) => handleChange(e)}
+              />
+            </Typography>
+
+            <Button
+              type="submit"
+              style={{
+                marginTop: "35px",
+                width: "100%",
+                height: "40px",
+                background:
+                  "transparent linear-gradient(270deg, #827BDF 0%, #5D55C8 100%) 0% 0% no-repeat padding-box",
+                "box-shadow": "0px 0px 10px #7C69E966",
+                "border-radius": "10px",
+                opacity: 1,
+                color: "white",
+              }}
+            >
+              Submit
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog> */}
     </div>
   );
 }

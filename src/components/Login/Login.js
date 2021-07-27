@@ -13,6 +13,8 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import ChangePassword from "../ChangePassword";
+// const [ForgPassModalOpen, setChangeForgModalOpen] = React.useState(false);
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -67,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     font: "normal normal normal 16px/36px Raleway",
     "letter-spacing": "0px",
     color: "#FFFFFF",
+    cursor: "pointer",
   },
 }));
 
@@ -94,6 +97,10 @@ const Login = (props) => {
       saveLoginDetails(event);
     }
   };
+
+  // const callForgotPasswordModalBox = () => {
+  //   setChangeForgModalOpen(true);
+  // };
 
   const saveLoginDetails = (e) => {
     e.preventDefault();
@@ -178,7 +185,10 @@ const Login = (props) => {
                   onKeyPress={(e) => handleEnterClick(e)}
                   onChange={(e) => handleChange(e)}
                 />
-                <Typography className={classes.forgotPassword}>
+                <Typography
+                  className={classes.forgotPassword}
+                  // onClick={callForgotPasswordModalBox}
+                >
                   Forgot Password
                 </Typography>
                 <Button
@@ -315,6 +325,10 @@ const Login = (props) => {
           </Grid>
         </Grid>
       </Container>
+      {/* <ChangePassword
+        openPopUp01={ForgPassModalOpen}
+        onCloseModal={(e) => setChangeForgModalOpen(false)}
+      /> */}
     </Box>
   );
 };

@@ -761,7 +761,7 @@ const AssetListTable = (props) => {
               </div> */}
             {filteredElementsList.length > 0 && (
               <button
-                className="taggedFilter"
+                className="taggedFilter clearAll"
                 onClick={() => removeAllSelectedItems()}
               >
                 CLEAR ALL

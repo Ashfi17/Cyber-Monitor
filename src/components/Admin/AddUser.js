@@ -104,7 +104,12 @@ export default function AddUser(props) {
     if (userData) {
       setUserId(userData.userInfo.userId);
     }
+    setValues(initialState);
   }, []);
+
+  useEffect(() => {
+    setValues(initialState);
+  }, [props.openPopUp]);
 
   const handleClose = () => {
     props.onCloseModal();
@@ -135,16 +140,20 @@ export default function AddUser(props) {
       };
       addNewUser(sendObj)
         .then((response) => {
-          if (response.data.success === true) {
+          if (response.status === 200) {
             toastr.success("User Added Successfully!");
-            console.log("response", response.data);
+            handleClose();
           } else {
-            toastr.error(response.data.message);
+            toastr.error(response.message);
           }
         })
         .catch((error) => {
-          toastr.error(error);
           console.log(error);
+          if (error.status && error.status == 400) {
+            toastr.error(error.data.message);
+          } else {
+            toastr.error(error.statusText);
+          }
         });
     } else {
       toastr.error("All Fields are Mandatory.");
@@ -285,7 +294,7 @@ export default function AddUser(props) {
                 Password
               </Typography>
               <input
-                type="text"
+                type="password"
                 style={{
                   marginTop: "23px",
                   width: "100%",

@@ -191,33 +191,40 @@ p {
 .getFilteringData .taggedFilter {
   font-size: 0.83em;
   text-align: left;
-  color: #7569EE;
-  padding: 0.6em 2.75em 0.7em 1em;
+  color: #7d7d7d;
+  padding: 6px 45px 6px 10px;
   margin: 0em 0.9em 0 0;
   border-radius: 1.3em;
-  border: solid 1px #7569EE;
+  border: solid 1px #cdcdcd;
   position: relative;
-  max-width: 24em;
+  /* max-width: 38em; */
   white-space: nowrap;
   overflow: hidden;
+  text-transform: uppercase;
   text-overflow: ellipsis;
 }
 
+.getFilteringData .taggedFilter.clearAll {
+  padding: 6px 10px 6px 10px;
+  cursor: pointer;
+}
+
 .right-close-wrap {
-  top: 0px;
+  top: -1px;
   bottom: 0px;
   right: 0;
   width: 30px;
   height: 30px;
-  background: #7569EE;
+  background: #ffffff;
   border-radius: 1.2em;
   cursor: pointer;
   position: absolute;
-  color: #fff;
+  color: #8b8b8b;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
+  border: 1px solid #ccc;
 }
 
 .padding16 {

@@ -110,11 +110,11 @@ export const addNewUser = (values) => {
       .post(url, values)
       .then((result) => {
         if (result) {
-          resolve(result.data.data);
+          resolve(result.data);
         }
       })
       .catch((error) => {
-        reject({ message: "Error" });
+        reject(error.response);
       });
   });
 };
