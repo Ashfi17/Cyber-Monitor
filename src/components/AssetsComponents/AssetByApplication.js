@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 import {
   makeStyles,
   Paper,
@@ -175,4 +176,4 @@ const AssetByApplication = (props) => {
   );
 };
 
-export default AssetByApplication;
+export default withRouter(AssetByApplication);

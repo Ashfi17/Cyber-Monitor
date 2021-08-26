@@ -29,7 +29,6 @@ const DashboardTagging = (props) => {
     })
 
     complianceIssues().then((response) => {
-      console.log(response)
     }).catch((error) => {
       console.log(error)
     })

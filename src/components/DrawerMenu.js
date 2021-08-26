@@ -1,8 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
@@ -16,6 +21,16 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { useHistory } from "react-router-dom";
 import { appContext } from "../App";
 import ChangePassword from "./ChangePassword";
+import AssetGroupsModal from "./AssetGroupsModal";
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { Grid } from "@material-ui/core";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const drawerWidth = 240;
 
@@ -51,8 +66,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerMenuList: {
     height: "100%",
-    overflow: "auto"
-  }
+    overflow: "auto",
+  },
 }));
 
 const DrawerMenu = (props) => {
@@ -67,6 +82,18 @@ const DrawerMenu = (props) => {
   const [currentLocation, setCurrentLocation] = React.useState(false);
   const [leftStateIs, setLeftStateIs] = React.useState(false);
   const [changePassModalOpen, setChangePassModalOpen] = React.useState(false);
+  const [openAssetDialog, setOpenAssetDialog] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [selectedGroupData, setSelectedGroupData] = useState({});
+  const [groupData, setGroupData] = useState([]);
+
+  const menuHandleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const menuHandleClose = () => {
+    setAnchorEl(null);
+  };
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -93,6 +120,11 @@ const DrawerMenu = (props) => {
           setAdminIs(true);
         }
       }
+    }
+    var first_time_user_is = localStorage.getItem("firstTimeUserIs");
+    if (!first_time_user_is) {
+      setOpenAssetDialog(true);
+      localStorage.setItem("firstTimeUserIs", true);
     }
   }, []);
 
@@ -140,9 +172,21 @@ const DrawerMenu = (props) => {
     localStorage.removeItem("omniFilterObj");
     props.history.push("/omni-search");
   };
+  const openAssetDialogBox = () => {
+    setOpenAssetDialog(true);
+  };
+
+  const closeAssetDialogBox = () => {
+    setOpenAssetDialog(false);
+  };
+
+  const gotoCaplianceWithGrpDtls = (selObj) => {
+    localStorage.setItem("selectedGrpDtls", JSON.stringify(selObj));
+    window.location.reload();
+  };
 
   return (
-    <>
+    <Grid className="muiDialogContainerAssetShow">
       <IconButton
         className="mainMenuIconBtn"
         aria-label="menu"
@@ -175,6 +219,30 @@ const DrawerMenu = (props) => {
         </div>
         <Divider />
         <List className={classes.drawerMenuList}>
+          <ListItem button onClick={menuHandleClick}>
+            <ListItemText
+              primary={selectedGroupData.name}
+              className="textTarC"
+            ></ListItemText>
+          </ListItem>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={menuHandleClose}
+            className="getAssetDetaSelct"
+          >
+            {groupData.map((element, i) => (
+              <MenuItem
+                key={i}
+                onClick={() => gotoCaplianceWithGrpDtls(element)}
+              >
+                {element.displayname}
+              </MenuItem>
+            ))}
+            <MenuItem onClick={openAssetDialogBox}>View More</MenuItem>
+          </Menu>
           <ListItem
             button
             onClick={(e) => props.history.push("/home-page")}
@@ -339,13 +407,16 @@ const DrawerMenu = (props) => {
             </ListItemIcon>
             <ListItemText style={{ color: "white" }} primary="Search" />
           </ListItem>
-          {loggedInUserAdminIs &&
+          {loggedInUserAdminIs && (
             <>
               <ListItem button onClick={handleClickAdmin}>
                 <ListItemIcon>
                   <img src={require("../assets/images/Mask Group 376.svg")} />
                 </ListItemIcon>
-                <ListItemText style={{ color: "white" }} primary="Configuration">
+                <ListItemText
+                  style={{ color: "white" }}
+                  primary="Configuration"
+                >
                   {openAdmin ? (
                     <ExpandLessIcon color="secondary" />
                   ) : (
@@ -449,8 +520,7 @@ const DrawerMenu = (props) => {
                 </List>
               </Collapse>
             </>
-          }
-
+          )}
         </List>
         {/* <Divider /> */}
         <List style={{ padding: 0 }}>
@@ -472,7 +542,10 @@ const DrawerMenu = (props) => {
             <ListItemIcon>
               <img src={require("../assets/images/drawer-logout-icon.svg")} />
             </ListItemIcon>
-            <ListItemText style={{ color: "white" }} primary="Change Password" />
+            <ListItemText
+              style={{ color: "white" }}
+              primary="Change Password"
+            />
           </ListItem>
           <ListItem button onClick={logoutUser}>
             <ListItemIcon>
@@ -483,8 +556,19 @@ const DrawerMenu = (props) => {
         </List>
       </Drawer>
 
-      <ChangePassword openPopUp={changePassModalOpen} onCloseModal={(e) => setChangePassModalOpen(false)} />
-    </>
+      <ChangePassword
+        openPopUp={changePassModalOpen}
+        onCloseModal={(e) => setChangePassModalOpen(false)}
+      />
+      <AssetGroupsModal
+        openAssetDialog={openAssetDialog}
+        setOpenAssetDialog={setOpenAssetDialog}
+        selectedGroupData={selectedGroupData}
+        setSelectedGroupData={setSelectedGroupData}
+        groupData={groupData}
+        setGroupData={setGroupData}
+      />
+    </Grid>
   );
 };
 export default withRouter(DrawerMenu);

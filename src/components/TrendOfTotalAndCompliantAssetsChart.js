@@ -67,8 +67,7 @@ const TrendOfTotalAndCompliantAssetsChart = (props) => {
     } else {
       setMaximum([]);
     }
-    console.log("dataArray", dataArray);
-  }, [props])
+  }, [props]);
 
   const dataSeries = [
     {

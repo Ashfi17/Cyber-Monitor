@@ -66,7 +66,6 @@ const AssetInvestory = (props) => {
     } else {
       setMaximum([]);
     }
-    console.log("dataArray", dataArray);
   }, [props]);
 
   const dataSeries = [

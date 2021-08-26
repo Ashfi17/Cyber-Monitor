@@ -10,6 +10,7 @@ import {
   getCount,
   getCountByApplication,
   getMaxMin,
+  getTargetType
 } from "../actions/assetsActions";
 import { gettaggingByApplication } from "../actions/complianceActions";
 import AssetInvestory from "../components/AssetsComponents/AssetInvestory";
@@ -115,13 +116,24 @@ export default function AssetDashboard(props) {
   useEffect(() => {
     gettaggingByApplication("subnet")
       .then((resp) => {
-        console.log("jamaresp", resp);
         resp.response.map((data) => {
-          console.log("jamadata", data);
           setOverallData(data);
-          const keyData = Object.keys(data);
-          setAWSAppList(keyData);
+          // console.log("data123", data);
+          // const keyData = Object.keys(data);
+          // setAWSAppList(keyData);
         });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    getTargetType()
+      .then((resp) => {
+        let resArr = [];
+        for (let x = 0; x < resp.targettypes.length; x++) {
+          const element = resp.targettypes[x];
+          resArr.push(element.type);
+        }
+        setAWSAppList(resArr);
       })
       .catch((error) => {
         console.log(error);

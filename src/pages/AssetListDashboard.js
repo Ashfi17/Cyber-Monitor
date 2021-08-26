@@ -163,7 +163,7 @@ export default function AssetList(props) {
   useEffect(() => {
     getTargetType()
       .then((resp) => {
-        console.log(resp.targettypes);
+        console.log(resp);
       })
       .catch((error) => {
         console.log(error);
@@ -196,7 +196,6 @@ export default function AssetList(props) {
       setResourceIdForView(omniSearchObj._id);
       setResourceIdUrl(omniSearchObj._entitytype + "/" + omniSearchObj._id);
       getAssotTableData(omniSearchObj._entitytype + "/" + newId);
-
       getAssetSummaryData(omniSearchObj._id)
         .then((resp) => {
           console.log("resp", resp);

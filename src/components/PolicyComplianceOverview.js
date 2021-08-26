@@ -5,21 +5,21 @@ import {
   Typography,
   Divider,
   Button,
-  Grid
+  Grid,
 } from "@material-ui/core";
 import { nonCompliancePolicy } from "../actions/complianceActions";
 import PolicyCompilance from "./PolicyCompilance";
-import Workbook from 'react-excel-workbook'
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Workbook from "react-excel-workbook";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
-    width: 735
+    width: 735,
   },
   paper: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   downloadButton: {
     border: "1px solid #7764E4",
@@ -29,13 +29,13 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0px 3px 6px #2C28281C",
   },
   selectedButton: {
-    'background-color': '#5D55C8',
-    color: 'white'
+    "background-color": "#5D55C8",
+    color: "white",
   },
   unSelectedButton: {
-    'background-color': 'white',
-    color: 'black'
-  }
+    "background-color": "white",
+    color: "black",
+  },
 }));
 
 const PolicyComplianceOverview = (props) => {
@@ -49,7 +49,6 @@ const PolicyComplianceOverview = (props) => {
     nonCompliancePolicy()
       .then((resp) => {
         if (resp) {
-          console.log("respnonnono", resp);
           setPolicyResponse(resp);
         }
       })
@@ -90,41 +89,41 @@ const PolicyComplianceOverview = (props) => {
     //   setButtonStatus(false)
     // }
     console.log("policyResponse", policyResponse);
-    let TabelData = []
-    if (ruleCate === 'All') {
-      setPolicyData(policyResponse)
-    } else if (ruleCate === 'tagging') {
+    let TabelData = [];
+    if (ruleCate === "All") {
+      setPolicyData(policyResponse);
+    } else if (ruleCate === "tagging") {
       policyResponse.map((data) => {
         if (data.ruleCategory === ruleCate) {
-          TabelData.push(data)
+          TabelData.push(data);
         }
         return null;
-      })
-      setPolicyData(TabelData)
-    } else if (ruleCate === 'governance') {
+      });
+      setPolicyData(TabelData);
+    } else if (ruleCate === "governance") {
       policyResponse.map((data) => {
         if (data.ruleCategory === ruleCate) {
-          TabelData.push(data)
+          TabelData.push(data);
         }
         return null;
-      })
-      setPolicyData(TabelData)
-    } else if (ruleCate === 'security') {
+      });
+      setPolicyData(TabelData);
+    } else if (ruleCate === "security") {
       policyResponse.map((data) => {
         if (data.ruleCategory === ruleCate) {
-          TabelData.push(data)
+          TabelData.push(data);
         }
         return null;
-      })
-      setPolicyData(TabelData)
-    } else if (ruleCate === 'costOptimization') {
+      });
+      setPolicyData(TabelData);
+    } else if (ruleCate === "costOptimization") {
       policyResponse.map((data) => {
         if (data.ruleCategory === ruleCate) {
-          TabelData.push(data)
+          TabelData.push(data);
         }
         return null;
-      })
-      setPolicyData(TabelData)
+      });
+      setPolicyData(TabelData);
     }
     setFilterOption(ruleCate);
   };
@@ -139,17 +138,29 @@ const PolicyComplianceOverview = (props) => {
             alignItems: "center",
           }}
         >
-          <Typography style={{ fontWeight: "bold" }}>Policy Compliance Overview</Typography>
+          <Typography style={{ fontWeight: "bold" }}>
+            Policy Compliance Overview
+          </Typography>
           <Workbook
             filename="Policy Compilance Overview.xlsx"
             element={
               <Button className={classes.downloadButton}>Download Data</Button>
             }
           >
-            <Workbook.Sheet data={() => policyData && policyData.length > 0 ? policyData : policyResponse} name="Policy Compilance Overview">
+            <Workbook.Sheet
+              data={() =>
+                policyData && policyData.length > 0
+                  ? policyData
+                  : policyResponse
+              }
+              name="Policy Compilance Overview"
+            >
               <Workbook.Column label="Name" value="name" />
               <Workbook.Column label="severity" value="severity" />
-              <Workbook.Column label="compliancepercent" value="compliance_percent" />
+              <Workbook.Column
+                label="compliancepercent"
+                value="compliance_percent"
+              />
               <Workbook.Column label="lastScan" value="lastScan" />
               <Workbook.Column label="ruleCategory" value="ruleCategory" />
               <Workbook.Column label="resourcetType" value="resourcetType" />
@@ -158,37 +169,99 @@ const PolicyComplianceOverview = (props) => {
               <Workbook.Column label="assetsScanned" value="assetsScanned" />
               <Workbook.Column label="passed" value="passed" />
               <Workbook.Column label="failed" value="failed" />
-              <Workbook.Column label="contributionpercent" value="contribution_percent" />
+              <Workbook.Column
+                label="contributionpercent"
+                value="contribution_percent"
+              />
               <Workbook.Column label="autoFixEnabled" value="autoFixEnabled" />
               <Workbook.Column label="exempted" value="exempted" />
-              <Workbook.Column label="isAssetsExempted" value="isAssetsExempted" />
+              <Workbook.Column
+                label="isAssetsExempted"
+                value="isAssetsExempted"
+              />
             </Workbook.Sheet>
           </Workbook>
         </div>
 
         <Divider variant="middle" style={{ width: "100%", margin: "16px 0" }} />
-        <Grid container spacing={2} alignItems="center">
+        <Grid container spacing={2} alignItems="center" className="allTabs">
           <Grid item>
-            <Button className={filterOption === "All" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("All")}>All</Button>
+            <Button
+              className={
+                filterOption === "All"
+                  ? classes.selectedButton
+                  : classes.unSelectedButton
+              }
+              onClick={() => filtertableData("All")}
+            >
+              All
+            </Button>
           </Grid>
           <Grid item>
-            <Button className={filterOption === "tagging" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("tagging")}>Tagging</Button>
+            <Button
+              className={
+                filterOption === "tagging"
+                  ? classes.selectedButton
+                  : classes.unSelectedButton
+              }
+              onClick={() => filtertableData("tagging")}
+            >
+              Tagging
+            </Button>
           </Grid>
           <Grid item>
-            <Button className={filterOption === "governance" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("governance")}>Governance</Button>
+            <Button
+              className={
+                filterOption === "governance"
+                  ? classes.selectedButton
+                  : classes.unSelectedButton
+              }
+              onClick={() => filtertableData("governance")}
+            >
+              Governance
+            </Button>
           </Grid>
           <Grid item>
-            <Button className={filterOption === "security" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("security")}>Security</Button>
+            <Button
+              className={
+                filterOption === "security"
+                  ? classes.selectedButton
+                  : classes.unSelectedButton
+              }
+              onClick={() => filtertableData("security")}
+            >
+              Security
+            </Button>
           </Grid>
           <Grid item>
-            <Button className={filterOption === "costOptimization" ? classes.selectedButton : classes.unSelectedButton} onClick={() => filtertableData("costOptimization")}>Cost Optimization</Button>
+            <Button
+              className={
+                filterOption === "costOptimization"
+                  ? classes.selectedButton
+                  : classes.unSelectedButton
+              }
+              onClick={() => filtertableData("costOptimization")}
+            >
+              Cost Optimization
+            </Button>
           </Grid>
           <Grid item>
-            <Typography variant="caption">Total of {policyData && policyData.length > 0 ? policyData.length : policyResponse.length} policies</Typography>
+            <Typography variant="caption">
+              Total of{" "}
+              {policyData && policyData.length > 0
+                ? policyData.length
+                : policyResponse.length}{" "}
+              policies
+            </Typography>
           </Grid>
         </Grid>
       </Paper>
-      <PolicyCompilance tableData={policyData && policyData.length > 0 ? policyData : policyResponse} onClickPageChange={props.onClickPageChange} />
+      <PolicyCompilance
+        tableData={
+          policyData && policyData.length > 0 ? policyData : policyResponse
+        }
+        onClickPageChange={props.onClickPageChange}
+      />
     </div>
   );
 };

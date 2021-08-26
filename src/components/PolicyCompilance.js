@@ -207,7 +207,6 @@ const PolicyCompilance = (props) => {
       return;
     }
     setState({ ...state, [anchor]: open });
-    console.log("dataObj", dataObj);
     setRoleDataObj(dataObj);
   };
 
@@ -695,8 +694,8 @@ const PolicyCompilance = (props) => {
                         onClick={toggleDrawer("right", true, row)}
                       >
                         {row &&
-                        row.compliance_percent &&
-                        row.compliance_percent === 100 ? (
+                          row.compliance_percent &&
+                          row.compliance_percent === 100 ? (
                           <div
                             className={classes.statusCode}
                             style={{
@@ -704,8 +703,8 @@ const PolicyCompilance = (props) => {
                             }}
                           />
                         ) : (row &&
-                            row.compliance_percent &&
-                            row.compliance_percent !== 100) ||
+                          row.compliance_percent &&
+                          row.compliance_percent !== 100) ||
                           (row &&
                             row.compliance_percent &&
                             row.compliance_percent !== 0) ? (

@@ -33,7 +33,13 @@ export const getAssets = (searchKey, filterObj) => {
 };
 
 export const getTargetType = () => {
-  const url = `${localUrl}/list/targettype?ag=${"aws"}&domain=${"Infra & Platforms"}`;
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
+  const url = `${localUrl}/list/targettype?ag=${selectedGrpName ? selectedGrpName : "aws"}&domain=${"Infra & Platforms"}`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -49,7 +55,13 @@ export const getTargetType = () => {
 };
 
 export const getCount = () => {
-  const url = `${localUrl}/count?ag=${"aws"}&domain=${"Infra & Platforms"}`;
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
+  const url = `${localUrl}/count?ag=${selectedGrpName ? selectedGrpName : "aws"}&domain=${"Infra & Platforms"}`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -65,7 +77,13 @@ export const getCount = () => {
 };
 
 export const getCountByApplication = (selectedType) => {
-  const url = `${localUrl}/count/byapplication?ag=${"aws"}&type=${selectedType}&domain=${"Infra & Platforms"}`;
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
+  const url = `${localUrl}/count/byapplication?ag=${selectedGrpName ? selectedGrpName : "aws"}&type=${selectedType}&domain=${"Infra & Platforms"}`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -81,7 +99,13 @@ export const getCountByApplication = (selectedType) => {
 };
 
 export const getMaxMin = (selectedType) => {
-  const url = `${localUrl}/trend/minmax?ag=${"aws"}&type=${selectedType}&domain: ${"Infra & Platforms"}`;
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
+  const url = `${localUrl}/trend/minmax?ag=${selectedGrpName ? selectedGrpName : "aws"}&type=${selectedType}&domain: ${"Infra & Platforms"}`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -162,7 +186,13 @@ export const getAllAssetDataWithFilter = (searchtext, filterObj) => {
 };
 
 export const getAssetByClasChartData = () => {
-  const url = `${localUrl}/count/issues?ag=aws`;
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
+  const url = `${localUrl}/count/issues?ag=${selectedGrpName ? selectedGrpName : "aws"}`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -205,6 +235,72 @@ export const getAssetSummaryData = (paramUrl) => {
       })
       .catch((error) => {
         reject({ message: "Error" });
+      });
+  });
+};
+
+export const getAppendToRecentlyViewedAG = (userId) => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
+  const url = `${localUrl}/appendToRecentlyViewedAG?ag=${selectedGrpName ? selectedGrpName : "aws"}&userId=${userId}`;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, {})
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          reject(error.response);
+        } else {
+          reject({ message: "Error" });
+        }
+      });
+  });
+};
+
+export const getAssetGroupDetails = (selectedGrpName) => {
+  const url = `${localUrl}/assetgroup?ag=${selectedGrpName ? selectedGrpName : "aws"}`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          reject(error.response);
+        } else {
+          reject({ message: "Error" });
+        }
+      });
+  });
+};
+
+export const getAssetGrouplist = () => {
+  const url = `${localUrl}/list/assetgroup`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          reject(error.response);
+        } else {
+          reject({ message: "Error" });
+        }
       });
   });
 };

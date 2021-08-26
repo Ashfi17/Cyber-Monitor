@@ -66,7 +66,6 @@ const ComplianceTrendChart = (props) => {
     } else {
       setMaximum([]);
     }
-    console.log("dataArray", dataArray);
   }, [props])
 
   const dataSeries = [

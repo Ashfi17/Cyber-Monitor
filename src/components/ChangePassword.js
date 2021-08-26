@@ -127,7 +127,6 @@ export default function ChangePassword(props) {
       };
       changePassword(sendObj)
         .then((response) => {
-          console.log("response", response.status);
           if (response.status === 200) {
             toastr.success("Password Changed Successfully!");
             handleClose();
@@ -136,7 +135,6 @@ export default function ChangePassword(props) {
           }
         })
         .catch((error) => {
-          console.log(error);
           if (error) {
             if (error.status == 400) {
               toastr.error(error.data.message);

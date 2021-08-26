@@ -204,6 +204,11 @@ p {
   text-overflow: ellipsis;
 }
 
+.allTabs .MuiButton-root:hover {
+  color: #ffffff;
+  background-color: #5D55C8;
+}
+
 .getFilteringData .taggedFilter.clearAll {
   padding: 6px 10px 6px 10px;
   cursor: pointer;
@@ -1026,6 +1031,57 @@ input:focus {
   line-height: 1.4;
 }
 
+.forgPassMain {
+  width: 400px;
+  margin: 50px auto;
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 3px 6px #2c28281c;
+}
+
+.getOtpBtn {
+  text-align: center;
+}
+
+.getOtpMain {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0 0;
+}
+
+
+
+.getOtpMain .getOtpNum input {
+  text-align: center;
+  width: 35px !important;
+  height: 50px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #CFCFCF;
+  margin-right: 20px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.getOtpMain .getOtpNum input:last-child {
+  margin-right: 0;
+}
+
+.getOtpMain .getOtpNum input:focus-visible {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  outline: 0;
+}
+
+
+.getOtpBtn button.MuiButtonBase-root.MuiButton-root.MuiButton-text {
+  padding: 6px 35px;
+  color: #7569EE !important;
+  border: 1px solid #cbcbcb;
+}
+
 /* ============Start Css searchInputFormComMain========================== */
 .searchInputFormComMain .MuiOutlinedInput-input {
   padding: 30px 14px;
@@ -1253,6 +1309,147 @@ input:focus {
 }
 
 
+.assetDialogBox .MuiPaper-root.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.MuiPaper-elevation24.MuiPaper-rounded {
+  border: 10px solid rgb(1 1 1 / 38%);
+  width: 70vw;
+}
+
+.assetDialogBox .MuiPaper-elevation24 {
+  box-shadow: none !important;
+}
+
+.assetDialogBox .forgPassMainCom .MuiAppBar-colorPrimary {
+  background-color: #262C49
+}
+
+.assetDialogBox .MuiDialog-paperWidthSm {
+  max-width: inherit !important;
+}
+
+.assetDialogBox .assetGroupsDialogMaincont .MuiPaper-root.MuiCard-root.MuiPaper-elevation1.MuiPaper-rounded {
+  height: 10.8em;
+}
+
+.assetDialogBox .assetGroupsDialogMaincont .MuiCardActionArea-root {
+  height: 100%;
+}
+
+.assetDialogBox button.MuiButtonBase-root.MuiCardActionArea-root.Rehan {
+  border: 2px solid #7569ee;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: baseline;
+}
+
+.assetDialogBox button.MuiButtonBase-root.MuiCardActionArea-root.Rehan .selectedSpan {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  border: 1px solid #5d55c8;
+  display: flex;
+  width: 90px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: 300ms ease;
+  -webkit-transition: 300ms ease;
+  -moz-transition: 300ms ease;
+  -ms-transition: 300ms ease;
+  -o-transition: 300ms ease;
+  transform: scale(0);
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+}
+
+.assetDialogBox button.MuiButtonBase-root.MuiCardActionArea-root.Rehan:hover .selectedSpan {
+  opacity: 1;
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+}
+
+.assetDialogBox .assetGroupsDialogMaincont h2.MuiTypography-root.MuiTypography-h5.MuiTypography-gutterBottom {
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+.getAssetDetaSelct li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button,
+.textTarC .MuiTypography-displayBlock {
+  text-transform: capitalize;
+}
+
+.getAssetDetaSelct .MuiList-padding {
+  padding-bottom: 0;
+}
+
+.getAssetDetaSelct li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button:last-child {
+  background: #7569ee;
+  color: #fff;
+}
+
+.textTarC .MuiTypography-displayBlock {
+  color: white;
+  border-radius: 7px;
+  border: 1px solid #7569ee;
+  padding: 6px 10px;
+  box-shadow: inset 0 0 10px #262c49;
+  transition: .5s all ease;
+  -webkit-transition: .5s all ease;
+  -moz-transition: .5s all ease;
+  -ms-transition: .5s all ease;
+  -o-transition: .5s all ease;
+}
+
+.assetDialogBox .assetGroupsDialogMaincont p.MuiTypography-root.MuiTypography-body1 {
+  font: normal normal 12px/21px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+.detailsSectionContent h2.MuiTypography-root.MuiTypography-h2 {
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.detailsSectionContent p.MuiTypography-root.MuiTypography-body1 {
+  padding-bottom: 2.4em;
+}
+
+.detailsSectionContent .assetInfo p.MuiTypography-root.MuiTypography-body1 {
+  padding: 8px 0 0;
+}
+
+.detailsSectionContent .assetInfo p.MuiTypography-root.rightInfo.MuiTypography-body1 {
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+.MuiGrid-root.setDefaultBtn {
+  display: flex;
+  justify-content: center;
+  padding: 35px 0 20px;
+}
+
+.MuiGrid-root.setDefaultBtn .MuiButtonBase-root {
+  background: #5D55C8;
+  color: #fff;
+  width: 100%;
+}
 
 @media (max-width: 960px) {
 

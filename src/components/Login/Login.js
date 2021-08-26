@@ -187,6 +187,7 @@ const Login = (props) => {
                 />
                 <Typography
                   className={classes.forgotPassword}
+                  onClick={(e) => props.history.push("/forgot-password")}
                   // onClick={callForgotPasswordModalBox}
                 >
                   Forgot Password

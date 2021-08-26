@@ -44,7 +44,6 @@ export const createTargetType = (values) => {
       .post(url, values)
       .then((result) => {
         if (result) {
-          console.log(result.data, "werwskjwokjj");
           // resolve(result.data.data);
         }
       })
