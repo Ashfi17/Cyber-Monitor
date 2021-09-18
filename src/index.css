@@ -838,7 +838,7 @@ input:focus {
 /* =================== */
 .mainContent {
   flex-grow: 1;
-  padding: 24px 60px 64px 60px;
+  padding: 24px 50px 64px 50px;
   overflow: auto;
 }
 
@@ -1450,6 +1450,412 @@ input:focus {
   color: #fff;
   width: 100%;
 }
+
+/* =========================Notification====================== */
+.MuiGrid-root.totalViolationsNotif {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #2c28281c;
+  border-radius: 10px;
+  min-height: 186px;
+  padding: 20px;
+}
+
+.cuntoNoti {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.cuntoNoti h3.MuiTypography-root.MuiTypography-h3.MuiTypography-noWrap {
+  font: normal normal 600 32px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+.cuntoNoti .overall,
+.cuntoNotiOtr .overall {
+  font: normal normal normal 12px/18px Poppins;
+  letter-spacing: 0px;
+  color: #282733;
+  opacity: 0.5;
+  margin-bottom: 10px;
+}
+
+.cuntoNoti .total {
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+.cuntoNotiOtr {
+  border: 1px solid #262C4933;
+  border-radius: 10px;
+  height: 100%;
+  min-height: 146px;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 15px 15px 10px;
+  position: relative;
+}
+
+.cuntoNotiOtr h3.MuiTypography-root.MuiTypography-h3.MuiTypography-noWrap {
+  font: normal normal 600 24px/24px Poppins;
+  letter-spacing: 0px;
+  color: #282733;
+  margin-bottom: 2px;
+}
+
+.cuntoNotiOtr .imgTagNoti {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.MuiGrid-root.cardViewNotification {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #2c28281c;
+  border-radius: 10px;
+  width: 100%;
+  padding: 15px;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.notificationSwipeableDrawer .notifictionSwipeablTitle {
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+  opacity: 0.5;
+}
+
+.notificationSwipeableDrawer .notifictionSwipeablTitleBold {
+  font: normal normal 600 16px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+.MuiGrid-root.listOfViolation {
+  padding: 20px 0 30px;
+}
+
+.MuiGrid-root.listOfViolation h5.MuiTypography-root.MuiTypography-h5.MuiTypography-noWrap {
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+.MuiGrid-root.cardViewNotification .cardFooterSec {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statusOpne {
+  background: #26c76e24 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  width: 88px;
+  height: 32px;
+  font: normal normal 14px/18px Poppins;
+  letter-spacing: 0px;
+  color: #26C76E;
+  color: #26C76E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.MuiButtonBase-root.MuiButton-root.MuiButton-text.comanBtn {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #2c28281c;
+  border: 1px solid #7764E4;
+  border-radius: 5px;
+  width: 185px;
+  height: 30px;
+}
+
+.tagsSpan {
+  background: rgb(117 105 238 / 19%) 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 10px #f75c1b33;
+  border-radius: 4px;
+  display: inline-block;
+  width: fit-content;
+  padding: 4px 15px;
+  font: normal normal 600 12px/24px Poppins;
+  letter-spacing: 0px;
+  color: #7569EE;
+}
+
+.MuiGrid-root.cardViewNotification p.MuiTypography-root.MuiTypography-body1 {
+  font: normal normal 14px/21px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+.stautsBtn {
+  box-shadow: 0px 3px 10px #f75c1b33;
+  border-radius: 4px;
+  color: #FFFFFF;
+  font: normal normal 600 12px/24px Poppins;
+  min-width: 90px;
+  width: 80px;
+  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stautsBtn.highClass {
+  background: #F75C1B 0% 0% no-repeat padding-box;
+}
+
+.cRITICAL {
+  background: #D40A25;
+
+}
+
+.lOW {
+  background: #FFC96D;
+}
+
+.selecBoxItem {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #2c28281c;
+  border-radius: 8px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.selecBoxItem select {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding-left: 10px;
+}
+
+.selecBoxItem label {
+  font: normal normal 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+  opacity: 0.5;
+}
+
+.selecBoxItem select:focus-visible {
+  outline: 0;
+}
+
+.addExceptionModalBox .MuiDialog-paperWidthSm {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 10px 20px #262C4926;
+  border-radius: 20px;
+  width: 325px;
+  height: 100%;
+}
+
+.emailSend .emailSendInfo label {
+  display: block;
+  font: normal normal bold 14px/21px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+  opacity: 0.5;
+}
+
+.emailSend .emailSendInfo input {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #262C49;
+  border-radius: 8px;
+  width: 100%;
+  height: 40px;
+  padding-left: 7px;
+}
+
+.addExceptionModalBox .MuiFormControl-root.MuiTextField-root {
+  width: 100%;
+}
+
+.addExceptionModalBox label#outlined-multiline-static-label {
+  color: #b9b9b9;
+}
+
+
+.addExceptionModalBox .selectDateInput {
+  margin-top: 20px;
+}
+
+.MuiGrid-root.addExceptionBtn {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 0 20px;
+  bottom: 20px;
+}
+
+.addExceptionModalBox .addExceptionBtn button.MuiButtonBase-root.MuiButton-root.MuiButton-text {
+  background: transparent linear-gradient(270deg, #827BDF 0%, #5D55C8 100%) 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 10px #7c69e966;
+  border-radius: 10px;
+  width: 100%;
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+}
+
+.addExceptionModalBox .selectDateInput .MuiInputBase-input {
+  height: 25px;
+}
+
+.addExceptionModalBox .selectDateInput .MuiFormLabel-root {
+  font: normal normal bold 14px/21px Poppins;
+  color: #262C49;
+  opacity: 0.5;
+}
+
+
+
+
+
+.recentTransactions {}
+
+.gridComTabel.tableData button.MuiButtonBase-root.MuiButton-root.MuiButton-text {
+  color: #7569ee;
+  padding: 2px 0;
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  border-radius: 10px;
+  border: 1px solid #7569ee;
+}
+
+.recentTransactions .MuiGrid-root.gridComTabel.tableHade h5.MuiTypography-root.MuiTypography-h5.MuiTypography-noWrap {
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+.MuiGrid-root.gridComTabel.tableHade {
+  margin-bottom: 5px;
+  padding: 0 15px;
+}
+
+.AssigneesModel .MuiDialog-paperWidthSm {
+  border: 10px solid rgba(1, 1, 1, .3803921568627451);
+  border-radius: 30px;
+  width: 360px;
+  height: auto;
+}
+
+.AssigneesModel .MuiDialogTitle-root.addMoneyNEFT {
+  position: relative;
+}
+
+.AssigneesModel .MuiDialogTitle-root.addMoneyNEFT button.MuiButtonBase-root.MuiIconButton-root {
+  position: absolute;
+  right: 0;
+  top: 7px;
+}
+
+.AssigneesModel .MuiDialogTitle-root.addMoneyNEFT h2.MuiTypography-root.MuiTypography-h6 {
+  font: normal normal 600 16px/24px Poppins;
+  letter-spacing: 0.8px;
+  color: #262C49;
+}
+
+.AssigneesModel .MuiTypography-body1 {
+  font: normal normal 600 14px/24px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+.readOnly {
+  width: 100%;
+  height: 36px;
+  border: 1px solid #606060;
+  font: normal normal normal 14px/18px Poppins;
+  letter-spacing: 0px;
+  color: #282733;
+  cursor: inherit;
+  padding-left: 5px;
+  margin: 2px 0 15px;
+}
+
+.readOnly.allowed {
+  cursor: not-allowed !important;
+  background: #e2e2e2;
+  color: #2f2e2e;
+}
+
+button.MuiButtonBase-root.MuiButton-root.MuiButton-text.upBtn {
+  margin-top: 35px;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(270deg, rgb(130, 123, 223) 0%, rgb(93, 85, 200) 100%) 0% 0% no-repeat padding-box padding-box transparent;
+  box-shadow: rgb(124 105 233 / 40%) 0px 0px 10px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.recentTransactions .gridComTabel.tableData h5.MuiTypography-root.MuiTypography-h5.MuiTypography-noWrap {
+  font: normal normal normal 14px/21px Poppins;
+  letter-spacing: 0px;
+  color: #262C49;
+}
+
+h5.MuiTypography-root.mITitle.MuiTypography-h5.MuiTypography-noWrap {
+  font: normal normal 600 16px/24px Poppins;
+  letter-spacing: 0.8px;
+  color: #262C49;
+  margin-bottom: 10px;
+}
+
+.gridComTabel.tableData {
+  background: #fff 0 0 no-repeat padding-box;
+  padding: 0 15px;
+  border-radius: 12px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  animation: tableData 2.5s ease;
+  -webkit-animation: tableData 2.5s ease;
+  transition: .3s ease;
+  -webkit-transition: .3s ease;
+  -moz-transition: .3s ease;
+  -ms-transition: .3s ease;
+  -o-transition: .3s ease;
+}
+
+.gridComTabel.tableData:hover {
+  box-shadow: 0px 3px 6px #2c28281c;
+}
+
+
+.selecBoxItem.inputItem {
+  padding: 0;
+  position: relative;
+  border: 1px solid #7569ee;
+  overflow: hidden;
+}
+
+.selecBoxItem.inputItem img {
+  position: absolute;
+  left: 10px;
+}
+
+.selecBoxItem.inputItem input {
+  width: 100%;
+  height: 100%;
+  padding-left: 40px;
+  border: 0;
+  /*  */
+}
+
+/* =========================Notification====================== */
 
 @media (max-width: 960px) {
 

@@ -290,8 +290,8 @@ export default function AssetDashboard(props) {
                     MenuProps={{ classes: { paper: classes.menuPaper } }}
                   >
                     {AWSAppList.length !== 0 &&
-                      AWSAppList.map((data) => (
-                        <MenuItem value={data}>{data}</MenuItem>
+                      AWSAppList.map((data, i) => (
+                        <MenuItem value={data} key={i}>{data}</MenuItem>
                       ))}
                   </Select>
                 </FormControl>

@@ -132,8 +132,8 @@ const AssetGroupsModal = (props) => {
       })
       .catch((error) => {
         if (error) {
-          if (error.status == 400) {
-            toastr.error(error.data.message);
+          if (error.status == 401) {
+            toastr.error(error.data.error);
           } else {
             toastr.error(error.statusText);
           }

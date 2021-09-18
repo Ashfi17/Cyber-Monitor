@@ -165,3 +165,35 @@ export const getRoleDetailsFromId = (id) => {
       });
   });
 };
+
+export const getIssueAssigneesList = () => {
+  const url = `${localUrl}issue/category`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        reject({ message: "Error" });
+      });
+  });
+};
+
+export const updateIssueAssignee = (sendData) => {
+  const url = `${localUrl}issue/category`;
+  return new Promise((resolve, reject) => {
+    axios
+      .put(url, sendData)
+      .then((result) => {
+        if (result) {
+          resolve(result.data);
+        }
+      })
+      .catch((error) => {
+        reject(error.response);
+      });
+  });
+};

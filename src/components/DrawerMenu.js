@@ -171,6 +171,7 @@ const DrawerMenu = (props) => {
     localStorage.removeItem("omniSelObj");
     localStorage.removeItem("omniFilterObj");
     props.history.push("/omni-search");
+    props.history.push("/omni-search");
   };
   const openAssetDialogBox = () => {
     setOpenAssetDialog(true);
@@ -407,6 +408,20 @@ const DrawerMenu = (props) => {
             </ListItemIcon>
             <ListItemText style={{ color: "white" }} primary="Search" />
           </ListItem>
+          <ListItem
+            button
+            onClick={(e) => props.history.push("/notification")}
+            className={
+              currentLocation == "/notification" ? classes.selecteditem : ""
+            }
+          >
+            <ListItemIcon>
+              <img
+                src={require("../assets/images/drawer-dashboard-icon.svg")}
+              />
+            </ListItemIcon>
+            <ListItemText style={{ color: "white" }} primary="Notification" />
+          </ListItem>
           {loggedInUserAdminIs && (
             <>
               <ListItem button onClick={handleClickAdmin}>
@@ -452,6 +467,20 @@ const DrawerMenu = (props) => {
                     <ListItemText
                       style={{ color: "white" }}
                       primary="Manage Rules"
+                    />
+                  </ListItem>
+                  <ListItem
+                    button
+                    className={
+                      currentLocation == "/manage-issue"
+                        ? classes.nestedselecteditem
+                        : classes.nested
+                    }
+                    onClick={(e) => props.history.push("/manage-issue")}
+                  >
+                    <ListItemText
+                      style={{ color: "white" }}
+                      primary="Manage Issue"
                     />
                   </ListItem>
                   <ListItem

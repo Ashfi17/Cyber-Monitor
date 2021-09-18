@@ -12,6 +12,7 @@ import TaggingCompliance from "./components/TaggingCompliance/TaggingCompliance"
 import AssetListTable from "./components/AssetList/AsserListTableView";
 import ManagePolicy from "./components/Admin/ManagePolicy";
 import ManageRules from "./components/Admin/ManageRules";
+import ManageIssue from "./components/Admin/ManageIssue";
 import ManageRoles from "./components/Admin/Roles";
 import ManageTargetType from "./components/Admin/ManageTargetTypes";
 import ManageDomain from "./components/Admin/ManageDomain";
@@ -19,6 +20,7 @@ import SystemManagement from "./components/Admin/SystemManagement";
 import PolicyCompliance from "./pages/PolicyCompliance";
 import PolicyViolationsDetails from "./pages/PolicyViolationsDetails";
 import OmniSearch from "./pages/OmniSearch";
+import Notification from "./pages/Notification";
 import NoMatchPage from "./pages/NotFound";
 import AdminGuardedRoute from "./AdminGuardedRoute";
 import UserGuardedRoute from "./UserGuardedRoute";
@@ -91,6 +93,11 @@ const Routers = (props) => {
             component={OmniSearch}
             auth={loggedInUserIs}
           />
+          <UserGuardedRoute
+            path="/notification"
+            component={Notification}
+            auth={loggedInUserIs}
+          />
 
           <AdminGuardedRoute
             path="/manage-policy"
@@ -100,6 +107,11 @@ const Routers = (props) => {
           <AdminGuardedRoute
             path="/manage-rules"
             component={ManageRules}
+            auth={loggedInUserAdminIs}
+          />
+          <AdminGuardedRoute
+            path="/manage-issue"
+            component={ManageIssue}
             auth={loggedInUserAdminIs}
           />
           <AdminGuardedRoute

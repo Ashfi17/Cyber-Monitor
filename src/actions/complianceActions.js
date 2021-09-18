@@ -53,12 +53,18 @@ export const getCompliance = () => {
   });
 };
 
-export const getOverallCompliance = (name) => {
+export const getOverallCompliance = () => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   // const token = '955589a2-dd91-4dec-a8e6-07383c41c8f9'
   const url = `${localUrl}/trend/compliance`;
   return new Promise((resolve, reject) => {
     axios
-      .post(url, { ag: name ? name : "aws", from: "2020-11-30", filters: { domain: "Infra & Platforms" } })
+      .post(url, { ag: selectedGrpName ? selectedGrpName : "aws", from: "2020-11-30", filters: { domain: "Infra & Platforms" } })
       .then((result) => {
         if (result) {
           resolve(result.data.data.response);
@@ -93,10 +99,16 @@ export const getTaggings = () => {
 }
 
 export const complianceIssues = () => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   const url = `${localUrl}/issues`;
   return new Promise((resolve, reject) => {
     axios
-      .post(url, { ag: "aws", filter: { domain: "Infra & Platforms", include_exempt: "yes" }, from: 0, searchtext: "", size: 25 })
+      .post(url, { ag: selectedGrpName ? selectedGrpName : "aws", filter: { domain: "Infra & Platforms", include_exempt: "yes" }, from: 0, searchtext: "", size: 25 })
       .then((result) => {
         if (result) {
           resolve(result.data.data.response);
@@ -109,10 +121,16 @@ export const complianceIssues = () => {
 };
 
 export const nonCompliancePolicy = () => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   const url = `${localUrl}/noncompliancepolicy`;
   return new Promise((resolve, reject) => {
     axios
-      .post(url, { ag: "aws", filter: { domain: "Infra & Platforms" }, from: 0, searchtext: "", size: 10 })
+      .post(url, { ag: selectedGrpName ? selectedGrpName : "aws", filter: { domain: "Infra & Platforms" }, from: 0, searchtext: "", size: 10 })
       .then((result) => {
         if (result) {
           resolve(result.data.data.response);
@@ -125,10 +143,16 @@ export const nonCompliancePolicy = () => {
 };
 
 export const cloudNotifications = () => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   const url = `${localUrl}/cloud/notifications?global=${false}`;
   return new Promise((resolve, reject) => {
     axios
-      .post(url, { ag: "aws", filter: { eventtypecategory: "" }, from: 0, searchtext: "", size: 25 })
+      .post(url, { ag: selectedGrpName ? selectedGrpName : "aws", filter: { eventtypecategory: "" }, from: 0, searchtext: "", size: 25 })
       .then((result) => {
         if (result) {
           resolve(result.data.data.response);
@@ -186,10 +210,16 @@ export const getRecommendations = () => {
 }
 
 export const policyknowledgeApi = (searchKey) => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   const url = `${localUrl}/noncompliancepolicy`;
   return new Promise((resolve, reject) => {
     axios
-      .post(url, { ag: "aws", searchtext: searchKey && searchKey !== '' ? searchKey : '', filter: { domain: "Infra & Platforms" }, from: 0, size: 10 })
+      .post(url, { ag: selectedGrpName ? selectedGrpName : "aws", searchtext: searchKey && searchKey !== '' ? searchKey : '', filter: { domain: "Infra & Platforms" }, from: 0, size: 10 })
       .then((result) => {
         if (result) {
           resolve(result.data.data);
@@ -296,10 +326,16 @@ export const getComplianceTagging = () => {
 };
 
 export const getComplianceTrend = (getParams) => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   const url = `${localUrl}/trend/compliancebyrule`;
   return new Promise((resolve, reject) => {
     axios
-      .post(url, { ag: "aws", filter: { domain: "Infra & Platforms" }, from: "2021-04-07"/* getParams.fromDate */, ruleid: getParams.ruleId })
+      .post(url, { ag: selectedGrpName ? selectedGrpName : "aws", filter: { domain: "Infra & Platforms" }, from: "2021-04-07"/* getParams.fromDate */, ruleid: getParams.ruleId })
       .then((result) => {
         if (result) {
           resolve(result.data.data.response);
@@ -312,10 +348,16 @@ export const getComplianceTrend = (getParams) => {
 };
 
 export const policySummaryData = (getParams) => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   const url = `${localUrl}/noncompliancepolicy`;
   return new Promise((resolve, reject) => {
     axios
-      .post(url, { ag: "aws", filter: { domain: "Infra & Platforms", "ruleId.keyword": getParams.ruleId }, from: 0, searchtext: "", size: 0 })
+      .post(url, { ag: selectedGrpName ? selectedGrpName : "aws", filter: { domain: "Infra & Platforms", "ruleId.keyword": getParams.ruleId }, from: 0, searchtext: "", size: 0 })
       .then((result) => {
         if (result) {
           resolve(result.data.data.response);
@@ -328,10 +370,16 @@ export const policySummaryData = (getParams) => {
 };
 
 export const listOfViolationsData = (getParams) => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   const url = `${localUrl}/issues`;
   return new Promise((resolve, reject) => {
     axios
-      .post(url, { ag: "aws", filter: { domain: "Infra & Platforms", "ruleId.keyword": getParams.ruleId }, from: 0, searchtext: "", size: 10 })
+      .post(url, { ag: selectedGrpName ? selectedGrpName : "aws", filter: { domain: "Infra & Platforms", "ruleId.keyword": getParams.ruleId }, from: 0, searchtext: "", size: 10 })
       .then((result) => {
         if (result) {
           resolve(result.data.data.response);
@@ -404,11 +452,17 @@ export const getPolicyViolationReason = (getTargetIssId) => {
 };
 
 export const getTaggingComplianceTrend = () => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   // const token = '955589a2-dd91-4dec-a8e6-07383c41c8f9'
   const url = `${localUrl}/trend/compliance/tagging`;
   return new Promise((resolve, reject) => {
     axios
-      .post(url, { ag: "aws", from: "2021-06-08", filters: {} })
+      .post(url, { ag: selectedGrpName ? selectedGrpName : "aws", from: "2021-06-08", filters: {} })
       .then((result) => {
         if (result) {
           resolve(result.data.data.response);
@@ -474,11 +528,17 @@ export const getTotalTagCompliance = () => {
   });
 };
 export const fetchTaggingSummaryByTargetType = () => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   // const token = '955589a2-dd91-4dec-a8e6-07383c41c8f9'
   const url = `${localUrl}/tagging/summarybytargettype`;
   return new Promise((resolve, reject) => {
     axios
-      .post(url, { ag: "aws", filters: {} })
+      .post(url, { ag: selectedGrpName ? selectedGrpName : "aws", filters: {} })
       .then((result) => {
         if (result) {
           resolve(result.data.data.response);

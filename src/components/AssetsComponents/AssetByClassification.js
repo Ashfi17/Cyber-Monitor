@@ -111,8 +111,6 @@ const AssetByClassification = (props) => {
     setAge(event.target.value);
   };
 
-
-
   return (
     <Paper className={classes.paper} elevation={0}>
       <div style={{ width: "100%" }}>

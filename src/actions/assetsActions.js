@@ -10,11 +10,17 @@ setAuthorizationToken(parsedAuthUser);
 // }
 
 export const getAssets = (searchKey, filterObj) => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   const url = `${localUrl}/list/assets`;
   return new Promise((resolve, reject) => {
     axios
       .post(url, {
-        ag: "aws",
+        ag: selectedGrpName ? selectedGrpName : "aws",
         filter: filterObj,
         from: 0,
         searchtext: searchKey,
@@ -121,11 +127,17 @@ export const getMaxMin = (selectedType) => {
 };
 
 export const getTaggableData = (searchKey) => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   const url = `${localUrl}/list/assets/taggable`;
   return new Promise((resolve, reject) => {
     axios
       .post(url, {
-        ag: "aws",
+        ag: selectedGrpName ? selectedGrpName : "aws",
         filter: searchKey,
         from: 0,
         searchtext: "",
@@ -160,11 +172,17 @@ export const getCategoriesForOmni = () => {
 };
 
 export const getAllAssetDataWithFilter = (searchtext, filterObj) => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
   const url = `${localUrl}/search`;
   return new Promise((resolve, reject) => {
     axios
       .post(url, {
-        ag: "aws",
+        ag: selectedGrpName ? selectedGrpName : "aws",
         domain: "Infra & Platforms",
         doNotReturnFilter: false,
         from: 0,
@@ -287,6 +305,32 @@ export const getAssetGroupDetails = (selectedGrpName) => {
 
 export const getAssetGrouplist = () => {
   const url = `${localUrl}/list/assetgroup`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url)
+      .then((result) => {
+        if (result) {
+          resolve(result.data.data);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          reject(error.response);
+        } else {
+          reject({ message: "Error" });
+        }
+      });
+  });
+};
+
+export const getAssetTrendChartData = () => {
+  var selectedGrpName = "";
+  var selectedGrpDtls = localStorage.getItem("selectedGrpDtls");
+  if (selectedGrpDtls) {
+    var obj = JSON.parse(selectedGrpDtls);
+    selectedGrpName = obj.name;
+  }
+  const url = `${localUrl}/trend/assets?ag=${selectedGrpName ? selectedGrpName : "aws"}`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)
